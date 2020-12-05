@@ -8,6 +8,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sklearn.model_selection import train_test_split
+import csv
+import numpy as np
+
+from utils.config import *
 
 def read_dataset(dataset_filepath):
     with open(dataset_filepath) as csv_file:
@@ -15,15 +19,21 @@ def read_dataset(dataset_filepath):
         X = []
         Y = []
         next(csv_reader) # to skip the header file
-        # crop_land | grazing_land | forest_land | fishing_ground | built_up_land | carbon(Y) | total
-        for row in csv_reader:
-            # X.append([row[0], row[1], row[2], row[3], row[4], row[6], 1.0])
-            X.append([row[0], row[1], row[2], row[3], row[4], 1.0])
-            Y.append(float("{0:.3f}".format(float(row[5])))) # Carbon
+        for x,y,c in csv_reader:
+            X.append([float(x), float(y)])
+            Y.append(int(c))
 
     X = np.asarray(X).astype(float)
     Y = np.asarray(Y).astype(float)
+    return X, Y
+
+def split_test_train(X,Y):
+    # Split between train and test (70%/30%)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=TEST_PERCENTAGE) 
+    return X_train, Y_train, X_test, Y_test
 
 if __name__ == "__main__":
     dataset_filepath = os.path.join(DATASET_FOLDER, A1_DATASET_FILE)
     X, Y = read_dataset(dataset_filepath)
+    X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+    
