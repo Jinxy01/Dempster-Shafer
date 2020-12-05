@@ -1,5 +1,13 @@
-from sklearn.model_selection import train_test_split
+"""
+@author: Tiago Roxo, UBI
+@date: 2020
+"""
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from sklearn.model_selection import train_test_split
 
 def read_dataset(dataset_filepath):
     with open(dataset_filepath) as csv_file:
@@ -17,4 +25,5 @@ def read_dataset(dataset_filepath):
     Y = np.asarray(Y).astype(float)
 
 if __name__ == "__main__":
-    read_dataset()
+    dataset_filepath = os.path.join(DATASET_FOLDER, A1_DATASET_FILE)
+    X, Y = read_dataset(dataset_filepath)
