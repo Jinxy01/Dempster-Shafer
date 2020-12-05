@@ -1,1 +1,2 @@
-python3 src/create_datasets.py
+#python3 src/main.py
+python3 src/test.py
