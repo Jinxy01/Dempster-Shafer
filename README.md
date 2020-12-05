@@ -14,3 +14,6 @@ pip3 install -r requirements.txt
 ```bash
 bash test.sh
 ```
+
+## TODO:
+- [ ] Check ref in src and try to implement Adam and Gradient Descent
