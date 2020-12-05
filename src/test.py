@@ -44,13 +44,12 @@ def get_belief(dict_m, list_powerset):
     
     return dict_beliefs
 
-#  ------------
+#  ------------------------
 
 def get_plausibility_set(A, list_powerset, dict_m):
     sum_m = 0
-    empty_set = set()
     for s in list_powerset:
-        if s.intersection(A) != empty_set:
+        if s.intersection(A) != EMPTY_SET:
             sum_m += dict_m[s]
     return sum_m
 
@@ -64,19 +63,59 @@ def get_plausibility(dict_m, list_powerset):
     
     return dict_plausibility
 
+#  ------------------------
+
+def normalize_masses_combined(dict_combined_m):
+    sum_m = 0
+    for _, m in dict_combined_m.items():
+        sum_m += m
+    
+    # It is already normalized
+    if sum_m == 1.0:
+        return dict_combined_m
+
+    dict_combined_m_norm = {}
+    for s in dict_combined_m:
+        dict_combined_m_norm[s] = dict_combined_m[s]/sum_m
+    
+    return dict_combined_m_norm
+
+def combine_masses(dict_m1, dict_m2, list_powerset):
+    dict_combined_m = {}
+
+    for s in list_powerset:
+        sum_m = 0
+        for s1 in dict_m1:
+            for s2 in dict_m2:
+                if s1.intersection(s2) == s and s1.intersection(s2) != EMPTY_SET:
+                    sum_m += dict_m1[s1]*dict_m2[s2]
+        dict_combined_m[s] = sum_m
+    
+    # Need to normalize so that sum = 1
+    return normalize_masses_combined(dict_combined_m)
+
 
 ########################### 
 
 if __name__ == "__main__":
     list_powerset = test()
-    m = {}
+    m1 = {}
+    m2 = {}
     COMPLETE_SET = frozenset({'A','P'})
-    m[frozenset('P')] = 0.5
-    m[frozenset('A')] = 0.2
-    m[frozenset({'A','P'})] = 0.3
-    #print(m)
+    EMPTY_SET    = set()
+    # m1
+    m1[frozenset('P')] = 0.5
+    m1[frozenset('A')] = 0.2
+    m1[frozenset({'A','P'})] = 0.3
+    # m2
+    m2[frozenset('P')] = 0
+    m2[frozenset('A')] = 0.3
+    m2[frozenset({'A','P'})] = 0.7
 
-    dict_beliefs      = get_belief(m, list_powerset)
-    dict_plausibility = get_plausibility(m, list_powerset)
+    dict_beliefs      = get_belief(m1, list_powerset)
+    dict_plausibility = get_plausibility(m1, list_powerset)
     print(dict_beliefs)
     print(dict_plausibility)
+
+    dict_combined_m = combine_masses(m1, m2, list_powerset)
+    print(dict_combined_m)
