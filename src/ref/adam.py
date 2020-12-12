@@ -5,7 +5,7 @@ class AdamOptim():
         self.m_dw, self.v_dw = 0, 0
         self.m_db, self.v_db = 0, 0
         self.beta1 = beta1
-        self.beta2 = beta2q
+        self.beta2 = beta2
         self.epsilon = epsilon
         self.alpha = alpha
 
