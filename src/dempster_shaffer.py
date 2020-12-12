@@ -110,7 +110,7 @@ if __name__ == "__main__":
     m1[frozenset({'A','P'})] = 0.3
     # m2
     m2[frozenset('P')] = 0
-    m2[frozenset('A')] = 0.3
+    m2[frozenset('A')] = 0.3 
     m2[frozenset({'A','P'})] = 0.7
 
     dict_beliefs      = get_belief(m1, list_powerset)
