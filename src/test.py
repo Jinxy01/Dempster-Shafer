@@ -52,4 +52,4 @@ def gradient_descent(theta_dg, learning_rate, X_train_complex, X_valid_complex):
 
 
 if __name__ == "__main__":
-    pass
+    pass 

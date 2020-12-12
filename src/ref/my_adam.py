@@ -1,6 +1,6 @@
 from torch.optim import Optimizer
 
-class ADAMOptimizer(Optimizer):
+class ADAMOptimizer(Optimizer): 
     """
     implements ADAM Algorithm, as a preceding step.
     """
