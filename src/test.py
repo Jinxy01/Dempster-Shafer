@@ -95,7 +95,7 @@ def train(X_train, Y_train, rules):
     adam = adam_optimizer(alpha=0.002)
     tot_elements = len(X_train)
     previous_loss = np.zeros(tot_elements)
-    it = 0
+    it = 1
 
     while not converged:
         current_loss = []
@@ -110,7 +110,7 @@ def train(X_train, Y_train, rules):
             loss = mse(y_hat, Y_train[i])
             current_loss.append(loss)
             #print(theta)
-            theta = adam.update(theta, loss) # Adam after for maybe....
+            theta = adam.update(theta, loss, it) # Adam after for maybe....
             #print(theta)
             #print(rules[id_rule])
             rules[id_rule] = update_rule(theta[0], theta[1], theta[2])
