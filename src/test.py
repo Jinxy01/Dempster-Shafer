@@ -90,19 +90,37 @@ def get_rule(rules, y):
     else: # y > 0.42
         return 4
 
+def project_massses(list_m):
+    sum_m = 0
+    for m in list_m:
+        sum_m += m
+    
+    # It is already normalized
+    if sum_m == 1.0:
+        return list_m
+
+    list_m_nomr = []
+    for m in list_m:
+        list_m_nomr.append(m/sum_m)
+    
+    return list_m_nomr
+
+
+
 def train(X_train, Y_train, rules):
     converged = False
     adam = adam_optimizer(alpha=0.002)
     tot_elements = len(X_train)
     previous_loss = np.zeros(tot_elements)
-    it = 1
-
+    dict_it_rule = {1: 0, 2: 0, 3: 0, 4: 0} 
+    it = 0
     while not converged:
         current_loss = []
         for i in range(tot_elements):
             [x, y] = X_train[i]
             #print(x, y)
             id_rule = get_rule(rules, y)
+            dict_it_rule[id_rule] += 1
             # Not using MAF, yet
             m = rules[id_rule]
             y_hat, theta = predict_y(m)
@@ -110,17 +128,21 @@ def train(X_train, Y_train, rules):
             loss = mse(y_hat, Y_train[i])
             current_loss.append(loss)
             #print(theta)
-            theta = adam.update(theta, loss, it) # Adam after for maybe....
+            theta = adam.update(theta, loss, dict_it_rule[id_rule]) # Adam update basen on number of changes of the used rule
             #print(theta)
             #print(rules[id_rule])
+            #theta[theta<0] = 0
+            theta[theta>1] = 1
+            theta_projected = project_massses(theta)
             rules[id_rule] = update_rule(theta[0], theta[1], theta[2])
+
         current_loss_array = np.array(current_loss)
         converged = is_converged(current_loss, previous_loss, tot_elements)
         previous_loss = np.copy(current_loss_array)
         it += 1
-        if it > 2:
+        if it > 3:
             break
-    return rules, current_loss_array
+    return rules, current_loss_array, dict_it_rule
 
 
 #--------------------------
@@ -144,7 +166,8 @@ if __name__ == "__main__":
     X_train, Y_train, X_test, Y_test = aid_test()
     rules = start_rules()
     print(rules)
-    rules, current_loss_array = train(X_train, Y_train, rules)
+    rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
     print(rules)
     print(current_loss_array)
+    print(dict_it_rule)
     #powerset = get_powerset({"B","R"})

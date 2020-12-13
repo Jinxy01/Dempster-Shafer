@@ -6,7 +6,7 @@ class Adam():
     def __init__(self, alpha=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
         self.m_t = 0 # First moment vector
         self.v_t = 0 # Second moment vector
-        #self.t = 0 # timestep
+        self.t = 0 # timestep
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
