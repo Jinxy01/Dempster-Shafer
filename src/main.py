@@ -32,8 +32,12 @@ def split_test_train(X,Y):
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=TEST_PERCENTAGE) 
     return X_train, Y_train, X_test, Y_test
 
-if __name__ == "__main__":
+def aid_test():
     dataset_filepath = os.path.join(DATASET_FOLDER, A1_DATASET_FILE)
     X, Y = read_dataset(dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+    return X_train, Y_train, X_test, Y_test
+
+if __name__ == "__main__":
+    aid_test()
     

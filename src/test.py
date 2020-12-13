@@ -4,7 +4,10 @@
 """
 
 from itertools import chain, combinations
-from ref.adam import AdamOptim as adam
+from ref.adam import Adam as adam_optimizer
+from main import aid_test
+from dempster_shaffer import get_powerset
+import numpy as np
 
 def gradient_descent(theta_dg, learning_rate, X_train_complex, X_valid_complex):
 
@@ -51,6 +54,97 @@ def gradient_descent(theta_dg, learning_rate, X_train_complex, X_valid_complex):
 
     return theta_dg, num_it
 
+# --------------------------------------
+
+
+def mse(Y, Y_hat):
+    # Y_hat is the predicted one
+    return np.square(np.subtract(Y,Y_hat)).mean() 
+
+def is_converged(loss_current, loss_previous, tot_elements):
+    epsilon=0.0001
+    convergence = abs(loss_current-loss_previous) <= epsilon
+    #print(np.size(convergence) - np.count_nonzero(convergence))
+    # All rules have converged to minimal loss
+    return np.count_nonzero(convergence) == tot_elements
+    
+
+def predict_y(m):
+    y_hat = 1*m[frozenset('R')] + 0*m[frozenset('B')] + 0.5*m[frozenset({'R','B'})]
+    return y_hat, [m[frozenset('R')], m[frozenset('B')], m[frozenset({'R','B'})]]
+
+def update_rule(R, B, R_B):
+    m = {}
+    m[frozenset('R')] = R
+    m[frozenset('B')] = B
+    m[frozenset({'R','B'})] = R_B
+    return m
+
+def get_rule(rules, y):
+    if y <= -0.34:
+        return 1
+    elif y > -0.34 and y <= 0.04:
+        return 2
+    elif y > 0.04 and y <= 0.42:
+        return 3
+    else: # y > 0.42
+        return 4
+
+def train(X_train, Y_train, rules):
+    converged = False
+    adam = adam_optimizer(alpha=0.002)
+    tot_elements = len(X_train)
+    previous_loss = np.zeros(tot_elements)
+    it = 0
+
+    while not converged:
+        current_loss = []
+        for i in range(tot_elements):
+            [x, y] = X_train[i]
+            #print(x, y)
+            id_rule = get_rule(rules, y)
+            # Not using MAF, yet
+            m = rules[id_rule]
+            y_hat, theta = predict_y(m)
+            #print(Y_train[i])
+            loss = mse(y_hat, Y_train[i])
+            current_loss.append(loss)
+            #print(theta)
+            theta = adam.update(theta, loss) # Adam after for maybe....
+            #print(theta)
+            #print(rules[id_rule])
+            rules[id_rule] = update_rule(theta[0], theta[1], theta[2])
+        current_loss_array = np.array(current_loss)
+        converged = is_converged(current_loss, previous_loss, tot_elements)
+        previous_loss = np.copy(current_loss_array)
+        it += 1
+        if it > 2:
+            break
+    return rules, current_loss_array
+
+
+#--------------------------
+
+def get_initial_masses():
+    m = {}
+    m[frozenset('B')] = 0.04 # Blue
+    m[frozenset('R')] = 0.06 # Red
+    m[frozenset({'B','R'})] = 0.9 # Uncertainty
+    return m
+
+def start_rules():
+    rules = {}
+    rules[1] = get_initial_masses()
+    rules[2] = get_initial_masses()
+    rules[3] = get_initial_masses()
+    rules[4] = get_initial_masses()
+    return rules
 
 if __name__ == "__main__":
-    a = adam()
+    X_train, Y_train, X_test, Y_test = aid_test()
+    rules = start_rules()
+    print(rules)
+    rules, current_loss_array = train(X_train, Y_train, rules)
+    print(rules)
+    print(current_loss_array)
+    #powerset = get_powerset({"B","R"})

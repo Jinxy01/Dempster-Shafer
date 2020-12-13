@@ -16,6 +16,6 @@ bash test.sh
 ```
 
 ## TODO:
-- [ ] Check ref in src and try to implement Adam and Gradient Descent
-* Might help: https://towardsdatascience.com/how-to-implement-an-adam-optimizer-from-scratch-76e7b217f1cc
-* Explanation: https://www.youtube.com/watch?v=JXQT_vxqwIs
+- [x] Implement Adam
+- [ ] MAF in train
+- [ ] Projected Gradient Descent (Adam)
