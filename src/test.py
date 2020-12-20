@@ -90,7 +90,7 @@ def get_rule(rules, y):
     else: # y > 0.42
         return 4
 
-def project_massses(list_m):
+def project_masses(list_m):
     sum_m = 0
     for m in list_m:
         sum_m += m
@@ -126,6 +126,7 @@ def train(X_train, Y_train, rules):
             y_hat, theta = predict_y(m)
             #print(Y_train[i])
             loss = mse(y_hat, Y_train[i])
+            print(x, y, Y_train[i], loss)
             current_loss.append(loss)
             #print(theta)
             theta = adam.update(theta, loss, dict_it_rule[id_rule]) # Adam update basen on number of changes of the used rule
@@ -133,8 +134,9 @@ def train(X_train, Y_train, rules):
             #print(rules[id_rule])
             #theta[theta<0] = 0
             theta[theta>1] = 1
-            theta_projected = project_massses(theta)
+            theta_projected = project_masses(theta)
             rules[id_rule] = update_rule(theta[0], theta[1], theta[2])
+            exit(0)
 
         current_loss_array = np.array(current_loss)
         converged = is_converged(current_loss, previous_loss, tot_elements)
@@ -163,9 +165,12 @@ def start_rules():
     return rules
 
 if __name__ == "__main__":
-    X_train, Y_train, X_test, Y_test = aid_test()
+    #X_train, Y_train, X_test, Y_test = aid_test()
+    # Testing purposes
+    X_train = [np.array([-0.2, -0.3])]
+    Y_train = [0]
     rules = start_rules()
-    print(rules)
+    #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
     print(rules)
     print(current_loss_array)

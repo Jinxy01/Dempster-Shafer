@@ -24,5 +24,7 @@ class Adam():
         v_t_corrected = self.v_t/(1-self.beta2**self.t)
 
         # Update parameters
+        print("A=",theta)
         theta = theta-self.alpha*(m_t_corrected/(np.sqrt(v_t_corrected)+self.epsilon))
+        print("D=",theta)
         return theta
