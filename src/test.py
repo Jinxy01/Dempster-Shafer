@@ -168,7 +168,7 @@ if __name__ == "__main__":
     #X_train, Y_train, X_test, Y_test = aid_test()
     # Testing purposes
     X_train = [np.array([-0.2, -0.3])]
-    Y_train = [0]
+    Y_train = [0] 
     rules = start_rules()
     #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
