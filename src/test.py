@@ -132,17 +132,14 @@ def train(X_train, Y_train, rules):
             theta = adam.update(theta, loss, dict_it_rule[id_rule]) # Adam update basen on number of changes of the used rule
             #print(theta)
             #print(rules[id_rule])
-            #theta[theta<0] = 0
-            theta[theta>1] = 1
             theta_projected = project_masses(theta)
             rules[id_rule] = update_rule(theta[0], theta[1], theta[2])
-            exit(0)
 
         current_loss_array = np.array(current_loss)
         converged = is_converged(current_loss, previous_loss, tot_elements)
         previous_loss = np.copy(current_loss_array)
         it += 1
-        if it > 3:
+        if it > 10:
             break
     return rules, current_loss_array, dict_it_rule
 
@@ -172,6 +169,7 @@ if __name__ == "__main__":
     rules = start_rules()
     #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
+    exit(0)
     print(rules)
     print(current_loss_array)
     print(dict_it_rule)

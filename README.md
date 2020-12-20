@@ -19,3 +19,6 @@ bash test.sh
 - [x] Implement Adam
 - [ ] MAF in train
 - [ ] Projected Gradient Descent (Adam)
+
+## Comments:
+The way we are updating weights, we are only reducing every parameter (R,B and R+B). This will decrease loss since R+B (uncertanty) is also decreasing. However, if we normalize we get uncertanty to go higher again, while reducing R and B...
