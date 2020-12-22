@@ -10,6 +10,7 @@ from dempster_shaffer import get_powerset
 import numpy as np
 import torch
 import math
+import sys
 
 from dempster_shaffer import *
 
@@ -237,6 +238,7 @@ def testing_stuff(X_train, Y_train):
     r_b = torch.tensor(0.9, device=device, dtype=dtype, requires_grad=True)
 
     learning_rate = 1e-3
+    previous_loss = sys.maxsize
     for t in range(2000):
         # Forward pass: compute predicted y using operations on Tensors.
         #y_pred = a + b * x + c * x ** 2 + d * x ** 3
@@ -248,12 +250,17 @@ def testing_stuff(X_train, Y_train):
         # Now loss is a Tensor of shape (1,)
         # loss.item() gets the scalar value held in the loss.
         # loss = (y_pred - y).pow(2).sum()
-        y = -1
+        y = -1 # Predicted class
+
         loss = (y_hat - y).pow(2).sum()
-        print(loss, y_hat)
         if t % 100 == 99:
             print(t, loss.item())
 
+        if is_converged(loss, previous_loss, 1):
+            print("Breaking at {} iteration".format(t))
+            break
+
+        previous_loss = loss 
         # Use autograd to compute the backward pass. This call will compute the
         # gradient of loss with respect to all Tensors with requires_grad=True.
         # After this call a.grad, b.grad. c.grad and d.grad will be Tensors holding
