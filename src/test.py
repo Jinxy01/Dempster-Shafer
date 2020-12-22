@@ -131,16 +131,108 @@ def get_belief_confidence(r, b, r_b):
     device = torch.device("cpu")
     # Give confidence to prediction and account for uncertainty in such prediction
     # Red = 1 and Blue = -1
+    return max(r, b, r_b)
     if r > b:
-        return r/(r+r_b)
-    return -b/(b+r_b)
+    #    return r/(r+r_b)
+        return torch.tensor(1.0, device=device, dtype=dtype, requires_grad=True)
+    return torch.tensor(-1.0, device=device, dtype=dtype, requires_grad=True)
+    #return -b/(b+r_b)
 
 
 def y_agrmax_comb_m(belief_comb):
     return torch.tensor(1.) if belief_comb[frozenset('R')] > belief_comb[frozenset('B')] else torch.tensor(-1.)
     
-
 def testing_stuff(X_train, Y_train, rules, list_powerset):
+
+    dtype = torch.float
+    device = torch.device("cpu")
+    # device = torch.device("cuda:0")  # Uncomment this to run on GPU
+
+    # Create Tensors to hold input and outputs.
+    # By default, requires_grad=False, which indicates that we do not need to
+    # compute gradients with respect to these Tensors during the backward pass.
+    #x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
+    #y = torch.sin(x)
+    tot = len(X_train)
+
+    # Create random Tensors for weights. For a third order polynomial, we need
+    # 4 weights: y = a + b x + c x^2 + d x^3
+    # Setting requires_grad=True indicates that we want to compute gradients with
+    # respect to these Tensors during the backward pass.
+
+    learning_rate = 1e-3
+    previous_loss = sys.maxsize
+    for t in range(2000):
+        for i in range(tot):
+            x, y = X_train[i]
+
+            rule_id = get_rule_temp_temp(rules, y)
+            dict_comb_masses = combine_masses(rules[rule_id], rules[3], list_powerset)
+            r, b, r_b = get_r_b_rb_rule(dict_comb_masses)
+            #print(r, b, r_b)
+            # Forward pass: compute predicted y using operations on Tensors.
+            #y_pred = a + b * x + c * x ** 2 + d * x ** 3
+
+            y_hat = get_belief_confidence(r, b, r_b)
+
+            #y_hat = (r + 0.5*r_b)/(r+b+r_b)
+            #print(y_hat)
+            
+            # Compute and print loss using operations on Tensors.
+            # Now loss is a Tensor of shape (1,)
+            # loss.item() gets the scalar value held in the loss.
+            # loss = (y_pred - y).pow(2).sum()
+            y = Y_train[i] # Predicted class
+
+            loss = mse(y, y_hat)
+            
+            if t % 100 == 99:
+                print(t, loss.item())
+
+            if is_converged(loss, previous_loss, 1):
+                print("Breaking at {} iteration".format(t))
+                break
+
+            previous_loss = loss 
+            loss.backward()
+
+            r, b, r_b = get_r_b_rb_rule(rules[rule_id])
+            with torch.no_grad():
+                # SGD
+                if r.grad is not None:
+                    r -= learning_rate * r.grad
+                if b.grad is not None:
+                    b -= learning_rate * b.grad
+                if r_b.grad is not None:
+                    r_b -= learning_rate * r_b.grad
+
+                # Manually zero the gradients after updating weights
+                r.grad = None
+                b.grad = None
+                r_b.grad = None
+            
+            r, b, r_b = get_r_b_rb_rule(rules[3])
+            with torch.no_grad():
+                # SGD
+                if r.grad is not None:
+                    r -= learning_rate * r.grad
+                if b.grad is not None:
+                    b -= learning_rate * b.grad
+                if r_b.grad is not None:
+                    r_b -= learning_rate * r_b.grad
+
+                # Manually zero the gradients after updating weights
+                r.grad = None
+                b.grad = None
+                r_b.grad = None
+
+    for _, weights in rules.items():
+        r, b, r_b = weights[frozenset('B')], weights[frozenset('R')], weights[frozenset({'B','R'})]
+        print(f'Result: r = {r.item()}, b = {b.item()}, r_b = {r_b.item()}')
+        l_proj = project_masses([r.item(), b.item(), r_b.item()])
+        print(l_proj)
+
+def combined_maf_not_working(X_train, Y_train, rules, list_powerset):
 
     dtype = torch.float
     device = torch.device("cpu")
@@ -408,7 +500,7 @@ if __name__ == "__main__":
     list_powerset = test()
     rules = start_rules()
     comb_masses = combine_masses(rules[1], rules[2], list_powerset)
-    X_train = [np.array([-0.2, -0.3]), np.array([-0.3, 0.4])]
+    X_train = [np.array([-0.2, -0.3]), np.array([0.3, -0.4])]
     Y_train = [-1, 1] 
     testing_stuff(X_train, Y_train, rules, list_powerset)
     exit(0)
