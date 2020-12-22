@@ -92,7 +92,6 @@ def combine_masses(dict_m1, dict_m2, list_powerset):
         dict_combined_m[s] = sum_m
     
     # Need to normalize so that sum = 1
-    print(dict_combined_m)
     return normalize_masses_combined(dict_combined_m)
 
 

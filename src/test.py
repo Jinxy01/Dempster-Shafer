@@ -11,6 +11,8 @@ import numpy as np
 import torch
 import math
 
+from dempster_shaffer import *
+
 def gradient_descent(theta_dg, learning_rate, X_train_complex, X_valid_complex):
 
     valid_error_list = []
@@ -201,9 +203,19 @@ def get_belief_t(r, b, r_b):
     #return torch.tensor(0.0, device=device, dtype=dtype, requires_grad=True)
     return belief
 
+def get_belief_confidence(r, b, r_b):
+    dtype = torch.float
+    device = torch.device("cpu")
+    # Give confidence to prediction and account for uncertainty in such prediction
+    # Red = 1 and Blue = -1
+    if r > b:
+        return r/(r+r_b)
+    return -b/(b+r_b)
 
 
-def testing_stuff():
+
+
+def testing_stuff(X_train, Y_train):
 
     dtype = torch.float
     device = torch.device("cpu")
@@ -212,9 +224,9 @@ def testing_stuff():
     # Create Tensors to hold input and outputs.
     # By default, requires_grad=False, which indicates that we do not need to
     # compute gradients with respect to these Tensors during the backward pass.
-    x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
+    #x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
     #y = torch.sin(x)
-    Y_train = 0
+    tot = len(X_train)
 
     # Create random Tensors for weights. For a third order polynomial, we need
     # 4 weights: y = a + b x + c x^2 + d x^3
@@ -225,18 +237,20 @@ def testing_stuff():
     r_b = torch.tensor(0.9, device=device, dtype=dtype, requires_grad=True)
 
     learning_rate = 1e-3
-    for t in range(20000):
+    for t in range(2000):
         # Forward pass: compute predicted y using operations on Tensors.
         #y_pred = a + b * x + c * x ** 2 + d * x ** 3
-        #y_hat = get_belief_t(r, b, r_b)
-        y_hat = (r + 0.5*r_b)/(r+b+r_b)
+        y_hat = get_belief_confidence(r, b, r_b)
+        #y_hat = (r + 0.5*r_b)/(r+b+r_b)
         #print(y_hat)
         
         # Compute and print loss using operations on Tensors.
         # Now loss is a Tensor of shape (1,)
         # loss.item() gets the scalar value held in the loss.
         # loss = (y_pred - y).pow(2).sum()
-        loss = (y_hat - Y_train).pow(2).sum()
+        y = -1
+        loss = (y_hat - y).pow(2).sum()
+        print(loss, y_hat)
         if t % 100 == 99:
             print(t, loss.item())
 
@@ -284,12 +298,12 @@ def start_rules():
     return rules
 
 if __name__ == "__main__":
-    testing_stuff()
-    exit(0)
     #X_train, Y_train, X_test, Y_test = aid_test()
     # Testing purposes
-    X_train = [np.array([-0.2, -0.3])]
-    Y_train = [0] 
+    X_train = [np.array([-0.2, -0.3]), np.array([-0.3, -0.4])]
+    Y_train = [0, 1] 
+    testing_stuff(X_train, Y_train)
+    exit(0)
     rules = start_rules()
     #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
