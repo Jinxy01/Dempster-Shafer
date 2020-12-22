@@ -4,7 +4,6 @@
 """
 
 from itertools import chain, combinations
-from ref.adam import Adam as adam_optimizer
 from main import aid_test
 from dempster_shaffer import get_powerset
 import numpy as np
@@ -153,6 +152,10 @@ def testing_stuff(X_train, Y_train, rules, list_powerset):
     # compute gradients with respect to these Tensors during the backward pass.
     #x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
     #y = torch.sin(x)
+    a = torch.tensor(0.04, device=device, dtype=dtype, requires_grad=True)
+    b = torch.tensor(0.06, device=device, dtype=dtype, requires_grad=True)
+    c = torch.tensor(0.9, device=device, dtype=dtype, requires_grad=True)
+    r1 = [a, b, c]
     tot = len(X_train)
 
     # Create random Tensors for weights. For a third order polynomial, we need
@@ -162,6 +165,7 @@ def testing_stuff(X_train, Y_train, rules, list_powerset):
 
     learning_rate = 1e-3
     previous_loss = sys.maxsize
+    optim = torch.optim.Adam(params=[r1, r1], lr=learning_rate)
     for t in range(2000):
         for i in range(tot):
             x, y = X_train[i]
@@ -197,6 +201,7 @@ def testing_stuff(X_train, Y_train, rules, list_powerset):
             loss.backward()
 
             r, b, r_b = get_r_b_rb_rule(rules[rule_id])
+            optim.step()
             with torch.no_grad():
                 # SGD
                 if r.grad is not None:
