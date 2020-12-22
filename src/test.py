@@ -136,6 +136,10 @@ def get_belief_confidence(r, b, r_b):
     return -b/(b+r_b)
 
 
+def y_agrmax_comb_m(belief_comb):
+    return torch.tensor(1.) if belief_comb[frozenset('R')] > belief_comb[frozenset('B')] else torch.tensor(-1.)
+    
+
 def testing_stuff(X_train, Y_train, rules, list_powerset):
 
     dtype = torch.float
@@ -166,7 +170,11 @@ def testing_stuff(X_train, Y_train, rules, list_powerset):
             #print(r, b, r_b)
             # Forward pass: compute predicted y using operations on Tensors.
             #y_pred = a + b * x + c * x ** 2 + d * x ** 3
-            y_hat = get_belief_confidence(r, b, r_b)
+
+            #y_hat = get_belief_confidence(r, b, r_b)
+            belief_comb = get_belief(dict_comb_masses, list_powerset)
+            y_hat = y_agrmax_comb_m(belief_comb)
+
             #y_hat = (r + 0.5*r_b)/(r+b+r_b)
             #print(y_hat)
             
@@ -373,10 +381,30 @@ def combine_masses(dict_m1, dict_m2, list_powerset):
 
 # ----------------------------------
 
+def get_belief_set(A, list_powerset, dict_m):
+    sum_m = 0
+    for s in list_powerset:
+        if s.issubset(A):
+            sum_m += dict_m[s]
+    return sum_m
+
+
+def get_belief(dict_m, list_powerset):
+    dict_beliefs = {}
+    for s in dict_m:
+        if s == COMPLETE_SET:
+            continue
+        dict_beliefs[s] = get_belief_set(s, list_powerset, dict_m)
+    
+    return dict_beliefs
+
+# -------------------------------
+
 if __name__ == "__main__":
     #X_train, Y_train, X_test, Y_test = aid_test()
     # Testing purposes
     EMPTY_SET    = set()
+    COMPLETE_SET = frozenset({'R','B'})
     list_powerset = test()
     rules = start_rules()
     comb_masses = combine_masses(rules[1], rules[2], list_powerset)
