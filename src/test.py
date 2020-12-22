@@ -289,17 +289,78 @@ def start_rules():
     rules = {}
     rules[1] = get_initial_masses()
     rules[2] = get_initial_masses()
-    #rules[3] = get_initial_masses()
+    rules[3] = get_initial_masses()
     #rules[4] = get_initial_masses()
     return rules
+
+# --------------------------
+
+def get_powerset(set_elements):
+    # Powerset: set + empty set + subsets of given set
+    list_elements = list(set_elements)
+    list_powerset = list(chain.from_iterable(combinations(list_elements, e) 
+        for e in range(1, len(list_elements)+1))) # start at 1 to ignore empty set
+    # Transform into a list of sets. 
+    # We can use set() but then we will get "TypeError: unhashable type: 'set'" when adding as key to dictionary
+    # So we use frozenset()
+    list_sets_powerset = [frozenset(e) for e in list_powerset] # allow to be added to dictionary
+    return list_sets_powerset
+
+def disease_p_a():
+    set1 = {"R"}
+    set2 = {"B"}
+    return set1.union(set2)
+
+def test():
+    set_elements  = disease_p_a()
+    list_powerset = get_powerset(set_elements)
+    return list_powerset
+
+# ----------------------------------
+
+def normalize_masses_combined(dict_combined_m):
+    sum_m = 0
+    for _, m in dict_combined_m.items():
+        sum_m += m
+    
+    # It is already normalized
+    if sum_m == 1.0:
+        return dict_combined_m
+
+    dict_combined_m_norm = {}
+    for s in dict_combined_m:
+        dict_combined_m_norm[s] = dict_combined_m[s]/sum_m
+    
+    return dict_combined_m_norm
+
+def combine_masses(dict_m1, dict_m2, list_powerset):
+    dict_combined_m = {}
+
+    for s in list_powerset:
+        sum_m = 0
+        for s1 in dict_m1:
+            for s2 in dict_m2:
+                if s1.intersection(s2) == s and s1.intersection(s2) != EMPTY_SET:
+                    sum_m += dict_m1[s1]*dict_m2[s2]
+        dict_combined_m[s] = sum_m
+    
+    # Need to normalize so that sum = 1
+    return normalize_masses_combined(dict_combined_m)
+
+# ----------------------------------
 
 if __name__ == "__main__":
     #X_train, Y_train, X_test, Y_test = aid_test()
     # Testing purposes
+    EMPTY_SET    = set()
+    list_powerset = test()
     rules = start_rules()
+    comb_masses = combine_masses(rules[1], rules[2], list_powerset)
+    print(comb_masses)
+    exit(0)
     X_train = [np.array([-0.2, -0.3]), np.array([-0.3, 0.4])]
     Y_train = [-1, 1] 
-    testing_stuff(X_train, Y_train, rules)
+    testing_stuff(X_train, Y_train, rules, list_powerset)
     exit(0)
     #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
