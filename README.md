@@ -17,10 +17,10 @@ bash test.sh
 
 ## TODO:
 - [x] Implement Adam
-- [ ] MAF in train
+- [x] MAF in train
 - [ ] Projected Gradient Descent (Adam)
 
 ## Comments:
-The way we are updating weights, we are only reducing every parameter (R,B and R+B). This will decrease loss since R+B (uncertanty) is also decreasing. However, if we normalize we get uncertanty to go higher again, while reducing R and B...
+Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
 
-Added pytorch implementation in testing_stuff_t(). Article says to compute **belief** but that way we only update R and B mass values... Made some changes and now R_B is also changed but still not good enough
+Added a rule to promote combined masses. It works ok
