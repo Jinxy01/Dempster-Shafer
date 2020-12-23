@@ -152,7 +152,7 @@ if __name__ == "__main__":
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
     X      = [(0.2, 0.2), (0.3, -0.4)]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)
 
