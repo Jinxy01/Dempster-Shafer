@@ -87,9 +87,10 @@ def optimization(X, Y, rule_set, loss):
     batch_loss = mse(Y, y_hat_list)
     # Page 48
     print(batch_loss)
-    for loss0, loss1 in batch_loss:
-        loss0.backward()
-        loss1.backward()
+    batch_loss.backward()
+    #for loss0, loss1 in batch_loss:
+    #    loss0.backward()
+    #    loss1.backward()
     # To continue...
 
 # def start_weights(s_list):
@@ -101,19 +102,31 @@ def optimization(X, Y, rule_set, loss):
 #         list_initial_weights.append([(r,b,r_b), s])
 #     return list_initial_weights
         
+# def mse(y, y_hat):
+#     # Y_hat is the predicted one
+#     list_loss = []
+#     tot = len(y)
+#     for i in range(tot):
+#         y0, y1 = y[i]
+#         y_hat0, y_hat1 = y_hat[i]
+#         y0_loss = (y0 - y_hat0).pow(2)
+#         y1_loss = (y1 - y_hat1).pow(2)
+#         list_loss.append([y0_loss/(2*tot), y1_loss/(2*tot)])
+    
+#     return list_loss
+
 def mse(y, y_hat):
     # Y_hat is the predicted one
-    list_loss = []
+    sum_ = 0.
     tot = len(y)
     for i in range(tot):
         y0, y1 = y[i]
         y_hat0, y_hat1 = y_hat[i]
         y0_loss = (y0 - y_hat0).pow(2)
         y1_loss = (y1 - y_hat1).pow(2)
-        (y1_loss, y0_loss)
-        list_loss.append([y0_loss/(2*tot), y1_loss/(2*tot)])
+        sum_ += y0_loss + y1_loss
     
-    return list_loss
+    return sum_/(2*tot)
 
 
 if __name__ == "__main__":
