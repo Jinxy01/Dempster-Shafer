@@ -61,3 +61,15 @@ def belief(dict_m):
     
     return dict_beliefs
 
+
+def project_masses(list_dict_m):
+    for rule_mass in list_dict_m:
+        sum_m = 0
+        for _, v in rule_mass[0].items():
+            sum_m += v
+  
+        for k, v in rule_mass[0].items():
+            rule_mass[0][k] = v + (1-sum_m)/3
+    
+    
+    

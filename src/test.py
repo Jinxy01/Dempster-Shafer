@@ -48,18 +48,18 @@ def test():
 #     print(m)
 #     print(M)
 
-def model_predict(x,y, rule_set):
-    M = []
-    for m,s in rule_set:
-        if s(x,y): # Point coordinates (y is NOT label class here)
-            M.append(m)
+# def model_predict(x,y, rule_set):
+#     M = []
+#     for m,s in rule_set:
+#         if s(x,y): # Point coordinates (y is NOT label class here)
+#             M.append(m)
 
-    m = weight_full_uncertainty()
-    for m_i in M:
-        m = dempster_rule(m,m_i)
+#     m = weight_full_uncertainty()
+#     for m_i in M:
+#         m = dempster_rule(m,m_i)
 
-    y_hat = y_argmax(belief(m))
-    return frozenset_to_class(y_hat)
+#     y_hat = y_argmax(belief(m))
+#     return frozenset_to_class(y_hat)
 
 
 def model_predict_train(x,y, rule_set):
@@ -77,7 +77,7 @@ def model_predict_train(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(500):
+    for t in range(100):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train(x,y, rule_set)
@@ -101,6 +101,9 @@ def optimization(X, Y, rule_set, loss):
         # parameters
         for m, optim, s in rule_set:
             optim.step()
+
+        # Projection to respect Dempster Shaffer conditions
+        project_masses(rule_set)
 
         if t % 100 == 99:
             print(t, batch_loss.item())
