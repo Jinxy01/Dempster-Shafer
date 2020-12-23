@@ -43,22 +43,21 @@ def dempster_rule(dict_m1, dict_m2):
     # Need to normalize so that sum = 1
     return normalize_masses_combined(dict_combined_m)
 
-# ----------------------------------------------
 
-def weight_full_uncertainty():
-    m = {}
-    m[frozenset('B')] = torch.tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset('R')] = torch.tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset({'B','R'})] = torch.tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-    return m
+def belief_set(A, dict_m):
+    sum_m = 0
+    for s in POWERSET:
+        if s.issubset(A):
+            sum_m += dict_m[s]
+    return sum_m
 
-def start_weights_dict(s_list):
-    list_initial_weights = []
-    for s in s_list:
-        m = {}
-        m[frozenset('B')] = torch.tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset('R')] = torch.tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset({'B','R'})] = torch.tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-        list_initial_weights.append([m, s])
 
-    return list_initial_weights
+def belief(dict_m):
+    dict_beliefs = {}
+    for s in dict_m:
+        if s == COMPLETE_SET:
+            continue
+        dict_beliefs[s] = belief_set(s, dict_m)
+    
+    return dict_beliefs
+

@@ -14,6 +14,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.config import *
 from utils.dempster_shaffer import *
+from utils.aux_function import *
 
 # ----------------------------
 def cross_entropy_one_hot(y_hat, y):
@@ -47,7 +48,8 @@ def test():
 #     print(m)
 #     print(M)
 
-def model_predict_dict(x,y, rule_set):
+
+def model_predict(x,y, rule_set):
     M = []
     for m,s in rule_set:
         if s(x,y): # Point coordinates (y is NOT label class here)
@@ -56,7 +58,9 @@ def model_predict_dict(x,y, rule_set):
     m = weight_full_uncertainty()
     for m_i in M:
         m = dempster_rule(m,m_i)
-    print(m)
+
+    y_hat = y_argmax(belief(m))
+    return frozenset_to_class(y_hat)
 
 
 # def start_weights(s_list):
@@ -74,12 +78,12 @@ def model_predict_dict(x,y, rule_set):
 if __name__ == "__main__":
 
     Y_Train = tensor([1,0])
-    X      = [(0.2, 0.2)] #, (0.3, -0.4)]
-    s_list = [lambda x,y: y > 0, lambda x,y: x > 0]
+    X      = [(0.2, 0.2)], (0.3, -0.4)]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]
     #rule_set = start_weights(s_list)
 
-    rule_set = start_weights_dict(s_list)
+    rule_set = start_weights(s_list)
 
     for (x,y) in X:
         print(x,y)
-        model_predict_dict(x,y,rule_set)
+        print(model_predict(x,y,rule_set))
