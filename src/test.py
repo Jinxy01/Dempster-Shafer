@@ -76,37 +76,36 @@ def model_predict_train(x,y, rule_set):
     return y_hat
 
 def optimization(X, Y, rule_set, loss):
-    rule_set_updated = []
-    y_hat_list = []
-    for x,y in X:
-        y_hat = model_predict_train(x,y, rule_set)
-        y_hat_list.append(y_hat)
-    
-    # Convert to one hot encoder
-    print(Y, y_hat_list)
-    batch_loss = mse(Y, y_hat_list)
 
-    # Before the backward pass, use the optimizer object to zero all of the
-    # gradients for the variables it will update (which are the learnable
-    # weights of the model).
-    for m, optim, s in rule_set:
-        optim.zero_grad()
+    for t in range(500):
+        y_hat_list = []
+        for x,y in X:
+            y_hat = model_predict_train(x,y, rule_set)
+            y_hat_list.append(y_hat)
+        
+        # Convert to one hot encoder
+        #print(Y, y_hat_list)
+        batch_loss = mse(Y, y_hat_list)
 
-    print(batch_loss)
-    # Backward pass: compute gradient of the loss with respect to model
-    # parameters
-    batch_loss.backward()
+        # Before the backward pass, use the optimizer object to zero all of the
+        # gradients for the variables it will update (which are the learnable
+        # weights of the model).
+        for m, optim, s in rule_set:
+            optim.zero_grad()
 
-    # Calling the step function on an Optimizer makes an update to its
-    # parameters
-    for m, optim, s in rule_set:
-        optim.step()
+        # Backward pass: compute gradient of the loss with respect to model
+        # parameters
+        batch_loss.backward()
 
-    
-    #for loss0, loss1 in batch_loss:
-    #    loss0.backward()
-    #    loss1.backward()
-    # To continue...
+        # Calling the step function on an Optimizer makes an update to its
+        # parameters
+        for m, optim, s in rule_set:
+            optim.step()
+
+        if t % 100 == 99:
+            print(t, batch_loss.item())
+
+    print(rule_set)
 
 # def start_weights(s_list):
 #     list_initial_weights = []
