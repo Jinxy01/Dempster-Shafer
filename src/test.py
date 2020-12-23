@@ -61,17 +61,36 @@ def model_predict(x,y, rule_set):
     y_hat = y_argmax(belief(m))
     return frozenset_to_class(y_hat)
 
+
+def model_predict_train(x,y, rule_set):
+    M = []
+    for m,s in rule_set:
+        if s(x,y): # Point coordinates (y is NOT label class here)
+            M.append(m)
+
+    m = weight_full_uncertainty()
+    for m_i in M:
+        m = dempster_rule(m,m_i)
+
+    y_hat = y_argmax_train(belief(m))
+    return y_hat
+
 def optimization(X, Y, rule_set, loss):
     rule_set_updated = []
     y_hat_list = []
     for x,y in X:
-        y_hat = model_predict(x,y, rule_set)
+        y_hat = model_predict_train(x,y, rule_set)
         y_hat_list.append(y_hat)
     
     # Convert to one hot encoder
-    y_hat = one_hot(tensor(y_hat_list), num_classes=NUM_CLASSES).float()
+    print(Y, y_hat_list)
+    batch_loss = mse(Y, y_hat_list)
+    # Page 48
     print(batch_loss)
-    loss.backward()
+    for loss0, loss1 in batch_loss:
+        loss0.backward()
+        loss1.backward()
+    # To continue...
 
 # def start_weights(s_list):
 #     list_initial_weights = []
@@ -82,7 +101,17 @@ def optimization(X, Y, rule_set, loss):
 #         list_initial_weights.append([(r,b,r_b), s])
 #     return list_initial_weights
         
-
+def mse(y, y_hat):
+    # Y_hat is the predicted one
+    list_loss = []
+    for i in range(len(y)):
+        y0, y1 = y[i]
+        y_hat0, y_hat1 = y_hat[i]
+        y0_loss = (y0 - y_hat0).pow(2)
+        y1_loss = (y1 - y_hat1).pow(2)
+        (y1_loss, y0_loss)
+        list_loss.append([y0_loss, y1_loss])
+    return list_loss
 
 
 if __name__ == "__main__":
@@ -100,5 +129,5 @@ if __name__ == "__main__":
 
     #for (x,y) in X:
     #    print(x,y)
-    #    print(model_predict(x,y,rule_set))
+    #    print(model_predict_train(x,y,rule_set))
     optimization(X, Y, rule_set, loss)

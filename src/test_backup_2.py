@@ -366,6 +366,8 @@ def working_stuff(X_train, Y_train):
             y = Y_train[i] # Predicted class
 
             loss = mse(y, y_hat)
+            print(loss, y, y_hat)
+            exit(0)
             
             if t % 100 == 99:
                 print(t, loss.item())
@@ -507,7 +509,8 @@ if __name__ == "__main__":
     comb_masses = combine_masses(rules[1], rules[2], list_powerset)
     X_train = [np.array([-0.2, -0.3]), np.array([0.3, -0.4])]
     Y_train = [-1, 1] 
-    testing_stuff(X_train, Y_train, rules, list_powerset)
+    # testing_stuff(X_train, Y_train, rules, list_powerset)
+    working_stuff(X_train, Y_train)
     exit(0)
     #print(rules)
     rules, current_loss_array, dict_it_rule = train(X_train, Y_train, rules)
