@@ -103,6 +103,7 @@ def optimization(X, Y, rule_set, loss):
             optim.step()
 
         # Projection to respect Dempster Shaffer conditions
+        # Page 47
         #project_masses(rule_set)
 
         if t % 100 == 99:
