@@ -77,7 +77,7 @@ def model_predict_train(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(100):
+    for t in range(1000):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train(x,y, rule_set)
@@ -103,7 +103,7 @@ def optimization(X, Y, rule_set, loss):
             optim.step()
 
         # Projection to respect Dempster Shaffer conditions
-        project_masses(rule_set)
+        #project_masses(rule_set)
 
         if t % 100 == 99:
             print(t, batch_loss.item())
