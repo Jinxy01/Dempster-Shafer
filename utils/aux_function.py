@@ -1,5 +1,5 @@
 
-from torch import tensor
+from torch import tensor, optim
 from utils.config import *
 
 def y_argmax(dict_m):
@@ -33,6 +33,7 @@ def start_weights(s_list):
         m[frozenset('B')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
         m[frozenset('R')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
         m[frozenset({'B','R'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-        list_initial_weights.append([m, s])
+        optimizer = optim.Adam([m[frozenset('B')], m[frozenset('R')], m[frozenset({'B','R'})]])
+        list_initial_weights.append([m, optimizer, s])
 
     return list_initial_weights

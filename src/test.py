@@ -64,7 +64,7 @@ def model_predict(x,y, rule_set):
 
 def model_predict_train(x,y, rule_set):
     M = []
-    for m,s in rule_set:
+    for m,_,s in rule_set:
         if s(x,y): # Point coordinates (y is NOT label class here)
             M.append(m)
 
@@ -85,10 +85,24 @@ def optimization(X, Y, rule_set, loss):
     # Convert to one hot encoder
     print(Y, y_hat_list)
     batch_loss = mse(Y, y_hat_list)
-    # Page 48
+
+    # Before the backward pass, use the optimizer object to zero all of the
+    # gradients for the variables it will update (which are the learnable
+    # weights of the model).
+    for m, optim, s in rule_set:
+        optim.zero_grad()
+
     print(batch_loss)
+    # Backward pass: compute gradient of the loss with respect to model
+    # parameters
     batch_loss.backward()
 
+    # Calling the step function on an Optimizer makes an update to its
+    # parameters
+    for m, optim, s in rule_set:
+        optim.step()
+
+    
     #for loss0, loss1 in batch_loss:
     #    loss0.backward()
     #    loss1.backward()
@@ -141,7 +155,7 @@ if __name__ == "__main__":
     #rule_set = start_weights(s_list)
 
     rule_set = start_weights(s_list)
-    print(rule_set)
+    #print(rule_set)
 
     #for (x,y) in X:
     #    print(x,y)
