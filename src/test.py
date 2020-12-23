@@ -48,7 +48,6 @@ def test():
 #     print(m)
 #     print(M)
 
-
 def model_predict(x,y, rule_set):
     M = []
     for m,s in rule_set:
@@ -62,6 +61,17 @@ def model_predict(x,y, rule_set):
     y_hat = y_argmax(belief(m))
     return frozenset_to_class(y_hat)
 
+def optimization(X, Y, rule_set, loss):
+    rule_set_updated = []
+    y_hat_list = []
+    for x,y in X:
+        y_hat = model_predict(x,y, rule_set)
+        y_hat_list.append(y_hat)
+    
+    # Convert to one hot encoder
+    y_hat = one_hot(tensor(y_hat_list), num_classes=NUM_CLASSES).float()
+    print(batch_loss)
+    loss.backward()
 
 # def start_weights(s_list):
 #     list_initial_weights = []
@@ -78,12 +88,17 @@ def model_predict(x,y, rule_set):
 if __name__ == "__main__":
 
     Y_Train = tensor([1,0])
-    X      = [(0.2, 0.2)], (0.3, -0.4)]
+    Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
+
+    X      = [(0.2, 0.2), (0.3, -0.4)]
     s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]
+    loss = MSE()
     #rule_set = start_weights(s_list)
 
     rule_set = start_weights(s_list)
+    print(rule_set)
 
-    for (x,y) in X:
-        print(x,y)
-        print(model_predict(x,y,rule_set))
+    #for (x,y) in X:
+    #    print(x,y)
+    #    print(model_predict(x,y,rule_set))
+    optimization(X, Y, rule_set, loss)
