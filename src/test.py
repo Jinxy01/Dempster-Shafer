@@ -88,6 +88,7 @@ def optimization(X, Y, rule_set, loss):
     # Page 48
     print(batch_loss)
     batch_loss.backward()
+
     #for loss0, loss1 in batch_loss:
     #    loss0.backward()
     #    loss1.backward()
