@@ -99,10 +99,9 @@ def model_predict_train_v2(x,y, rule_set):
 
     #y_hat = frozenset_to_class(y_argmax(belief(m)))
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
-    y_hat = tensor([1,1])
 
-    r_prob, b_prob = y_argmax_train_v2(m)
-    y_hat = [r_prob, b_prob]
+    r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
+    y_hat = [r_prob, b_prob, uncertainty]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -116,7 +115,7 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(500):
+    for t in range(1000):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -124,6 +123,7 @@ def optimization(X, Y, rule_set, loss):
         
         # Convert to one hot encoder
         batch_loss = mse(Y, y_hat_list)
+        #print(batch_loss)
         #exit(0)
 
         # Before the backward pass, use the optimizer object to zero all of the
@@ -172,7 +172,7 @@ def optimization(X, Y, rule_set, loss):
     
 #     return list_loss
 
-def mse(y, y_hat):
+def mse_working(y, y_hat):
     # Y_hat is the predicted one
     sum_ = 0.
     tot = len(y)
@@ -184,6 +184,20 @@ def mse(y, y_hat):
         sum_ += y0_loss + y1_loss
     
     return sum_/(2*tot)
+
+def mse(y, y_hat):
+    # Y_hat is the predicted one
+    sum_ = 0.
+    tot = len(y)
+    for i in range(tot):
+        y0, y1, yu = y[i]
+        y_hat0, y_hat1, y_hat_u = y_hat[i]
+        y0_loss = (y0 - y_hat0).pow(2)
+        y1_loss = (y1 - y_hat1).pow(2)
+        yu_loss = (yu - y_hat_u).pow(2)
+        sum_ += y0_loss + y1_loss + yu_loss
+    
+    return sum_/(NUM_CLASSES*tot)
 
 
 if __name__ == "__main__":
