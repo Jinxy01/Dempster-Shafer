@@ -87,12 +87,37 @@ def model_predict_train(x,y, rule_set):
     # #print(y_hat)
     return y_hat_prob
 
+def model_predict_train_v2(x,y, rule_set):
+    M = []
+    for m,_,s in rule_set:
+        if s(x,y): # Point coordinates (y is NOT label class here)
+            M.append(m)
+
+    m = weight_full_uncertainty()
+    for m_i in M:
+        m = dempster_rule(m,m_i)
+
+    # y_hat = frozenset_to_class(y_argmax(belief(m)))
+    # y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
+    #
+    y_hat_prob = y_argmax_train_v2(m)
+
+    # # Not working...
+    # print(y_hat_prob, y_hat_one_hot)
+    # y_hat_prob_tensor = torch.tensor(y_hat_prob)
+    # print(y_hat_prob_tensor, y_hat_one_hot)
+    # y_hat = y_hat_prob[0] * y_hat_one_hot
+    # print(y_hat)
+    # #exit(0)
+    # #print(y_hat)
+    return y_hat_prob
+
 def optimization(X, Y, rule_set, loss):
 
     for t in range(50):
         y_hat_list = []
         for x,y in X:
-            y_hat = model_predict_train(x,y, rule_set)
+            y_hat = model_predict_train_v2(x,y, rule_set)
             y_hat_list.append(y_hat)
         
         # Convert to one hot encoder

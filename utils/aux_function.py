@@ -14,6 +14,15 @@ def y_argmax_train(dict_m):
     list_dict_m[1] = e2/(e1+e2)
     return list_dict_m
 
+def y_argmax_train_v2(dict_m):
+    # Return probability for each classl using Cobb and Shenoy approach
+    list_dict_m = list(dict_m.values())
+    e1, e2 = list_dict_m
+    list_dict_m[0] = e1/(e1+e2)
+    list_dict_m[1] = e2/(e1+e2)
+    return list_dict_m
+
+
 
 # Translates frozenset to class
 def frozenset_to_class(y_hat):
