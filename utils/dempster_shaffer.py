@@ -61,6 +61,25 @@ def belief(dict_m):
     
     return dict_beliefs
 
+# ---------------------------------
+
+def plausibility_set(A, dict_m):
+    sum_m = 0
+    for s in POWERSET:
+        if s.intersection(A) != EMPTY_SET:
+            sum_m += dict_m[s]
+    return sum_m
+
+
+def plausibility(dict_m):
+    dict_plausibility = {}
+    for s in dict_m:
+        if s == COMPLETE_SET:
+            continue
+        dict_plausibility[s] = plausibility_set(s, dict_m)
+    
+    return dict_plausibility
+
 
 def project_masses(list_dict_m):
     for rule_mass in list_dict_m:

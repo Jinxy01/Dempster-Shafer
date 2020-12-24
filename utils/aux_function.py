@@ -1,13 +1,18 @@
 
 from torch import tensor, optim
 from utils.config import *
+from utils.dempster_shaffer import *
 
 def y_argmax(dict_m):
     return max(dict_m, key=(lambda key: dict_m[key]))
 
 def y_argmax_train(dict_m):
-    # Return predict for each class instead of only a number
-    return list(dict_m.values())
+    # Return probability for each classl using Cobb and Shenoy approach
+    list_dict_m = list(dict_m.values())
+    e1, e2 = list_dict_m
+    list_dict_m[0] = e1/(e1+e2)
+    list_dict_m[1] = e2/(e1+e2)
+    return list_dict_m
 
 
 # Translates frozenset to class

@@ -72,20 +72,32 @@ def model_predict_train(x,y, rule_set):
     for m_i in M:
         m = dempster_rule(m,m_i)
 
-    y_hat = y_argmax_train(belief(m))
-    return y_hat
+    # y_hat = frozenset_to_class(y_argmax(belief(m)))
+    # y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
+    #
+    y_hat_prob = y_argmax_train(plausibility(m))
+
+    # # Not working...
+    # print(y_hat_prob, y_hat_one_hot)
+    # y_hat_prob_tensor = torch.tensor(y_hat_prob)
+    # print(y_hat_prob_tensor, y_hat_one_hot)
+    # y_hat = y_hat_prob[0] * y_hat_one_hot
+    # print(y_hat)
+    # #exit(0)
+    # #print(y_hat)
+    return y_hat_prob
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(1000):
+    for t in range(50):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train(x,y, rule_set)
             y_hat_list.append(y_hat)
         
         # Convert to one hot encoder
-        #print(Y, y_hat_list)
         batch_loss = mse(Y, y_hat_list)
+        #exit(0)
 
         # Before the backward pass, use the optimizer object to zero all of the
         # gradients for the variables it will update (which are the learnable
@@ -106,7 +118,7 @@ def optimization(X, Y, rule_set, loss):
         # Page 47
         #project_masses(rule_set)
 
-        if t % 100 == 99:
+        if t % 10 == 0:
             print(t, batch_loss.item())
 
     print(rule_set)
@@ -153,7 +165,7 @@ if __name__ == "__main__":
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
     X      = [(0.2, 0.2), (0.3, -0.4)]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]#, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)
 
