@@ -97,11 +97,12 @@ def model_predict_train_v2(x,y, rule_set):
     for m_i in M:
         m = dempster_rule(m,m_i)
 
-    y_hat = frozenset_to_class(y_argmax(belief(m)))
-    y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
+    #y_hat = frozenset_to_class(y_argmax(belief(m)))
+    #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
+    y_hat = tensor([1,1])
 
-    y_hat_prob = y_argmax_train_v2(m)
-    y_hat = y_hat_one_hot * y_hat_prob
+    r_prob, b_prob = y_argmax_train_v2(m)
+    y_hat = [r_prob, b_prob]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -115,7 +116,7 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(1000):
+    for t in range(500):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -187,10 +188,10 @@ def mse(y, y_hat):
 
 if __name__ == "__main__":
 
-    Y_Train = tensor([1,0])
+    Y_Train = tensor([1,0,1])
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
-    X      = [(0.2, 0.2), (0.3, -0.4)]
+    X      = [(0.2, 0.2), (0.3, -0.4), (0.3, 0.5)]
     s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)

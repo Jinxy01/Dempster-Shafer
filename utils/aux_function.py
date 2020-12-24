@@ -16,8 +16,8 @@ def y_argmax_train(dict_m):
 
 def y_argmax_train_v2(dict_m):
     r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})] 
-    max_m = max(r, b)
-    return max_m/(max_m + r_b)
+    #max_m = max(r, b)
+    return r/(r + r_b), b/(b+r_b)
 
 
 
