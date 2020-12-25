@@ -30,3 +30,5 @@ Returning mass with uncertainty and considering 3 classes is the "best" result s
 
 Not considering uncertainty makes the loss go down faster, when using A1 dataset...
 Using dataset or two points has the same tendency
+
+Calcular mass com dempster rule vs passar logo m não tem diferença (linha 75)

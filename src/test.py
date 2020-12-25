@@ -71,7 +71,8 @@ def model_predict_train_v2(x,y, rule_set):
 
     m = weight_full_uncertainty()
     for m_i in M:
-        m = dempster_rule(m,m_i)
+        #m = dempster_rule(m,m_i)
+        m = m_i
 
     #y_hat = frozenset_to_class(y_argmax(belief(m)))
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
@@ -91,7 +92,7 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(250):
+    for t in range(500):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -181,16 +182,16 @@ def mse_uncertainty(y, y_hat):
 
 if __name__ == "__main__":
 
-    Y_Train = tensor([1,0,1])
+    Y_Train = tensor([1,0,1,1])
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
-    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5]]
+    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, 0.9]]
     
-    X_train, Y_train, X_test, Y_test = aid_test()
-    Y_train = tensor(Y_train, dtype=torch.int64)
+    #X_train, Y_train, X_test, Y_test = aid_test()
+    #Y_train = tensor(Y_train, dtype=torch.int64)
     
-    X = X_train
-    Y = one_hot(Y_train, num_classes=NUM_CLASSES).float()
+    #X = X_train
+    #Y = one_hot(Y_train, num_classes=NUM_CLASSES).float()
     #print(tensor(Y_train, dtype=torch.int64))
     #print(Y_Train)
     #exit(0)
