@@ -33,4 +33,4 @@ Using dataset or two points has the same tendency
 
 Calcular mass com dempster rule vs passar logo m não tem diferença (linha 75)
 
-Ver projected massess
+Projected masses can be assessed but do not translate into better results
