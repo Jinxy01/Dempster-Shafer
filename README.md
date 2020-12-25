@@ -25,3 +25,5 @@ bash test.sh
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
 
 Returning mass (instead of prob) yields the best results so far. However, uncertainty is as high as the prob of predicted class...
+
+Returning mass with uncertainty and considering 3 classes is the "best" result so far
