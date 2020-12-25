@@ -112,6 +112,9 @@ def optimization(X, Y, rule_set, loss):
         # parameters
         batch_loss.backward()
 
+        # MAYBE?
+        #optim.param_groups[0]['params'] = project_masses_v2(optim.param_groups[0]['params'])
+
         # Calling the step function on an Optimizer makes an update to its
         # parameters
         for m, optim, s in rule_set:
@@ -119,10 +122,16 @@ def optimization(X, Y, rule_set, loss):
 
         # Projection to respect Dempster Shaffer conditions
         # Page 47
-        #project_masses(rule_set)
 
         if t % 10 == 0:
             print(t, batch_loss.item())
+            #list_tensor = optim.param_groups[0]['params']
+            #print(optim.param_groups[0]['params'])
+            #project_masses_v2(list_tensor)
+            #torch.nn.utils.clip_grad_norm_(optim.param_groups[0]['params'], 1)
+            #print(optim.param_groups[0]['params'])
+            #exit(0)
+            #read_rules(rule_set)
 
     #print(rule_set)
     read_rules(rule_set)
@@ -185,6 +194,11 @@ if __name__ == "__main__":
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
     X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, 0.9]]
+
+    x, y, z = 0.3146406412124634, -0.3311198651790619, 0.33113864064216614
+    #find_normal_plane()
+    # 0.5430874824523926, R = -0.1026730090379715, Uncertainty = 0.5595855116844177
+    #exit(0)
     
     #X_train, Y_train, X_test, Y_test = aid_test()
     #Y_train = tensor(Y_train, dtype=torch.int64)
@@ -206,3 +220,4 @@ if __name__ == "__main__":
     #    print(x,y)
     #    print(model_predict_train(x,y,rule_set))
     optimization(X, Y, rule_set, loss)
+

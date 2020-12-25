@@ -2,6 +2,8 @@ from itertools import chain, combinations
 import torch
 from utils.config import *
 
+import numpy as np
+
 def get_powerset(set_elements):
     # Powerset: set + empty set + subsets of given set
     list_elements = list(set_elements)
@@ -90,5 +92,37 @@ def project_masses(list_dict_m):
         for k, v in rule_mass[0].items():
             rule_mass[0][k] = v + (1-sum_m)/3
     
+
+def project_masses_v2(list_tensor):
+    sum_m = 0
+    for e in list_tensor:
+        sum_m += e.item()
+
+    for i in range(len(list_tensor)):
+        list_tensor[i] = list_tensor[i] + (1-sum_m)/3
+    
+    return list_tensor
+    
+
+# Testing stuff
+def find_normal_plane():
+    # Q = np.array([,1,2])
+    # R = np.array([-4,2,2])
+    # S = np.array([-2,1,5])
+    Q = np.array([1,0,0])
+    R = np.array([0,1,0])
+    S = np.array([0,0,1])
+
+    p = np.array([0.3146406412124634, -0.3311198651790619, 0.33113864064216614])
+    #print((R-Q))
+    #print((S-Q))
+    n = np.cross((R-Q) ,(S-Q))
+    print(n)
+
+    v = p
+    dist = v[0]*n[0] + v[1]*n[1] + v[2]*n[2]
+    p_ = p - dist*n
+    print(p_)
+
     
     
