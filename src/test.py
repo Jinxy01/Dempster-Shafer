@@ -71,8 +71,7 @@ def model_predict_train_v2(x,y, rule_set):
 
     m = weight_full_uncertainty()
     for m_i in M:
-        #m = dempster_rule(m,m_i)
-        m = m_i
+        m = dempster_rule(m,m_i)
 
     #y_hat = frozenset_to_class(y_argmax(belief(m)))
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
