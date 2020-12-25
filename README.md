@@ -27,3 +27,6 @@ Pytorch implementation working withou projecting masses. When trying to project,
 Returning mass (instead of prob) yields the best results so far. However, uncertainty is as high as the prob of predicted class...
 
 Returning mass with uncertainty and considering 3 classes is the "best" result so far
+
+Not considering uncertainty makes the loss go down faster, when using A1 dataset...
+Using dataset or two points has the same tendency

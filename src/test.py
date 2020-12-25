@@ -16,6 +16,8 @@ from utils.config import *
 from utils.dempster_shaffer import *
 from utils.aux_function import *
 
+from src.main import *
+
 # ----------------------------
 def cross_entropy_one_hot(y_hat, y):
     _, y_labels = y.max(dim=0)
@@ -75,7 +77,7 @@ def model_predict_train_v2(x,y, rule_set):
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
 
     r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
-    y_hat = [r_prob, b_prob, uncertainty]
+    y_hat = [r_prob, b_prob]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -89,14 +91,14 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(500):
+    for t in range(250):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
             y_hat_list.append(y_hat)
         
         # Convert to one hot encoder
-        batch_loss = mse_uncertainty(Y, y_hat_list)
+        batch_loss = mse(Y, y_hat_list)
         #print(batch_loss)
         #exit(0)
 
@@ -182,9 +184,18 @@ if __name__ == "__main__":
     Y_Train = tensor([1,0,1])
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
-    X      = [(0.2, 0.2), (0.3, -0.4), (0.3, 0.5)]
+    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5]]
+    
+    X_train, Y_train, X_test, Y_test = aid_test()
+    Y_train = tensor(Y_train, dtype=torch.int64)
+    
+    X = X_train
+    Y = one_hot(Y_train, num_classes=NUM_CLASSES).float()
+    #print(tensor(Y_train, dtype=torch.int64))
+    #print(Y_Train)
+    #exit(0)
     #s_list = [lambda x,y: x != 0]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]#, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)
 
