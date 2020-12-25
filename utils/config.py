@@ -12,7 +12,7 @@ NUM_ELEMENTS     = 500
 A1_DATASET_FILE  = "A1.csv" 
 # TRAIN_PERCENTAGE = 0.7
 TEST_PERCENTAGE  = 0.3
-NUM_CLASSES      = 2
+NUM_CLASSES      = 3
 
 # Variables
 DTYPE = torch.float

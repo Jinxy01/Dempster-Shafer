@@ -75,7 +75,7 @@ def model_predict_train_v2(x,y, rule_set):
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
 
     r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
-    y_hat = [r_prob, b_prob]
+    y_hat = [r_prob, b_prob, uncertainty]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -96,7 +96,7 @@ def optimization(X, Y, rule_set, loss):
             y_hat_list.append(y_hat)
         
         # Convert to one hot encoder
-        batch_loss = mse_working(Y, y_hat_list)
+        batch_loss = mse_uncertainty(Y, y_hat_list)
         #print(batch_loss)
         #exit(0)
 
@@ -149,7 +149,7 @@ def optimization(X, Y, rule_set, loss):
     
 #     return list_loss
 
-def mse_working(y, y_hat):
+def mse(y, y_hat):
     # Y_hat is the predicted one
     sum_ = 0.
     tot = len(y)
@@ -162,7 +162,7 @@ def mse_working(y, y_hat):
     
     return sum_/(2*tot)
 
-def mse(y, y_hat):
+def mse_uncertainty(y, y_hat):
     # Y_hat is the predicted one
     sum_ = 0.
     tot = len(y)

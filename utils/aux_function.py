@@ -20,8 +20,9 @@ def y_argmax_train_v2(dict_m):
     p_a = r + r_b
     p_b = b + r_b
     p_tot = p_a + p_b
-    #return p_a/p_tot, p_b/p_tot, 0
+    #return p_a/p_tot, p_b/p_tot, 1
     return r, b, r_b
+    #return r/r_b, b/r_b, r_b
 
 
 
