@@ -101,7 +101,7 @@ def model_predict_train_v2(x,y, rule_set):
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
 
     r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
-    y_hat = [r_prob, b_prob, uncertainty]
+    y_hat = [r_prob, b_prob]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -122,7 +122,7 @@ def optimization(X, Y, rule_set, loss):
             y_hat_list.append(y_hat)
         
         # Convert to one hot encoder
-        batch_loss = mse(Y, y_hat_list)
+        batch_loss = mse_working(Y, y_hat_list)
         #print(batch_loss)
         #exit(0)
 
@@ -148,6 +148,8 @@ def optimization(X, Y, rule_set, loss):
         if t % 10 == 0:
             print(t, batch_loss.item())
 
+    print(rule_set)
+    project_masses(rule_set)
     print(rule_set)
 
 # def start_weights(s_list):
@@ -206,7 +208,8 @@ if __name__ == "__main__":
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
     X      = [(0.2, 0.2), (0.3, -0.4), (0.3, 0.5)]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
+    s_list = [lambda x,y: x != 0]
+    #s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)
 
