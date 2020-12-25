@@ -36,32 +36,6 @@ def test():
 
 # ----------------------------
 
-# def model_predict(x,y, rule_set):
-#     M = []
-#     for m,s in rule_set:
-#         if s(x,y): # Point coordinates (y is NOT label class here)
-#             M.append(m)
-
-#     m = (0.,0.,1) # Full uncertainty
-#     for m_i in M:
-#         m = dempster_rule(m,m_i)
-#     print(m)
-#     print(M)
-
-# def model_predict(x,y, rule_set):
-#     M = []
-#     for m,s in rule_set:
-#         if s(x,y): # Point coordinates (y is NOT label class here)
-#             M.append(m)
-
-#     m = weight_full_uncertainty()
-#     for m_i in M:
-#         m = dempster_rule(m,m_i)
-
-#     y_hat = y_argmax(belief(m))
-#     return frozenset_to_class(y_hat)
-
-
 def model_predict_train(x,y, rule_set):
     M = []
     for m,_,s in rule_set:
@@ -115,7 +89,7 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(1000):
+    for t in range(500):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -148,9 +122,10 @@ def optimization(X, Y, rule_set, loss):
         if t % 10 == 0:
             print(t, batch_loss.item())
 
-    print(rule_set)
+    #print(rule_set)
+    read_rules(rule_set)
     project_masses(rule_set)
-    print(rule_set)
+    read_rules(rule_set)
 
 # def start_weights(s_list):
 #     list_initial_weights = []
@@ -208,8 +183,8 @@ if __name__ == "__main__":
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
     X      = [(0.2, 0.2), (0.3, -0.4), (0.3, 0.5)]
-    s_list = [lambda x,y: x != 0]
-    #s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
+    #s_list = [lambda x,y: x != 0]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0, lambda x,y: x != 0]
     loss = MSE()
     #rule_set = start_weights(s_list)
 

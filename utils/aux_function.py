@@ -20,8 +20,8 @@ def y_argmax_train_v2(dict_m):
     p_a = r + r_b
     p_b = b + r_b
     p_tot = p_a + p_b
-    return p_a/p_tot, p_b/p_tot, 0
-    #return r, b, r_b
+    #return p_a/p_tot, p_b/p_tot, 0
+    return r, b, r_b
 
 
 
@@ -53,3 +53,14 @@ def start_weights(s_list):
         list_initial_weights.append([m, optimizer, s])
 
     return list_initial_weights
+
+
+
+def read_rules(rule_set):
+    s = "Rule {}: B = {}, R = {}, Uncertainty = {}"
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        b   = dict_m[frozenset({'B'})].item()
+        r   = dict_m[frozenset({'R'})].item()
+        r_b = dict_m[frozenset({'B', 'R'})].item()
+        print(s.format(i+1,b,r,r_b))
