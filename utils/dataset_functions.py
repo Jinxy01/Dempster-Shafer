@@ -35,7 +35,21 @@ def split_test_train(X,Y):
     return X_train, Y_train, X_test, Y_test
 
 def generate_rules_dataset_A1():
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0,lambda x,y: x != 0]
+    # s_list = [
+    #     lambda x,y: y > 0, 
+    #     lambda x,y: y <= 0,
+    #     lambda x,y: x != 0
+    # ]
+    s_list = [
+        lambda x,y: x <= -0.32, 
+        lambda x,y: -0.32 < x and x <= 0.04,
+        lambda x,y: 0.04 < x and x <= 0.41,
+        lambda x,y: x > 0.41, 
+        lambda x,y: y <= -0.34, 
+        lambda x,y: -0.34 < y and y <= 0.04,
+        lambda x,y: 0.04 < y and y <= 0.42,
+        lambda x,y: y > 0.42, 
+    ]
     rule_set = start_weights(s_list) 
     return rule_set
 
