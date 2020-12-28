@@ -1,4 +1,9 @@
 
+"""
+@author: Tiago Roxo, UBI
+@date: 2020
+"""
+
 from torch import tensor, optim
 from utils.config import *
 from utils.dempster_shaffer import *
