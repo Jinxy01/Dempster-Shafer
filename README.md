@@ -33,3 +33,5 @@ Using dataset or two points has the same tendency
 Projected masses can be assessed but do not translate into better results (alterantivas para projecao de massas)
 
 Using article generated rules gives good results for mass and uncertainty belief
+
+Criticize 98% of article for A1 dataset
