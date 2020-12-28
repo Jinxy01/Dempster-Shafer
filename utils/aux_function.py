@@ -20,11 +20,11 @@ def y_argmax_train_v2(dict_m):
     p_a = r + r_b
     p_b = b + r_b
     p_tot = p_a + p_b
-    #return p_a/p_tot, p_b/p_tot, 1 # Does not work
-    return r, b, r_b
-    #return r/(r+r_b), b/(r+r_b), r_b # Does not work
-    #return r/(r+b+r_b), b/(r+b+r_b), r_b # Good results
-    #return (r+p_a)/2, (b+p_b)/2, r_b
+    return p_a/p_tot, p_b/p_tot, 1 # It works with projection working!
+    #return r, b, r_b
+    #return r/(r+r_b), b/(r+r_b), r_b 
+    #return r/(r+b+r_b), b/(r+b+r_b), r_b 
+    #return (r+p_a)/2, (b+p_b)/2, r_b # Uncertainty 1.0 with useless rule
 
 
 
