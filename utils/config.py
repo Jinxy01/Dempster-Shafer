@@ -6,6 +6,7 @@ DATASET_FOLDER  = "dataset"
 X_              = "x"
 Y_              = "y"
 CLASS_          = "class"
+BREAK_IT        = "Breaking at {} iteration"
 
 #--- A1 Dataset ---
 NUM_ELEMENTS     = 500

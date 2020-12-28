@@ -17,20 +17,20 @@ def is_converged(loss_current, loss_previous):
     # All rules have converged to minimal loss
     return convergence.item()
 
-def y_argmax_train_v2(dict_m):
+def get_class_probabilities(dict_m):
     r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})] 
     #max_m = max(r, b)
     p_a = r + r_b
     p_b = b + r_b
     p_tot = p_a + p_b
-    return p_a/p_tot, p_b/p_tot, 1 # It works with projection working!
+    return p_a/p_tot, p_b/p_tot # It works with projection working!
     #return r, b, r_b
     #return r/(r+r_b), b/(r+r_b), r_b 
     #return r/(r+b+r_b), b/(r+b+r_b), r_b 
     #return (r+p_a)/2, (b+p_b)/2, r_b # Uncertainty 1.0 with useless rule
 
 
-def model_predict_train_v2(x,y, rule_set):
+def model_predict(x,y, rule_set):
     M = []
     for m,_,s in rule_set:
         if s(x,y): # Point coordinates (y is NOT label class here)
@@ -40,7 +40,7 @@ def model_predict_train_v2(x,y, rule_set):
     for m_i in M:
         m = dempster_rule(m,m_i)
         
-    r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
+    r_prob, b_prob = get_class_probabilities(m)
     y_hat = [r_prob, b_prob]
 
     return y_hat
@@ -50,17 +50,17 @@ def training(X, Y, rule_set, loss):
 
     previous_loss = sys.maxsize
 
-    for t in range(1000):
+    for i in range(1000):
         y_hat_list = []
         for x,y in X:
-            y_hat = model_predict_train_v2(x,y, rule_set)
+            y_hat = model_predict(x,y, rule_set)
             y_hat_list.append(y_hat)
         
-        # Convert to one hot encoder
+        # Compute loss
         batch_loss = mse(Y, y_hat_list)
 
         if (is_converged(batch_loss, previous_loss)):
-            print("Breaking at {} iteration".format(t))
+            print(BREAK_IT.format(i))
             break
 
         previous_loss = batch_loss
@@ -84,8 +84,8 @@ def training(X, Y, rule_set, loss):
             for p in optim.param_groups[0]['params']:
                 p.data.clamp_(min=0, max=1)
 
-        if t % 10 == 0:
-            print(t, batch_loss.item())
+        if i % 10 == 0:
+            print(i, batch_loss.item())
         
 
     normalize_rule_set(rule_set)
