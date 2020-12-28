@@ -20,10 +20,11 @@ def y_argmax_train_v2(dict_m):
     p_a = r + r_b
     p_b = b + r_b
     p_tot = p_a + p_b
-    return p_a/p_tot, p_b/p_tot, 1
-    #return r, b, r_b
-    #return r/r_b, b/r_b, r_b
-
+    #return p_a/p_tot, p_b/p_tot, 1 # Does not work
+    return r, b, r_b
+    #return r/(r+r_b), b/(r+r_b), r_b # Does not work
+    #return r/(r+b+r_b), b/(r+b+r_b), r_b # Good results
+    #return (r+p_a)/2, (b+p_b)/2, r_b
 
 
 
@@ -33,6 +34,32 @@ def frozenset_to_class(y_hat):
     if y_hat == frozenset({'R'}):
         return 1 # Red is class 1
     return 0
+
+
+def is_converged(loss_current, loss_previous):
+    convergence = abs(loss_current-loss_previous) <= EPSILON
+    #print(np.size(convergence) - np.count_nonzero(convergence))
+    # All rules have converged to minimal loss
+    return convergence.item()
+
+# Testing
+
+def normalize_masses_combined(dict_combined_m):
+    sum_m = 0
+    for _, m in dict_combined_m.items():
+        sum_m += m
+    
+    # It is already normalized
+    if sum_m == 1.0:
+        return dict_combined_m
+
+    dict_combined_m_norm = {}
+    for s in dict_combined_m:
+        dict_combined_m_norm[s] = dict_combined_m[s]/sum_m
+    
+    return dict_combined_m_norm
+
+
 
 # ----------------------------------------------
 
@@ -54,7 +81,6 @@ def start_weights(s_list):
         list_initial_weights.append([m, optimizer, s])
 
     return list_initial_weights
-
 
 
 def read_rules(rule_set):

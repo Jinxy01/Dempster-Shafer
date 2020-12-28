@@ -13,6 +13,7 @@ A1_DATASET_FILE  = "A1.csv"
 # TRAIN_PERCENTAGE = 0.7
 TEST_PERCENTAGE  = 0.3
 NUM_CLASSES      = 2
+EPSILON          = 0.0001
 
 # Variables
 DTYPE = torch.float

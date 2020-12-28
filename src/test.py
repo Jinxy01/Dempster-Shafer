@@ -72,9 +72,14 @@ def model_predict_train_v2(x,y, rule_set):
     m = weight_full_uncertainty()
     for m_i in M:
         m = dempster_rule(m,m_i)
+    #m = M[0]
+    #for i in range(1,len(M)):
+    #    m = dempster_rule_v2(m,M[i])
 
     #y_hat = frozenset_to_class(y_argmax(belief(m)))
     #y_hat_one_hot = one_hot(tensor(y_hat), num_classes=NUM_CLASSES).float()
+    #print(y_hat, y_hat_one_hot)
+    #exit(0)
 
     r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
     y_hat = [r_prob, b_prob]
@@ -91,7 +96,9 @@ def model_predict_train_v2(x,y, rule_set):
 
 def optimization(X, Y, rule_set, loss):
 
-    for t in range(500):
+    previous_loss = sys.maxsize
+
+    for t in range(1000):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -99,29 +106,54 @@ def optimization(X, Y, rule_set, loss):
         
         # Convert to one hot encoder
         batch_loss = mse(Y, y_hat_list)
-        #print(batch_loss)
-        #exit(0)
+
+        if (is_converged(batch_loss, previous_loss)):
+            print("Breaking at {} iteration".format(t))
+            break
+
+        previous_loss = batch_loss
 
         # Before the backward pass, use the optimizer object to zero all of the
         # gradients for the variables it will update (which are the learnable
         # weights of the model).
-        for m, optim, s in rule_set:
+        for _, optim, s in rule_set:
             optim.zero_grad()
 
         # Backward pass: compute gradient of the loss with respect to model
         # parameters
         batch_loss.backward()
 
-        # MAYBE?
-        #optim.param_groups[0]['params'] = project_masses_v2(optim.param_groups[0]['params'])
 
         # Calling the step function on an Optimizer makes an update to its
         # parameters
-        for m, optim, s in rule_set:
+        for _, optim, s in rule_set:
             optim.step()
+
+            # "Projection"
+            for p in optim.param_groups[0]['params']:
+                p.data.clamp_(min=0, max=1)
+
+        # if t % 10 == 0:
+        #     for _, optim, s in rule_set:
+        #         sum_ = tensor(0.)
+        #         for e in optim.param_groups[0]['params']:
+        #             sum_ += e
+
+        #         for i in range(len(optim.param_groups[0]['params'])):
+        #             p = optim.param_groups[0]['params'][i]
+        #             p = p + (1-sum_)/3
+        #             print(p)
+        #             optim.param_groups[0]['params'][i] = p
+                
+        #         for p in optim.param_groups[0]['params']:
+        #             p.register_hook(lambda grad: grad + (1-sum_)/3)
+        # MAYBE?
+        #optim.param_groups[0]['params'] = project_masses_v2(optim.param_groups[0]['params'])
+        #project_masses(rule_set)
 
         # Projection to respect Dempster Shaffer conditions
         # Page 47
+
 
         if t % 10 == 0:
             print(t, batch_loss.item())
@@ -134,9 +166,17 @@ def optimization(X, Y, rule_set, loss):
             #read_rules(rule_set)
 
     #print(rule_set)
+    
     read_rules(rule_set)
-    project_masses(rule_set)
+    #project_masses(rule_set)
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        rule_set[i][0] = normalize_masses_combined(dict_m)
+
     read_rules(rule_set)
+
+    exit(0)
+    #read_rules(rule_set)
 
 # def start_weights(s_list):
 #     list_initial_weights = []
@@ -190,12 +230,12 @@ def mse_uncertainty(y, y_hat):
 
 if __name__ == "__main__":
 
-    Y_Train = tensor([1,0,1,1])
+    Y_Train = tensor([1,0,1,0])
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
-    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, 0.9]]
+    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
 
-    x, y, z = 0.3146406412124634, -0.3311198651790619, 0.33113864064216614
+    #x, y, z = 0.3146406412124634, -0.3311198651790619, 0.33113864064216614
     #find_normal_plane()
     # 0.5430874824523926, R = -0.1026730090379715, Uncertainty = 0.5595855116844177
     #exit(0)
@@ -209,7 +249,7 @@ if __name__ == "__main__":
     #print(Y_Train)
     #exit(0)
     #s_list = [lambda x,y: x != 0]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0]#, lambda x,y: x != 0]
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0,  lambda x,y: x != 0] 
     loss = MSE()
     #rule_set = start_weights(s_list)
 

@@ -45,6 +45,21 @@ def dempster_rule(dict_m1, dict_m2):
     # Need to normalize so that sum = 1
     return normalize_masses_combined(dict_combined_m)
 
+# Their optimization...
+def dempster_rule_v2(dict_m1, dict_m2):
+    # Combine masses
+    r1, b1, r_b1 = dict_m1[frozenset({'R'})], dict_m1[frozenset({'B'})], dict_m1[frozenset({'R', 'B'})]
+    r2, b2, r_b2 = dict_m2[frozenset({'R'})], dict_m2[frozenset({'B'})], dict_m2[frozenset({'R', 'B'})] 
+    dict_combined_m = {}
+
+    dict_combined_m[frozenset({'R', 'B'})] = r_b1*r_b2
+    dict_combined_m[frozenset({'R'})]      = r1*r2 - dict_combined_m[frozenset({'R', 'B'})]
+    dict_combined_m[frozenset({'B'})]      = b1*b2 - dict_combined_m[frozenset({'R', 'B'})]
+    
+    # Need to normalize so that sum = 1
+    return normalize_masses_combined(dict_combined_m)
+
+
 
 def belief_set(A, dict_m):
     sum_m = 0
