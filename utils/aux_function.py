@@ -8,9 +8,6 @@ from torch import tensor, optim
 from utils.config import *
 from utils.dempster_shaffer import *
 
-def y_argmax(dict_m):
-    return max(dict_m, key=(lambda key: dict_m[key]))
-
 def y_argmax_train(dict_m):
     # Return probability for each classl using Cobb and Shenoy approach
     list_dict_m = list(dict_m.values())
@@ -83,19 +80,3 @@ def read_rules(rule_set):
         r   = dict_m[frozenset({'R'})].item()
         r_b = dict_m[frozenset({'B', 'R'})].item()
         print(s.format(i+1,b,r,r_b))
-
-# ------------------------------------------
-
-
-def mse(y, y_hat):
-    # Y_hat is the predicted one
-    sum_ = 0.
-    tot = len(y)
-    for i in range(tot):
-        y0, y1 = y[i]
-        y_hat0, y_hat1 = y_hat[i]
-        y0_loss = (y0 - y_hat0).pow(2)
-        y1_loss = (y1 - y_hat1).pow(2)
-        sum_ += y0_loss + y1_loss
-    
-    return sum_/(2*tot)

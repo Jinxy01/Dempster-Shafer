@@ -65,7 +65,7 @@ def model_predict_train(x,y, rule_set):
 
 def model_predict_train_v2(x,y, rule_set):
     M = []
-    for m,_,s in rule_set:
+    for _,m,_,s in rule_set:
         if s(x,y): # Point coordinates (y is NOT label class here)
             M.append(m)
 
@@ -81,8 +81,8 @@ def model_predict_train_v2(x,y, rule_set):
     #print(y_hat, y_hat_one_hot)
     #exit(0)
 
-    r_prob, b_prob, uncertainty = y_argmax_train_v2(m)
-    y_hat = [r_prob, b_prob]
+    r_prob, b_prob = get_class_probabilities(m)
+    y_hat = [b_prob, r_prob]
 
     # # Not working...
     # print(y_hat_prob, y_hat_one_hot)
@@ -98,7 +98,7 @@ def optimization(X, Y, rule_set, loss):
 
     previous_loss = sys.maxsize
 
-    for t in range(1000):
+    for t in range(100):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train_v2(x,y, rule_set)
@@ -116,7 +116,7 @@ def optimization(X, Y, rule_set, loss):
         # Before the backward pass, use the optimizer object to zero all of the
         # gradients for the variables it will update (which are the learnable
         # weights of the model).
-        for _, optim, s in rule_set:
+        for _,_, optim, s in rule_set:
             optim.zero_grad()
 
         # Backward pass: compute gradient of the loss with respect to model
@@ -126,12 +126,12 @@ def optimization(X, Y, rule_set, loss):
 
         # Calling the step function on an Optimizer makes an update to its
         # parameters
-        for _, optim, s in rule_set:
+        for _,_, optim, s in rule_set:
             optim.step()
 
             # "Projection"
-            for p in optim.param_groups[0]['params']:
-                p.data.clamp_(min=0, max=1)
+            #for p in optim.param_groups[0]['params']:
+            #    p.data.clamp_(min=0, max=1)
 
         # if t % 10 == 0:
         #     for _, optim, s in rule_set:
@@ -169,9 +169,9 @@ def optimization(X, Y, rule_set, loss):
     
     #read_rules(rule_set)
     #project_masses(rule_set)
-    for i in range(len(rule_set)):
-        dict_m = rule_set[i][0]
-        rule_set[i][0] = normalize_masses_combined(dict_m)
+    #for i in range(len(rule_set)):
+    #    dict_m = rule_set[i][0]
+    #    rule_set[i][0] = normalize_masses_combined(dict_m)
 
     read_rules(rule_set)
 
@@ -211,7 +211,7 @@ def mse(y, y_hat):
         y1_loss = (y1 - y_hat1).pow(2)
         sum_ += y0_loss + y1_loss
     
-    return sum_/(2*tot)
+    return sum_/(NUM_CLASSES*tot)
 
 def mse_uncertainty(y, y_hat):
     # Y_hat is the predicted one
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     #print(Y_Train)
     #exit(0)
     #s_list = [lambda x,y: x != 0]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0,  lambda x,y: x != 0] 
+    s_list = [("R", lambda x,y: y > 0), ("B", lambda x,y: y <= 0),  ("U", lambda x,y: x != 0)] 
     loss = MSE()
     #rule_set = start_weights(s_list)
 
