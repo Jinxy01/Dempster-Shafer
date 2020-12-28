@@ -147,4 +147,4 @@ def inference(X, Y, rule_set):
     
     tot_correct_predicts = np.sum(np.array(Y) == np.array(y_hat_list))
     tot_predicts = len(Y)
-    return tot_correct_predicts/tot_predicts
+    return tot_correct_predicts/tot_predicts*100, tot_correct_predicts, tot_predicts

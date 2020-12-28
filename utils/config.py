@@ -17,6 +17,7 @@ TEST_PERCENTAGE  = 0.3
 NUM_CLASSES      = 2
 A1_LOSS_IMG      = "A1_Loss"
 A1_RULE_TABLE    = "A1_Rule_Table"
+RULE_TABLE_TITLE = "Accuracy = {}% ({}/{})"
 A1_TABLE_HEADER  = ["Rule", "Blue", "Red", "Uncertainty"]
 
 # Image

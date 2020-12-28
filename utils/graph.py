@@ -22,11 +22,12 @@ def draw_loss(it_loss, filepath):
     plt.show()
 
 
-def draw_rule_table(rule_set, filepath):
+def draw_rule_table(rule_set, filepath, accuracy, tot_correct_predicts, tot_predict):
 
     table_data=[A1_TABLE_HEADER]
 
     fig = plt.figure(dpi=80)
+    fig.suptitle(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predict), y=0.9)
     ax = fig.add_subplot(1,1,1)
     for i in range(len(rule_set)):
         dict_m = rule_set[i][0]

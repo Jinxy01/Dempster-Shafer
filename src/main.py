@@ -38,8 +38,8 @@ if __name__ == "__main__":
     graph_filepath = os.path.join(IMAGE_FOLDER, A1_LOSS_IMG)
     table_filepath = os.path.join(IMAGE_FOLDER, A1_RULE_TABLE)
 
-    #X_train, Y_train, X_test, Y_test = dataset_A1()
-    X_train, Y_train, X_test, Y_test = test_data()
+    X_train, Y_train, X_test, Y_test = dataset_A1()
+    #X_train, Y_train, X_test, Y_test = test_data()
 
     rule_set = generate_rules_dataset_A1()
     loss = MSE()
@@ -47,12 +47,12 @@ if __name__ == "__main__":
     # Training
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss)
 
-    # Rules Drawing
-    read_rules(rule_set)
-    draw_rule_table(rule_set, table_filepath)
-
     # Inference
-    accuracy = inference(X_test, Y_test, rule_set)
+    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set)
     
+    # Rules Table Drawing
+    read_rules(rule_set)
+    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts)
+
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
