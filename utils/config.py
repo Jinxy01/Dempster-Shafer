@@ -7,6 +7,7 @@ X_              = "x"
 Y_              = "y"
 CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
+EPSILON          = 0.0001
 
 #--- A1 Dataset ---
 NUM_ELEMENTS     = 500
@@ -14,7 +15,10 @@ A1_DATASET_FILE  = "A1.csv"
 # TRAIN_PERCENTAGE = 0.7
 TEST_PERCENTAGE  = 0.3
 NUM_CLASSES      = 2
-EPSILON          = 0.0001
+A1_LOSS_IMG      = "A1_Loss"
+
+# Image
+IMAGE_FOLDER = "imgs"
 
 # Variables
 DTYPE = torch.float

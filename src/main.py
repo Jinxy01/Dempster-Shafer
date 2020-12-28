@@ -17,6 +17,7 @@ from torch.nn import MSELoss as MSE
 from utils.config import *
 from utils.dataset_functions import *
 from src.model import *
+from utils.graph import *
 
 
 
@@ -44,3 +45,6 @@ if __name__ == "__main__":
 
     accuracy = inference(X_test, Y_test, rule_set)
     print(accuracy)
+
+    img_filepath = os.path.join(IMAGE_FOLDER, A1_LOSS_IMG)
+    draw_loss(it_loss, img_filepath)

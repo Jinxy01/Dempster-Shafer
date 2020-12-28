@@ -70,7 +70,7 @@ def training(X, Y, rule_set, loss):
     it_loss = []
     previous_loss = sys.maxsize
 
-    for i in range(1000):
+    for i in range(750):
         y_hat_list = []
         for x,y in X:
             y_hat = model_predict_train(x,y, rule_set)
