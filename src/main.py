@@ -34,7 +34,7 @@ def test_data():
 
 
 if __name__ == "__main__":
-    # X_train, Y_train, X_test, Y_test = dataset_A1()
+    #X_train, Y_train, X_test, Y_test = dataset_A1()
     X_train, Y_train, X_test, Y_test = test_data()
 
     rule_set = generate_rules_dataset_A1()

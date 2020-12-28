@@ -13,6 +13,7 @@ import numpy as np
 
 from utils.config import *
 from utils.aux_function import *
+from torch.nn.functional import one_hot
 
 def read_dataset(dataset_filepath):
     with open(dataset_filepath) as csv_file:
@@ -43,4 +44,9 @@ def dataset_A1():
     dataset_filepath = os.path.join(DATASET_FOLDER, A1_DATASET_FILE)
     X, Y = read_dataset(dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+
+    # Pre process
+    Y_train = tensor(Y_train).to(torch.int64)
+    Y_train = one_hot(Y_train, num_classes=NUM_CLASSES).float()
+
     return X_train, Y_train, X_test, Y_test
