@@ -19,6 +19,9 @@ A1_LOSS_IMG      = "A1_Loss"
 
 # Image
 IMAGE_FOLDER = "imgs"
+TITLE_LOSS   = "Training Loss"
+Y_AXIS       = "Mean Square Error (MSE)"
+X_AXIS       = "Epochs"
 
 # Variables
 DTYPE = torch.float
