@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 import sys
 import os
@@ -16,5 +18,24 @@ def draw_loss(it_loss, filepath):
     plt.xlabel(X_AXIS)
     plt.ylabel(Y_AXIS)
 
+    plt.savefig(filepath)
+    plt.show()
+
+
+def draw_rule_table(rule_set, filepath):
+
+    table_data=[A1_TABLE_HEADER]
+
+    fig = plt.figure(dpi=80)
+    ax = fig.add_subplot(1,1,1)
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        r, b, u = dict_m[frozenset({'R'})].item(), dict_m[frozenset({'B'})].item(), dict_m[frozenset({'R', 'B'})].item() 
+        table_data.append([i+1, NUM_FORMAT.format(r), NUM_FORMAT.format(b), NUM_FORMAT.format(u)])
+
+    table = ax.table(cellText=table_data, loc='center')
+    table.set_fontsize(14)
+    table.scale(1,4)
+    ax.axis('off')
     plt.savefig(filepath)
     plt.show()

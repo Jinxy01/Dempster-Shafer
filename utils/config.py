@@ -16,6 +16,8 @@ A1_DATASET_FILE  = "A1.csv"
 TEST_PERCENTAGE  = 0.3
 NUM_CLASSES      = 2
 A1_LOSS_IMG      = "A1_Loss"
+A1_RULE_TABLE    = "A1_Rule_Table"
+A1_TABLE_HEADER  = ["Rule", "Blue", "Red", "Uncertainty"]
 
 # Image
 IMAGE_FOLDER = "imgs"
@@ -29,3 +31,6 @@ DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
 COMPLETE_SET = frozenset({'R','B'})
 POWERSET = get_powerset({'R'}.union({'B'}))
+
+# Table
+NUM_FORMAT = '{:.3f}'
