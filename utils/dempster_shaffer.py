@@ -46,18 +46,18 @@ def dempster_rule(dict_m1, dict_m2):
     return normalize_masses_combined(dict_combined_m)
 
 # Their optimization...
-def dempster_rule_v2(dict_m1, dict_m2):
-    # Combine masses
-    r1, b1, r_b1 = dict_m1[frozenset({'R'})], dict_m1[frozenset({'B'})], dict_m1[frozenset({'R', 'B'})]
-    r2, b2, r_b2 = dict_m2[frozenset({'R'})], dict_m2[frozenset({'B'})], dict_m2[frozenset({'R', 'B'})] 
-    dict_combined_m = {}
+# def dempster_rule_v2(dict_m1, dict_m2):
+#     # Combine masses
+#     r1, b1, r_b1 = dict_m1[frozenset({'R'})], dict_m1[frozenset({'B'})], dict_m1[frozenset({'R', 'B'})]
+#     r2, b2, r_b2 = dict_m2[frozenset({'R'})], dict_m2[frozenset({'B'})], dict_m2[frozenset({'R', 'B'})] 
+#     dict_combined_m = {}
 
-    dict_combined_m[frozenset({'R', 'B'})] = r_b1*r_b2
-    dict_combined_m[frozenset({'R'})]      = r1*r2 - dict_combined_m[frozenset({'R', 'B'})]
-    dict_combined_m[frozenset({'B'})]      = b1*b2 - dict_combined_m[frozenset({'R', 'B'})]
+#     dict_combined_m[frozenset({'R', 'B'})] = r_b1*r_b2
+#     dict_combined_m[frozenset({'R'})]      = r1*r2 - dict_combined_m[frozenset({'R', 'B'})]
+#     dict_combined_m[frozenset({'B'})]      = b1*b2 - dict_combined_m[frozenset({'R', 'B'})]
     
-    # Need to normalize so that sum = 1
-    return normalize_masses_combined(dict_combined_m)
+#     # Need to normalize so that sum = 1
+#     return normalize_masses_combined(dict_combined_m)
 
 
 
@@ -118,26 +118,30 @@ def project_masses_v2(list_tensor):
     
     return list_tensor
     
+def normalize_rule_set(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        rule_set[i][0] = normalize_masses_combined(dict_m)
 
 # Testing stuff
-def find_normal_plane():
-    # Q = np.array([,1,2])
-    # R = np.array([-4,2,2])
-    # S = np.array([-2,1,5])
-    Q = np.array([1,0,0])
-    R = np.array([0,1,0])
-    S = np.array([0,0,1])
+# def find_normal_plane():
+#     # Q = np.array([,1,2])
+#     # R = np.array([-4,2,2])
+#     # S = np.array([-2,1,5])
+#     Q = np.array([1,0,0])
+#     R = np.array([0,1,0])
+#     S = np.array([0,0,1])
 
-    p = np.array([0.3146406412124634, -0.3311198651790619, 0.33113864064216614])
-    #print((R-Q))
-    #print((S-Q))
-    n = np.cross((R-Q) ,(S-Q))
-    print(n)
+#     p = np.array([0.3146406412124634, -0.3311198651790619, 0.33113864064216614])
+#     #print((R-Q))
+#     #print((S-Q))
+#     n = np.cross((R-Q) ,(S-Q))
+#     print(n)
 
-    v = p
-    dist = v[0]*n[0] + v[1]*n[1] + v[2]*n[2]
-    p_ = p - dist*n
-    print(p_)
+#     v = p
+#     dist = v[0]*n[0] + v[1]*n[1] + v[2]*n[2]
+#     p_ = p - dist*n
+#     print(p_)
 
     
     

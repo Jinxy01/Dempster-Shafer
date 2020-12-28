@@ -230,10 +230,10 @@ def mse_uncertainty(y, y_hat):
 
 if __name__ == "__main__":
 
-    Y_Train = tensor([1,0,1,1])
+    Y_Train = tensor([1,0,1,0])
     Y = one_hot(Y_Train, num_classes=NUM_CLASSES).float()
 
-    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, 0.9]]
+    X      = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
 
     #x, y, z = 0.3146406412124634, -0.3311198651790619, 0.33113864064216614
     #find_normal_plane()
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     #print(Y_Train)
     #exit(0)
     #s_list = [lambda x,y: x != 0]
-    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0,  lambda x,y: x != 0, lambda x,y: x != 1] 
+    s_list = [lambda x,y: y > 0, lambda x,y: y <= 0,  lambda x,y: x != 0] 
     loss = MSE()
     #rule_set = start_weights(s_list)
 
