@@ -41,23 +41,22 @@ def generate_rules_dataset_A1(X_train):
     [x_mean, y_mean] = np.mean(X_train, axis=0) # mean along columns
     [x_std,  y_std]  = np.std(X_train, axis=0, dtype=np.float64) # std along columns
 
-    s_list = [
-        lambda x,y: x <= x_mean-x_std, 
-        lambda x,y: x_mean-x_std < x and x <= x_mean,
-        lambda x,y: x_mean < x and x <= x_mean+x_std,
-        lambda x,y: x > x_mean+x_std, 
-        lambda x,y: y <= y_mean-y_std, 
-        lambda x,y: y_mean-y_std < y and y <= y_mean,
-        lambda x,y: y_mean < y and y <= y_mean+y_std,
-        lambda x,y: y > y_mean+y_std, 
-    ]
+    # s_list = [
+    #     lambda x,y: x <= x_mean-x_std, 
+    #     lambda x,y: x_mean-x_std < x and x <= x_mean,
+    #     lambda x,y: x_mean < x and x <= x_mean+x_std,
+    #     lambda x,y: x > x_mean+x_std, 
+    #     lambda x,y: y <= y_mean-y_std, 
+    #     lambda x,y: y_mean-y_std < y and y <= y_mean,
+    #     lambda x,y: y_mean < y and y <= y_mean+y_std,
+    #     lambda x,y: y > y_mean+y_std, 
+    # ]
 
-    # s_list = []
-    # att_list = [(x, x_mean, x_std), (y, y_mean, y_std)]
-    # for e, mean, std in att_list:
-    #     print(e, mean, std)
-    #     rules = generate_rule_A1_helper(e, mean, std)
-    #     s_list.extend(rules)
+    s_list = []
+    rules = generate_rule_A1_helper_x(x_mean, x_std)
+    s_list.extend(rules)
+    rules = generate_rule_A1_helper_y(y_mean, y_std)
+    s_list.extend(rules)
 
     # Author rules
     # s_list = [
@@ -204,9 +203,16 @@ def split_test_train(X,Y):
     return X_train, Y_train, X_test, Y_test
 
 
-def generate_rule_A1_helper(element, x_mean, x_std):
-    r1 = lambda x,y: element <= x_mean-x_std
-    r2 = lambda x,y: x_mean-x_std < element and element <= x_mean
-    r3 = lambda x,y: x_mean < element and element <= x_mean+x_std
-    r4 = lambda x,y: element > x_mean+x_std
+def generate_rule_A1_helper_x(x_mean, x_std):
+    r1 = lambda x,y: x <= x_mean-x_std
+    r2 = lambda x,y: x_mean-x_std < x and x <= x_mean
+    r3 = lambda x,y: x_mean < x and x <= x_mean+x_std
+    r4 = lambda x,y: x > x_mean+x_std
+    return [r1, r2, r3, r4]
+
+def generate_rule_A1_helper_y(x_mean, x_std):
+    r1 = lambda x,y: y <= x_mean-x_std
+    r2 = lambda x,y: x_mean-x_std < y and y <= x_mean
+    r3 = lambda x,y: x_mean < y and y <= x_mean+x_std
+    r4 = lambda x,y: y > x_mean+x_std
     return [r1, r2, r3, r4]
