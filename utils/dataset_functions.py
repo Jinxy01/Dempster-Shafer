@@ -196,7 +196,7 @@ def generate_rules_dataset_breast_cancer(X_train):
     s_list += rules_nn_1std + rules_nn_2std + rules_nn_3std 
     s_list += rules_m_1std + rules_m_2std + rules_m_3std
 
-    rule_set = start_weights(s_list) 
+    rule_set = bc.start_weights(s_list)
 
     # Aid in result presentation
     #x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)

@@ -33,7 +33,7 @@ def test_data():
 
     return X_train, Y_train, X_test, Y_test
 
-def evaluate_A1_dataset():
+def evaluate_A1_dataset(dataset_name):
     # Variables
     graph_filepath = os.path.join(IMAGE_FOLDER, A1_LOSS_IMG)
     table_filepath = os.path.join(IMAGE_FOLDER, A1_RULE_TABLE)
@@ -45,10 +45,10 @@ def evaluate_A1_dataset():
     loss = MSE()
 
     # Training
-    rule_set, it_loss = training(X_train, Y_train, rule_set, loss)
+    rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
 
     # Inference
-    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set)
+    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
     read_rules_A1(rule_set)
     
     # Rules Table Drawing
@@ -58,22 +58,23 @@ def evaluate_A1_dataset():
     draw_loss(it_loss, graph_filepath)
 
 
-def evaluate_breast_cancer_dataset():
+def evaluate_breast_cancer_dataset(dataset_name):
     # Variables
-    #graph_filepath = os.path.join(IMAGE_FOLDER, A1_LOSS_IMG)
-    #table_filepath = os.path.join(IMAGE_FOLDER, A1_RULE_TABLE)
+    graph_filepath = os.path.join(IMAGE_FOLDER, BC_LOSS_IMG)
+    table_filepath = os.path.join(IMAGE_FOLDER, BC_RULE_TABLE)
 
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
 
-    rule_set = generate_rules_dataset_breast_cancer(X_train)
+    rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train)
+
     read_rules_BC(rule_set)
-    # loss = MSE()
+    loss = MSE()
 
-    # # Training
-    # rule_set, it_loss = training(X_train, Y_train, rule_set, loss)
+    # Training
+    rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
 
-    # # Inference
-    # accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set)
+    # Inference
+    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
     
     # # Rules Table Drawing
     # read_rules(rule_set)
@@ -83,6 +84,6 @@ def evaluate_breast_cancer_dataset():
     # draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    evaluate_A1_dataset()
-    #evaluate_breast_cancer_dataset()
+    #evaluate_A1_dataset("A1_Dataset")
+    evaluate_breast_cancer_dataset("BC_Dataset")
     

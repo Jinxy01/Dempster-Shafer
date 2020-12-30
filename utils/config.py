@@ -29,6 +29,22 @@ RULE_GT      = "{} > {:.3f}"
 BC_NUM_CLASSES            = 2
 BC_DATASET_FILE           = "breast_cancer_uci.csv" 
 BC_PROCESSED_DATASET_FILE = "breast_cancer_uci_processed.csv" 
+# BC_READ_RULES = "Rule {:>3}: ct = {:.3f}, ucsize = {:.3f}, ucshape = {:.3f}, ma = {:.3f}, secz = {:.3f}, bn = {:.3f}, bc = {:.3f}, nn = {:.3f}, m = {:.3f}, uncertainty = {:.3f}"
+BC_LOSS_IMG   = "BC_Loss"
+BC_RULE_TABLE = "BC_Rule_Table"
+
+_att_fronzenset = {
+    "A" : "ct",
+    "B" : "ucsize",
+    "C" : "ucshape",
+    "D" : "ma",
+    "E" : "secz",
+    "F" : "bn",
+    "G" : "bc",
+    "H" : "nn",
+    "I" : "m"
+}
+
 
 # Image
 IMAGE_FOLDER = "imgs"
@@ -40,8 +56,11 @@ X_AXIS       = "Epochs"
 DTYPE = torch.float
 DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
-COMPLETE_SET = frozenset({'R','B'})
-POWERSET = get_powerset({'R'}.union({'B'}))
+#COMPLETE_SET = frozenset({'R','B'})
+#POWERSET = get_powerset({'R'}.union({'B'}))
+
+COMPLETE_SET = frozenset({'B','M'})
+POWERSET = get_powerset({'B'}.union({'M'}))
 
 # Table
 NUM_FORMAT = '{:.3f}'
