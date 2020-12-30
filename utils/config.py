@@ -1,5 +1,16 @@
 import torch
-from dempster_shaffer import get_powerset
+from itertools import chain, combinations
+
+def get_powerset(set_elements):
+    # Powerset: set + empty set + subsets of given set
+    list_elements = list(set_elements)
+    list_powerset = list(chain.from_iterable(combinations(list_elements, e) 
+        for e in range(1, len(list_elements)+1))) # start at 1 to ignore empty set
+    # Transform into a list of sets. 
+    # We can use set() but then we will get "TypeError: unhashable type: 'set'" when adding as key to dictionary
+    # So we use frozenset()
+    list_sets_powerset = [frozenset(e) for e in list_powerset] # allow to be added to dictionary
+    return list_sets_powerset
 
 # Dataset generic
 DATASET_FOLDER  = "dataset"
@@ -9,7 +20,7 @@ CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2 
-NUM_EPOCHS      = 10
+NUM_EPOCHS      = 750
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
@@ -67,3 +78,4 @@ EMPTY_SET    = set()
 
 # Table
 NUM_FORMAT = '{:.3f}'
+

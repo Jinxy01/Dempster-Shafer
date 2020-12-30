@@ -12,8 +12,8 @@ import csv
 import numpy as np
 import pandas as pd
 
-from utils.config import *
-from utils.aux_function import *
+#from utils.config import *
+from utils.common import *
 from torch.nn.functional import one_hot
 
 import utils.a1_helper as a1
@@ -35,7 +35,7 @@ def read_dataset_A1(dataset_filepath):
     Y = np.asarray(Y).astype(float)
     return X, Y
 
-def generate_rules_dataset_A1(X_train):
+def generate_rules_dataset_A1(X_train, dataset_name):
     # s_list = [
     #     lambda x,y: y > 0, 
     #     lambda x,y: y <= 0,
@@ -72,7 +72,7 @@ def generate_rules_dataset_A1(X_train):
     #     lambda x,y: y > 0.42, 
     # ]
 
-    rule_set = a1.start_weights(s_list) 
+    rule_set = start_weights(s_list, dataset_name) 
 
     # Aid in result presentation
     x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
@@ -141,7 +141,7 @@ def read_dataset_breast_cancer(dataset_filepath):
     Y = np.asarray(Y).astype(float)
     return X, Y
 
-def generate_rules_dataset_breast_cancer(X_train):
+def generate_rules_dataset_breast_cancer(X_train, dataset_name):
 
     [ct_mean, ucsize_mean, ucshape_mean, ma_mean, secz_mean, bn_mean, 
         bc_mean, nn_mean, m_mean] = np.mean(X_train, axis=0) # mean along columns
@@ -207,7 +207,7 @@ def generate_rules_dataset_breast_cancer(X_train):
     s_list += rules_nn_1std 
     s_list += rules_m_1std
 
-    rule_set = bc.start_weights(s_list)
+    rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
     #x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)

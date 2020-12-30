@@ -1,6 +1,5 @@
 
 from torch import tensor, optim
-from utils.config import *
 
 def read_rules_A1(rule_set):
     s = "Rule {}: B = {}, R = {}, Uncertainty = {}"
@@ -11,24 +10,6 @@ def read_rules_A1(rule_set):
         r_b = dict_m[frozenset({'B', 'R'})].item()
         print(s.format(i+1,b,r,r_b))
 
-# def weight_full_uncertainty_A1():
-#     m = {}
-#     m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
-#     m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
-#     m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-#     return m
-
-def start_weights(s_list):
-    list_initial_weights = []
-    for s in s_list:
-        m = {}
-        m[frozenset('B')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset('R')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset({'B','R'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-        optimizer = optim.Adam([m[frozenset('B')], m[frozenset('R')], m[frozenset({'B','R'})]])
-        list_initial_weights.append([m, optimizer, s])
-
-    return list_initial_weights
 
  # --------- Rules ----------------
  

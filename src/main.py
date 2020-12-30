@@ -20,7 +20,7 @@ from src.model import *
 from utils.graph import *
 from utils.a1_helper import *
 from utils.bc_helper import *
-from utils.aux_function import *
+from utils.common import *
 
 
 def test_data():
@@ -42,7 +42,7 @@ def evaluate_A1_dataset(dataset_name):
     #X_train, Y_train, X_test, Y_test = dataset_A1()
     X_train, Y_train, X_test, Y_test = test_data()
 
-    rule_set, rule_presentation = generate_rules_dataset_A1(X_train)
+    rule_set, rule_presentation = generate_rules_dataset_A1(X_train, dataset_name)
     loss = MSE()
 
     # Training
@@ -66,7 +66,7 @@ def evaluate_breast_cancer_dataset(dataset_name):
 
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
 
-    rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train)
+    rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
 
     malign_order_rules = order_rules_by_malign(rule_set)
 
@@ -92,6 +92,6 @@ def evaluate_breast_cancer_dataset(dataset_name):
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_A1_dataset("A1_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
     

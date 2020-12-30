@@ -9,7 +9,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.config import *
-from utils.aux_function import *
+from utils.common import *
 from utils.dempster_shaffer import *
 from utils.a1_helper import *
 from utils.bc_helper import *

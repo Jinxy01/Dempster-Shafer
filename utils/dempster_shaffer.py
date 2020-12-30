@@ -1,7 +1,6 @@
 
 import torch
-from utils.config import *
-from utils.aux_function import *
+from utils.common import *
 
 import numpy as np
 

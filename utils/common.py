@@ -3,34 +3,11 @@
 @author: Tiago Roxo, UBI
 @date: 2020
 """
+
 from itertools import chain, combinations
 from torch import tensor, optim
 from utils.config import *
 
-def y_argmax_train(dict_m):
-    # Return probability for each classl using Cobb and Shenoy approach
-    list_dict_m = list(dict_m.values())
-    e1, e2 = list_dict_m
-    list_dict_m[0] = e1/(e1+e2)
-    list_dict_m[1] = e2/(e1+e2)
-    return list_dict_m
-
-
-# Translates frozenset to class
-def frozenset_to_class(y_hat):
-    # For a1 and a2 dataset
-    if y_hat == frozenset({'R'}):
-        return 1 # Red is class 1
-    return 0
-
-
-def is_converged(loss_current, loss_previous):
-    convergence = abs(loss_current-loss_previous) <= EPSILON
-    #print(np.size(convergence) - np.count_nonzero(convergence))
-    # All rules have converged to minimal loss
-    return convergence.item()
-
-# Testing
 
 def normalize_masses_combined(dict_combined_m):
     sum_m = 0
@@ -82,18 +59,6 @@ def weight_full_uncertainty(dataset_name):
         assert False
     return m
 
-
-def get_powerset(set_elements):
-    # Powerset: set + empty set + subsets of given set
-    list_elements = list(set_elements)
-    list_powerset = list(chain.from_iterable(combinations(list_elements, e) 
-        for e in range(1, len(list_elements)+1))) # start at 1 to ignore empty set
-    # Transform into a list of sets. 
-    # We can use set() but then we will get "TypeError: unhashable type: 'set'" when adding as key to dictionary
-    # So we use frozenset()
-    list_sets_powerset = [frozenset(e) for e in list_powerset] # allow to be added to dictionary
-    return list_sets_powerset
-
 def get_powerset_dataset(dataset_name):
     if dataset_name == "A1_Dataset":
         return A1_POWERSET
@@ -109,3 +74,28 @@ def get_complete_set_dataset(dataset_name):
         return BC_COMPLETE_SET
     else:
         assert False
+
+def start_weights(s_list, dataset_name):
+    list_initial_weights = []
+    if dataset_name == "A1_Dataset":
+        for s in s_list:
+            m = {}
+            m[frozenset('B')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset('R')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset({'B','R'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('B')], m[frozenset('R')], m[frozenset({'B','R'})]])
+            list_initial_weights.append([m, optimizer, s])
+
+    elif dataset_name == "BC_Dataset":
+        for s in s_list:
+            m = {}
+            m[frozenset('B')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset('M')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset({'B','M'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('B')], m[frozenset('M')], m[frozenset({'B','M'})]])
+            list_initial_weights.append([m, optimizer, s])
+
+    else:
+        assert False
+
+    return list_initial_weights
