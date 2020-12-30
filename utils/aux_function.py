@@ -6,7 +6,6 @@
 from itertools import chain, combinations
 from torch import tensor, optim
 from utils.config import *
-from utils.dempster_shaffer import *
 
 def y_argmax_train(dict_m):
     # Return probability for each classl using Cobb and Shenoy approach
@@ -62,7 +61,7 @@ def order_rules_by_malign(rule_set):
 
 def get_class_plausibility(dict_m, dataset_name):
     if dataset_name == "A1_Dataset":
-        class_0, class_1 = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})]
+        class_0, class_1 = dict_m[frozenset({'B'})], dict_m[frozenset({'R'})]
     elif dataset_name == "BC_Dataset":
         class_0, class_1 = dict_m[frozenset({'B'})], dict_m[frozenset({'M'})]
     else:

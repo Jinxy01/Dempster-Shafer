@@ -43,95 +43,86 @@ def get_two_class_probabilities(dict_m, dataset_name):
     # p_tot = p_a + p_b
     # return p_a/p_tot, p_b/p_tot # It works with projection working!
     class_0, class_1 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
-    return class_0/(class_0+class_1), class_1/(class_0+class_1)
+    prob_class_0 = class_0/(class_0+class_1)
+    prob_class_1 = class_1/(class_0+class_1)
+    return prob_class_0, prob_class_1
     #return r, b, r_b
     #return r/(r+r_b), b/(r+r_b), r_b 
     #return r/(r+b+r_b), b/(r+b+r_b), r_b 
     #return (r+p_a)/2, (b+p_b)/2, r_b # Uncertainty 1.0 with useless rule
 
-def get_class_probabilities_bc(dict_m):
-    b   = dict_m[frozenset({'B'})]
-    m   = dict_m[frozenset({'M'})]
-    b_m = dict_m[frozenset({'B','M'})]
-    #max_m = max(r, b)
-    p_b = b + b_m
-    p_m = m + b_m
-    p_tot = p_b + p_m
-    return p_m/p_tot, p_b/p_tot # It works with projection working!
+# def get_class_probabilities_bc(dict_m):
+#     b   = dict_m[frozenset({'B'})]
+#     m   = dict_m[frozenset({'M'})]
+#     b_m = dict_m[frozenset({'B','M'})]
+#     #max_m = max(r, b)
+#     p_b = b + b_m
+#     p_m = m + b_m
+#     p_tot = p_b + p_m
+#     return p_m/p_tot, p_b/p_tot # It works with projection working!
 
 
 
-def model_predict_train_a1(x,y, rule_set):
-    M = []
-    for m,_,s in rule_set:
-        if s(x,y): # Point coordinates (y is NOT label class here)
-            M.append(m)
+# def model_predict_train_bc(a,b,c,d,e,f,g,h,i, rule_set):
+#     M = []
+#     for m,_,s in rule_set:
+#         if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
+#             M.append(m)
 
-    m = weight_full_uncertainty_A1()
-    for m_i in M:
-        m = dempster_rule(m,m_i)
+#     m = weight_full_uncertainty_bc()
+#     for m_i in M:
+#         m = dempster_rule(m,m_i)
         
-    r_prob, b_prob = get_class_probabilities_a1(m)
-    # Change order to match one hot encoding of classes
-    # Blue (class 0) => [1 0]
-    # Red  (class 1) => [0 1]
-    y_hat = [b_prob, r_prob]
+#     r_prob, b_prob = get_class_probabilities_bc(m)
+#     # Change order to match one hot encoding of classes
+#     # Blue (class 0) => [1 0]
+#     # Red  (class 1) => [0 1]
+#     y_hat = [b_prob, r_prob]
 
-    return y_hat
+#     return y_hat
 
-def model_predict_train_bc(a,b,c,d,e,f,g,h,i, rule_set):
-    M = []
-    for m,_,s in rule_set:
-        if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
-            M.append(m)
-
-    m = weight_full_uncertainty_bc()
-    for m_i in M:
-        m = dempster_rule(m,m_i)
-        
-    r_prob, b_prob = get_class_probabilities_bc(m)
-    # Change order to match one hot encoding of classes
-    # Blue (class 0) => [1 0]
-    # Red  (class 1) => [0 1]
-    y_hat = [b_prob, r_prob]
-
-    return y_hat
-
-def model_predict_train(rule_set, dataset_name, *args):
+def model_predict_train(rule_set, dataset_name, *att):
     # Args is x,y in A1 and 9 attributes in Breast Cancer
     M = []
     for m,_,s in rule_set:
-        if s(*args): # Point coordinates (y is NOT label class here)
+        if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
     m = weight_full_uncertainty(dataset_name)
     for m_i in M:
         m = dempster_rule(m,m_i, dataset_name)
         
-    r_prob, b_prob = get_two_class_probabilities(m, dataset_name)
+    prob_class_0, prob_class_1 = get_two_class_probabilities(m, dataset_name)
     # Change order to match one hot encoding of classes
     # Blue (class 0) => [1 0]
     # Red  (class 1) => [0 1]
-    y_hat = [b_prob, r_prob]
+    y_hat = [prob_class_0, prob_class_1]
 
     return y_hat
 
 
+# def model_predict_train_v2(X, rule_set, dataset_name):
+#     if dataset_name == "A1_Dataset":
+#         y_hat_list = []
+#         for att in X:
+#             y_hat = model_predict_train(rule_set, dataset_name, *att)
+#             y_hat_list.append(y_hat)
+#         return y_hat_list
+#     elif dataset_name == "BC_Dataset":
+#         y_hat_list = []
+#         for a,b,c,d,e,f,g,h,i in X:
+#             y_hat = model_predict_train_bc(a,b,c,d,e,f,g,h,i,rule_set)
+#             y_hat_list.append(y_hat)
+#         return y_hat_list
+#     else:
+#         assert False
+    
 def model_predict_train_test(X, rule_set, dataset_name):
-    if dataset_name == "A1_Dataset":
-        y_hat_list = []
-        for att in X:
-            y_hat = model_predict_train(rule_set, dataset_name, *att)
-            y_hat_list.append(y_hat)
-        return y_hat_list
-    elif dataset_name == "BC_Dataset":
-        y_hat_list = []
-        for a,b,c,d,e,f,g,h,i in X:
-            y_hat = model_predict_train_bc(a,b,c,d,e,f,g,h,i,rule_set)
-            y_hat_list.append(y_hat)
-        return y_hat_list
-    else:
-        assert False
+    y_hat_list = []
+    for att in X:
+        y_hat = model_predict_train(rule_set, dataset_name, *att)
+        y_hat_list.append(y_hat)
+    return y_hat_list
 
 
 def training(X, Y, rule_set, loss, dataset_name):
@@ -181,6 +172,7 @@ def training(X, Y, rule_set, loss, dataset_name):
 
 # ---------------- Inference -------------------
 
+# TODO: ver dataset
 def frozenset_to_class(y_hat):
     # For a1 and a2 dataset
     #if y_hat == frozenset({'R', 'B'}):
@@ -193,50 +185,56 @@ def y_argmax(dict_m):
     return frozenset_to_class(max(dict_m, key=(lambda key: dict_m[key])))
 
 
-def model_inference_a1(x,y, rule_set, dataset_name):
+def model_inference(rule_set, dataset_name, *att):
     M = []
     for m,_,s in rule_set:
-        if s(x,y): # Point coordinates (y is NOT label class here)
+        if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty_A1()
+    m = weight_full_uncertainty(dataset_name)
     for m_i in M:
-        m = dempster_rule(m,m_i)
+        m = dempster_rule(m,m_i, dataset_name)
         
     return y_argmax(m)
 
-def model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set):
-    M = []
-    for m,_,s in rule_set:
-        if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
-            M.append(m)
+# def model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set):
+#     M = []
+#     for m,_,s in rule_set:
+#         if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
+#             M.append(m)
 
-    m = weight_full_uncertainty_A1()
-    for m_i in M:
-        m = dempster_rule(m,m_i)
+#     m = weight_full_uncertainty_A1()
+#     for m_i in M:
+#         m = dempster_rule(m,m_i)
         
-    return y_argmax(m)
+#     return y_argmax(m)
 
+
+# def inference(X, rule_set, dataset_name):
+#     if dataset_name == "A1_Dataset":
+#         y_hat_list = []
+#         for att in X:
+#             y_hat = model_inference(rule_set, dataset_name, *att)
+#             y_hat_list.append(y_hat)
+#         return y_hat_list
+#     elif dataset_name == "BC_Dataset":
+#         y_hat_list = []
+#         for a,b,c,d,e,f,g,h,i in X:
+#             y_hat = model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set)
+#             y_hat_list.append(y_hat)
+#         return y_hat_list
+#     else:
+#         assert False
 
 def inference_test(X, rule_set, dataset_name):
-    if dataset_name == "A1_Dataset":
-        y_hat_list = []
-        for x,y in X:
-            y_hat = model_inference_a1(x,y, rule_set, dataset_name)
-            y_hat_list.append(y_hat)
-        return y_hat_list
-    elif dataset_name == "BC_Dataset":
-        y_hat_list = []
-        for a,b,c,d,e,f,g,h,i in X:
-            y_hat = model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set)
-            y_hat_list.append(y_hat)
-        return y_hat_list
-    else:
-        assert False
+    y_hat_list = []
+    for att in X:
+        y_hat = model_inference(rule_set, dataset_name, *att)
+        y_hat_list.append(y_hat)
+    return y_hat_list
 
 def inference(X, Y, rule_set, dataset_name):
     y_hat_list = inference_test(X, rule_set, dataset_name)
-       
     tot_correct_predicts = np.sum(np.array(Y) == np.array(y_hat_list))
     tot_predicts = len(Y)
     return tot_correct_predicts/tot_predicts*100, tot_correct_predicts, tot_predicts

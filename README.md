@@ -22,8 +22,9 @@ bash test.sh
 - [ ] Use Pytorch loss function
 - [x] Generate rules
 - [ ] Generalize lambda functions
-- [ ] Generalize model for datasets
+- [x] Generalize model for datasets
 - [ ] Add belief to inference
+- [ ] Update frozenset_to_class to consider dataset_name
 
 ## Comments:
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)

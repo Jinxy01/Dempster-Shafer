@@ -9,7 +9,7 @@ CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2 
-NUM_EPOCHS      = 750
+NUM_EPOCHS      = 10
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
@@ -33,7 +33,6 @@ A1_POWERSET     = get_powerset({'R'}.union({'B'}))
 BC_NUM_CLASSES            = 2
 BC_DATASET_FILE           = "breast_cancer_uci.csv" 
 BC_PROCESSED_DATASET_FILE = "breast_cancer_uci_processed.csv" 
-# BC_READ_RULES = "Rule {:>3}: ct = {:.3f}, ucsize = {:.3f}, ucshape = {:.3f}, ma = {:.3f}, secz = {:.3f}, bn = {:.3f}, bc = {:.3f}, nn = {:.3f}, m = {:.3f}, uncertainty = {:.3f}"
 BC_LOSS_IMG   = "BC_Loss"
 BC_RULE_TABLE = "BC_Rule_Table"
 
@@ -51,7 +50,7 @@ _att_fronzenset = {
     "H" : "nn",
     "I" : "m"
 }
-
+#-----------------------------------------------------------
 
 # Image
 IMAGE_FOLDER = "imgs"
@@ -64,11 +63,7 @@ DTYPE = torch.float
 #DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
-COMPLETE_SET = frozenset({'R','B'})
-#POWERSET = get_powerset({'R'}.union({'B'}))
 
-#COMPLETE_SET = frozenset({'B','M'})
-#POWERSET = get_powerset({'B'}.union({'M'}))
 
 # Table
 NUM_FORMAT = '{:.3f}'

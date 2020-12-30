@@ -20,9 +20,11 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def dempster_rule(dict_m1, dict_m2, powerset):
+def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
+    powerset = get_powerset_dataset(dataset_name)
+
     for s in powerset:
         sum_m = 0
         for s1 in dict_m1:
@@ -50,18 +52,22 @@ def dempster_rule(dict_m1, dict_m2, powerset):
 
 
 
-def belief_set(A, dict_m):
+def belief_set(A, dict_m, dataset_name):
     sum_m = 0
-    for s in POWERSET:
+    powerset = get_powerset_dataset(dataset_name)
+
+    for s in powerset:
         if s.issubset(A):
             sum_m += dict_m[s]
     return sum_m
 
 
-def belief(dict_m):
+def belief(dict_m, dataset_name):
     dict_beliefs = {}
+    complete_set = get_complete_set_dataset(dataset_name)
+
     for s in dict_m:
-        if s == COMPLETE_SET:
+        if s == complete_set:
             continue
         dict_beliefs[s] = belief_set(s, dict_m)
     
@@ -135,6 +141,4 @@ def normalize_rule_set(rule_set):
 #     dist = v[0]*n[0] + v[1]*n[1] + v[2]*n[2]
 #     p_ = p - dist*n
 #     print(p_)
-
-    
-    
+  

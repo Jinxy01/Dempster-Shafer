@@ -92,6 +92,6 @@ def evaluate_breast_cancer_dataset(dataset_name):
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    evaluate_A1_dataset("A1_Dataset")
-    #evaluate_breast_cancer_dataset("BC_Dataset")
+    #evaluate_A1_dataset("A1_Dataset")
+    evaluate_breast_cancer_dataset("BC_Dataset")
     
