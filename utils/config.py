@@ -9,6 +9,7 @@ CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2 
+NUM_EPOCHS      = 50
 
 #--- A1 Dataset ---
 NUM_ELEMENTS      = 500
@@ -54,13 +55,14 @@ X_AXIS       = "Epochs"
 
 # Variables
 DTYPE = torch.float
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
-#COMPLETE_SET = frozenset({'R','B'})
-#POWERSET = get_powerset({'R'}.union({'B'}))
+COMPLETE_SET = frozenset({'R','B'})
+POWERSET = get_powerset({'R'}.union({'B'}))
 
-COMPLETE_SET = frozenset({'B','M'})
-POWERSET = get_powerset({'B'}.union({'M'}))
+#COMPLETE_SET = frozenset({'B','M'})
+#POWERSET = get_powerset({'B'}.union({'M'}))
 
 # Table
 NUM_FORMAT = '{:.3f}'
