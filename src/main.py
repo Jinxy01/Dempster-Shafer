@@ -20,6 +20,7 @@ from src.model import *
 from utils.graph import *
 from utils.a1_helper import *
 from utils.bc_helper import *
+from utils.aux_function import *
 
 
 def test_data():
@@ -67,6 +68,8 @@ def evaluate_breast_cancer_dataset(dataset_name):
 
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train)
 
+    malign_order_rules = order_rules_by_malign(rule_set)
+
     read_rules_BC(rule_set)
     loss = MSE()
 
@@ -78,7 +81,12 @@ def evaluate_breast_cancer_dataset(dataset_name):
     
     # Rules Table Drawing
     read_rules_BC(rule_set)
-    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts)
+
+    # Order rules by malignacy
+    dict_rule_malig_sorted = order_rules_by_malign(rule_set)
+    print(dict_rule_malig_sorted)
+
+    #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)

@@ -108,15 +108,15 @@ def project_masses(list_dict_m):
             rule_mass[0][k] = v + (1-sum_m)/3
     
 
-def project_masses_v2(list_tensor):
-    sum_m = 0
-    for e in list_tensor:
-        sum_m += e.item()
+# def project_masses_v2(list_tensor):
+#     sum_m = 0
+#     for e in list_tensor:
+#         sum_m += e.item()
 
-    for i in range(len(list_tensor)):
-        list_tensor[i] = list_tensor[i] + (1-sum_m)/3
+#     for i in range(len(list_tensor)):
+#         list_tensor[i] = list_tensor[i] + (1-sum_m)/3
     
-    return list_tensor
+#     return list_tensor
     
 def normalize_rule_set(rule_set):
     for i in range(len(rule_set)):

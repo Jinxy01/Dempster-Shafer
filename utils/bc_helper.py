@@ -2,58 +2,6 @@
 from torch import tensor, optim
 from utils.config import *
 
-# def read_rules_BC(rule_set):
-#     for i in range(len(rule_set)):
-#         dict_m  = rule_set[i][0]
-#         ct      = dict_m[frozenset({'A'})].item()
-#         ucsize  = dict_m[frozenset({'B'})].item()
-#         ucshape = dict_m[frozenset({'C'})].item()
-#         ma      = dict_m[frozenset({'D'})].item()
-#         secz    = dict_m[frozenset({'E'})].item()
-#         bn      = dict_m[frozenset({'F'})].item()
-#         bc      = dict_m[frozenset({'G'})].item()
-#         nn      = dict_m[frozenset({'H'})].item()
-#         m       = dict_m[frozenset({'I'})].item()
-#         u       = dict_m[frozenset({'A','B','C','D','E','F','G','H','I'})].item()
-
-#         print(BC_READ_RULES.format(i+1,ct,ucsize,ucshape,ma,secz,bn,bc,nn,m,u))
-
-
-# def weight_full_uncertainty_bc():
-#     m = {}
-#     m[frozenset('A')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('C')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('D')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('E')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('F')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('G')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('H')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset('I')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#     m[frozenset({'A','B','C','D','E','F','G','H','I'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-#     return m
-
-# def start_weights(s_list):
-#     list_initial_weights = []
-#     for s in s_list:
-#         m = {}
-#         m[frozenset('A')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('B')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('C')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('D')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('E')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('F')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('G')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('H')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('I')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset({'A','B','C','D','E','F','G','H','I'})] = tensor(0.91, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-#         optimizer = optim.Adam([m[frozenset('A')], m[frozenset('B')], m[frozenset('C')], m[frozenset('D')],
-#             m[frozenset('E')], m[frozenset('F')], m[frozenset('G')], m[frozenset('H')], m[frozenset('I')],
-#             m[frozenset({'A','B','C','D','E','F','G','H','I'})]])
-#         list_initial_weights.append([m, optimizer, s])
-
-#     return list_initial_weights
-
 def read_rules_BC(rule_set):
     s = "Rule {}: B = {}, M = {}, Uncertainty = {}"
     for i in range(len(rule_set)):

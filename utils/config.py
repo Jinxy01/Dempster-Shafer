@@ -54,7 +54,7 @@ X_AXIS       = "Epochs"
 
 # Variables
 DTYPE = torch.float
-DEVICE = torch.device("cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 EMPTY_SET    = set()
 #COMPLETE_SET = frozenset({'R','B'})
 #POWERSET = get_powerset({'R'}.union({'B'}))
