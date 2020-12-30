@@ -11,12 +11,12 @@ def read_rules_A1(rule_set):
         r_b = dict_m[frozenset({'B', 'R'})].item()
         print(s.format(i+1,b,r,r_b))
 
-def weight_full_uncertainty_A1():
-    m = {}
-    m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-    return m
+# def weight_full_uncertainty_A1():
+#     m = {}
+#     m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
+#     m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
+#     m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
+#     return m
 
 def start_weights(s_list):
     list_initial_weights = []

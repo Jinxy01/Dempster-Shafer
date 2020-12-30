@@ -42,7 +42,7 @@ def get_two_class_probabilities(dict_m, dataset_name):
     # p_b = b + r_b
     # p_tot = p_a + p_b
     # return p_a/p_tot, p_b/p_tot # It works with projection working!
-    class_0, class_1 = get_class_plausibility(plausibility(dict_m), dataset_name)
+    class_0, class_1 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
     return class_0/(class_0+class_1), class_1/(class_0+class_1)
     #return r, b, r_b
     #return r/(r+r_b), b/(r+r_b), r_b 
@@ -97,15 +97,16 @@ def model_predict_train_bc(a,b,c,d,e,f,g,h,i, rule_set):
 
     return y_hat
 
-def model_predict_train(x,y, rule_set, dataset_name):
+def model_predict_train(rule_set, dataset_name, *args):
+    # Args is x,y in A1 and 9 attributes in Breast Cancer
     M = []
     for m,_,s in rule_set:
-        if s(x,y): # Point coordinates (y is NOT label class here)
+        if s(*args): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty_A1()
+    m = weight_full_uncertainty(dataset_name)
     for m_i in M:
-        m = dempster_rule(m,m_i)
+        m = dempster_rule(m,m_i, dataset_name)
         
     r_prob, b_prob = get_two_class_probabilities(m, dataset_name)
     # Change order to match one hot encoding of classes
@@ -119,8 +120,8 @@ def model_predict_train(x,y, rule_set, dataset_name):
 def model_predict_train_test(X, rule_set, dataset_name):
     if dataset_name == "A1_Dataset":
         y_hat_list = []
-        for x,y in X:
-            y_hat = model_predict_train(x,y, rule_set, dataset_name)
+        for att in X:
+            y_hat = model_predict_train(rule_set, dataset_name, *att)
             y_hat_list.append(y_hat)
         return y_hat_list
     elif dataset_name == "BC_Dataset":

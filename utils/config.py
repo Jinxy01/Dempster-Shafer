@@ -11,7 +11,7 @@ EPSILON         = 0.0001
 NUM_CLASSES     = 2 
 NUM_EPOCHS      = 750
 
-#--- A1 Dataset ---
+#------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
 A1_DATASET_FILE   = "A1.csv" 
 # TRAIN_PERCENTAGE = 0.7
@@ -26,13 +26,19 @@ RULE_LTE     = "{} <= {:.3f}"
 RULE_BETWEEN = "{:.3f} < {} <= {:.3f}"
 RULE_GT      = "{} > {:.3f}"
 
-#--- Breast Cancer Dataset ---
+A1_COMPLETE_SET = frozenset({'R','B'})
+A1_POWERSET     = get_powerset({'R'}.union({'B'}))
+
+#------------------ Breast Cancer Dataset ------------------
 BC_NUM_CLASSES            = 2
 BC_DATASET_FILE           = "breast_cancer_uci.csv" 
 BC_PROCESSED_DATASET_FILE = "breast_cancer_uci_processed.csv" 
 # BC_READ_RULES = "Rule {:>3}: ct = {:.3f}, ucsize = {:.3f}, ucshape = {:.3f}, ma = {:.3f}, secz = {:.3f}, bn = {:.3f}, bc = {:.3f}, nn = {:.3f}, m = {:.3f}, uncertainty = {:.3f}"
 BC_LOSS_IMG   = "BC_Loss"
 BC_RULE_TABLE = "BC_Rule_Table"
+
+BC_COMPLETE_SET = frozenset({'B','M'})
+BC_POWERSET     = get_powerset({'B'}.union({'M'}))
 
 _att_fronzenset = {
     "A" : "ct",
@@ -59,7 +65,7 @@ DTYPE = torch.float
 DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
 COMPLETE_SET = frozenset({'R','B'})
-POWERSET = get_powerset({'R'}.union({'B'}))
+#POWERSET = get_powerset({'R'}.union({'B'}))
 
 #COMPLETE_SET = frozenset({'B','M'})
 #POWERSET = get_powerset({'B'}.union({'M'}))

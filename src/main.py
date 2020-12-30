@@ -25,7 +25,7 @@ from utils.aux_function import *
 
 def test_data():
     Y_train = tensor([1,0,1,0])
-    X_train = [[0.2, 0.2], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
+    X_train = [[0.2, 0.8], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
 
     Y_train = one_hot(Y_train, num_classes=NUM_CLASSES).float()
 

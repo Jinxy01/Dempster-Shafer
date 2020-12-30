@@ -13,12 +13,12 @@ def read_rules_BC(rule_set):
         print(s.format(i+1,b,m, b_m))
 
 
-def weight_full_uncertainty_bc():
-    m = {}
-    m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-    m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-    m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-    return m
+# def weight_full_uncertainty_bc():
+#     m = {}
+#     m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+#     m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+#     m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+#     return m
 
 def start_weights(s_list):
     list_initial_weights = []

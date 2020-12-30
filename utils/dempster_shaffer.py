@@ -1,19 +1,9 @@
-from itertools import chain, combinations
+
 import torch
 from utils.config import *
+from utils.aux_function import *
 
 import numpy as np
-
-def get_powerset(set_elements):
-    # Powerset: set + empty set + subsets of given set
-    list_elements = list(set_elements)
-    list_powerset = list(chain.from_iterable(combinations(list_elements, e) 
-        for e in range(1, len(list_elements)+1))) # start at 1 to ignore empty set
-    # Transform into a list of sets. 
-    # We can use set() but then we will get "TypeError: unhashable type: 'set'" when adding as key to dictionary
-    # So we use frozenset()
-    list_sets_powerset = [frozenset(e) for e in list_powerset] # allow to be added to dictionary
-    return list_sets_powerset
 
 def normalize_masses_combined(dict_combined_m):
     sum_m = 0
@@ -30,11 +20,10 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def dempster_rule(dict_m1, dict_m2):
+def dempster_rule(dict_m1, dict_m2, powerset):
     # Combine masses
     dict_combined_m = {}
-
-    for s in POWERSET:
+    for s in powerset:
         sum_m = 0
         for s1 in dict_m1:
             for s2 in dict_m2:
@@ -80,20 +69,24 @@ def belief(dict_m):
 
 # ---------------------------------
 
-def plausibility_set(A, dict_m):
+def plausibility_set(A, dict_m, dataset_name):
     sum_m = 0
-    for s in POWERSET:
+    powerset = get_powerset_dataset(dataset_name)
+
+    for s in powerset:
         if s.intersection(A) != EMPTY_SET:
             sum_m += dict_m[s]
     return sum_m
 
 
-def plausibility(dict_m):
+def plausibility(dict_m, dataset_name):
     dict_plausibility = {}
+    complete_set = get_complete_set_dataset(dataset_name)
+
     for s in dict_m:
-        if s == COMPLETE_SET:
+        if s == complete_set:
             continue
-        dict_plausibility[s] = plausibility_set(s, dict_m)
+        dict_plausibility[s] = plausibility_set(s, dict_m, dataset_name)
     
     return dict_plausibility
 
