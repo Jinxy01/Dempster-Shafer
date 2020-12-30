@@ -13,6 +13,13 @@ def read_rules_A1(rule_set):
 
  # --------- Rules ----------------
  
+def generate_rule(index, mean, std, *att):
+    r1 = lambda *att: att[index] <= mean-std
+    r2 = lambda *att: mean-std < att[index] and att[index] <= mean
+    r3 = lambda *att: mean < att[index] and att[index] <= mean+std
+    r4 = lambda *att: att[index] > mean+std
+    return [r1, r2, r3, r4]
+
 def generate_rule_x(mean, std):
     r1 = lambda x,y: x <= mean-std
     r2 = lambda x,y: mean-std < x and x <= mean

@@ -39,8 +39,8 @@ def evaluate_A1_dataset(dataset_name):
     graph_filepath = os.path.join(IMAGE_FOLDER, A1_LOSS_IMG)
     table_filepath = os.path.join(IMAGE_FOLDER, A1_RULE_TABLE)
 
-    #X_train, Y_train, X_test, Y_test = dataset_A1()
-    X_train, Y_train, X_test, Y_test = test_data()
+    X_train, Y_train, X_test, Y_test = dataset_A1()
+    #X_train, Y_train, X_test, Y_test = test_data()
 
     rule_set, rule_presentation = generate_rules_dataset_A1(X_train, dataset_name)
     loss = MSE()
@@ -91,7 +91,7 @@ def evaluate_breast_cancer_dataset(dataset_name):
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
 
+
 if __name__ == "__main__":
     evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
-    
