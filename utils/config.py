@@ -14,11 +14,16 @@ NUM_ELEMENTS     = 500
 A1_DATASET_FILE  = "A1.csv" 
 # TRAIN_PERCENTAGE = 0.7
 TEST_PERCENTAGE  = 0.3
-NUM_CLASSES      = 2
+A1_NUM_CLASSES   = 2
 A1_LOSS_IMG      = "A1_Loss"
 A1_RULE_TABLE    = "A1_Rule_Table"
 RULE_TABLE_TITLE = "Accuracy = {}% ({}/{})"
 A1_TABLE_HEADER  = ["Rule", "Blue", "Red", "Uncertainty"]
+
+#--- Breast Cancer Dataset ---
+BC_NUM_CLASSES            = 2
+BC_DATASET_FILE           = "breast_cancer_uci.csv" 
+BC_PROCESSED_DATASET_FILE = "breast_cancer_uci_processed.csv" 
 
 # Image
 IMAGE_FOLDER = "imgs"
