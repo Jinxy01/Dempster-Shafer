@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.config import *
 from utils.aux_function import *
 from utils.dempster_shaffer import *
+from utils.a1_helper import *
 
 # ---------------- Training -------------------
 
@@ -52,7 +53,7 @@ def model_predict_train(x,y, rule_set):
         if s(x,y): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty()
+    m = weight_full_uncertainty_A1()
     for m_i in M:
         m = dempster_rule(m,m_i)
         
@@ -132,7 +133,7 @@ def model_inference(x,y, rule_set):
         if s(x,y): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty()
+    m = weight_full_uncertainty_A1()
     for m_i in M:
         m = dempster_rule(m,m_i)
         

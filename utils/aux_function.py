@@ -50,34 +50,6 @@ def normalize_masses_combined(dict_combined_m):
 
 
 
-# ----------------------------------------------
-
-def weight_full_uncertainty():
-    m = {}
-    m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
-    m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-    return m
-
-def start_weights(s_list):
-    list_initial_weights = []
-    for s in s_list:
-        m = {}
-        m[frozenset('B')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset('R')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset({'B','R'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-        optimizer = optim.Adam([m[frozenset('B')], m[frozenset('R')], m[frozenset({'B','R'})]])
-        list_initial_weights.append([m, optimizer, s])
-
-    return list_initial_weights
 
 
-def read_rules(rule_set):
-    s = "Rule {}: B = {}, R = {}, Uncertainty = {}"
-    for i in range(len(rule_set)):
-        dict_m = rule_set[i][0]
-        b   = dict_m[frozenset({'B'})].item()
-        r   = dict_m[frozenset({'R'})].item()
-        r_b = dict_m[frozenset({'B', 'R'})].item()
-        print(s.format(i+1,b,r,r_b))
 

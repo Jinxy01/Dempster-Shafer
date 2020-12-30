@@ -18,6 +18,8 @@ from utils.config import *
 from utils.dataset_functions import *
 from src.model import *
 from utils.graph import *
+from utils.a1_helper import *
+from utils.bc_helper import *
 
 
 def test_data():
@@ -47,10 +49,9 @@ def evaluate_A1_dataset():
 
     # Inference
     accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set)
-    read_rules(rule_set)
+    read_rules_A1(rule_set)
     
     # Rules Table Drawing
-    read_rules(rule_set)
     draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
@@ -64,8 +65,8 @@ def evaluate_breast_cancer_dataset():
 
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
 
-    rule_set = generate_rules_dataset_breast_cancer()
-    read_rules(rule_set)
+    rule_set = generate_rules_dataset_breast_cancer(X_train)
+    read_rules_BC(rule_set)
     # loss = MSE()
 
     # # Training
