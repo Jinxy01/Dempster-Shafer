@@ -58,8 +58,8 @@ def generate_rules_dataset_A1(X_train, dataset_name):
     # Create rules
     #rules_x = a1.generate_rule_x(x_mean, x_std)
     #rules_y = a1.generate_rule_y(y_mean, y_std)
-    rules_x = a1.generate_rule(0, x_mean, x_std)
-    rules_y = a1.generate_rule(1, x_mean, x_std)
+    rules_x = generate_rule(0, x_mean, x_std)
+    rules_y = generate_rule(1, x_mean, x_std)
     s_list = rules_x + rules_y
 
     # Author rules

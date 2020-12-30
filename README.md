@@ -21,7 +21,8 @@ bash test.sh
 - [x] Projected Gradient Descent (Adam)
 - [ ] Use Pytorch loss function
 - [x] Generate rules
-- [ ] Generalize lambda functions
+- [x] Generalize lambda functions of A1
+- [ ] Generalize lambda functions of BC
 - [x] Generalize model for datasets
 - [ ] Add belief to inference
 - [ ] Update frozenset_to_class to consider dataset_name

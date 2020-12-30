@@ -99,3 +99,12 @@ def start_weights(s_list, dataset_name):
         assert False
 
     return list_initial_weights
+    
+# --------- Rules ----------------
+
+def generate_rule(index, mean, std, *att):
+    r1 = lambda *att: att[index] <= mean-std
+    r2 = lambda *att: mean-std < att[index] and att[index] <= mean
+    r3 = lambda *att: mean < att[index] and att[index] <= mean+std
+    r4 = lambda *att: att[index] > mean+std
+    return [r1, r2, r3, r4]
