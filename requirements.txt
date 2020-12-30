@@ -1,5 +1,5 @@
 cython
-sklearn
+sklearn # sudo apt install python3-sklearn if ubuntu 18.04 or higher
 python-csv
 torch==1.7.1
 torchvision==0.8.2
