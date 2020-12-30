@@ -118,7 +118,7 @@ def training(X, Y, rule_set, loss, dataset_name):
     it_loss = []
     previous_loss = sys.maxsize
 
-    for i in range(750):
+    for i in range(50):
         # Model predictions
         y_hat_list = model_predict_train_test(X, rule_set, dataset_name)
 

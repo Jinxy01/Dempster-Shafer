@@ -76,12 +76,12 @@ def evaluate_breast_cancer_dataset(dataset_name):
     # Inference
     accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
     
-    # # Rules Table Drawing
-    # read_rules(rule_set)
-    # draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts)
+    # Rules Table Drawing
+    read_rules_BC(rule_set)
+    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts)
 
-    # # Loss drawing
-    # draw_loss(it_loss, graph_filepath)
+    # Loss drawing
+    draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
