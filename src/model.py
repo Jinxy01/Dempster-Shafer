@@ -35,13 +35,15 @@ def mse(y, y_hat):
     
     return sum_/(NUM_CLASSES*tot)
 
-def get_class_probabilities_a1(dict_m):
-    r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})] 
-    #max_m = max(r, b)
-    p_a = r + r_b
-    p_b = b + r_b
-    p_tot = p_a + p_b
-    return p_a/p_tot, p_b/p_tot # It works with projection working!
+def get_two_class_probabilities(dict_m, dataset_name):
+    # r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
+    # #max_m = max(r, b)
+    # p_a = r + r_b
+    # p_b = b + r_b
+    # p_tot = p_a + p_b
+    # return p_a/p_tot, p_b/p_tot # It works with projection working!
+    class_0, class_1 = get_class_plausibility(plausibility(dict_m), dataset_name)
+    return class_0/(class_0+class_1), class_1/(class_0+class_1)
     #return r, b, r_b
     #return r/(r+r_b), b/(r+r_b), r_b 
     #return r/(r+b+r_b), b/(r+b+r_b), r_b 
@@ -95,12 +97,30 @@ def model_predict_train_bc(a,b,c,d,e,f,g,h,i, rule_set):
 
     return y_hat
 
+def model_predict_train(x,y, rule_set, dataset_name):
+    M = []
+    for m,_,s in rule_set:
+        if s(x,y): # Point coordinates (y is NOT label class here)
+            M.append(m)
+
+    m = weight_full_uncertainty_A1()
+    for m_i in M:
+        m = dempster_rule(m,m_i)
+        
+    r_prob, b_prob = get_two_class_probabilities(m, dataset_name)
+    # Change order to match one hot encoding of classes
+    # Blue (class 0) => [1 0]
+    # Red  (class 1) => [0 1]
+    y_hat = [b_prob, r_prob]
+
+    return y_hat
+
 
 def model_predict_train_test(X, rule_set, dataset_name):
     if dataset_name == "A1_Dataset":
         y_hat_list = []
         for x,y in X:
-            y_hat = model_predict_train_a1(x,y, rule_set)
+            y_hat = model_predict_train(x,y, rule_set, dataset_name)
             y_hat_list.append(y_hat)
         return y_hat_list
     elif dataset_name == "BC_Dataset":

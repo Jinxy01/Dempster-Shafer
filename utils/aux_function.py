@@ -58,5 +58,15 @@ def order_rules_by_malign(rule_set):
     return dict_rule_malig_sorted
 
 
+# ------------ Common -------------------
+
+def get_class_plausibility(dict_m, dataset_name):
+    if dataset_name == "A1_Dataset":
+        class_0, class_1 = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})]
+    elif dataset_name == "BC_Dataset":
+        class_0, class_1 = dict_m[frozenset({'B'})], dict_m[frozenset({'M'})]
+    else:
+        assert False
+    return class_0, class_1 
 
 
