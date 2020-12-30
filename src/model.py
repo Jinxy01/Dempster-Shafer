@@ -51,37 +51,8 @@ def get_two_class_probabilities(dict_m, dataset_name):
     #return r/(r+b+r_b), b/(r+b+r_b), r_b 
     #return (r+p_a)/2, (b+p_b)/2, r_b # Uncertainty 1.0 with useless rule
 
-# def get_class_probabilities_bc(dict_m):
-#     b   = dict_m[frozenset({'B'})]
-#     m   = dict_m[frozenset({'M'})]
-#     b_m = dict_m[frozenset({'B','M'})]
-#     #max_m = max(r, b)
-#     p_b = b + b_m
-#     p_m = m + b_m
-#     p_tot = p_b + p_m
-#     return p_m/p_tot, p_b/p_tot # It works with projection working!
 
-
-
-# def model_predict_train_bc(a,b,c,d,e,f,g,h,i, rule_set):
-#     M = []
-#     for m,_,s in rule_set:
-#         if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
-#             M.append(m)
-
-#     m = weight_full_uncertainty_bc()
-#     for m_i in M:
-#         m = dempster_rule(m,m_i)
-        
-#     r_prob, b_prob = get_class_probabilities_bc(m)
-#     # Change order to match one hot encoding of classes
-#     # Blue (class 0) => [1 0]
-#     # Red  (class 1) => [0 1]
-#     y_hat = [b_prob, r_prob]
-
-#     return y_hat
-
-def model_predict_train(rule_set, dataset_name, *att):
+def prediction(rule_set, dataset_name, *att):
     # Args is x,y in A1 and 9 attributes in Breast Cancer
     M = []
     for m,_,s in rule_set:
@@ -100,27 +71,11 @@ def model_predict_train(rule_set, dataset_name, *att):
 
     return y_hat
 
-
-# def model_predict_train_v2(X, rule_set, dataset_name):
-#     if dataset_name == "A1_Dataset":
-#         y_hat_list = []
-#         for att in X:
-#             y_hat = model_predict_train(rule_set, dataset_name, *att)
-#             y_hat_list.append(y_hat)
-#         return y_hat_list
-#     elif dataset_name == "BC_Dataset":
-#         y_hat_list = []
-#         for a,b,c,d,e,f,g,h,i in X:
-#             y_hat = model_predict_train_bc(a,b,c,d,e,f,g,h,i,rule_set)
-#             y_hat_list.append(y_hat)
-#         return y_hat_list
-#     else:
-#         assert False
     
-def model_predict_train_test(X, rule_set, dataset_name):
+def model_predict(X, rule_set, dataset_name):
     y_hat_list = []
     for att in X:
-        y_hat = model_predict_train(rule_set, dataset_name, *att)
+        y_hat = prediction(rule_set, dataset_name, *att)
         y_hat_list.append(y_hat)
     return y_hat_list
 
@@ -132,7 +87,7 @@ def training(X, Y, rule_set, loss, dataset_name):
 
     for i in range(NUM_EPOCHS):
         # Model predictions
-        y_hat_list = model_predict_train_test(X, rule_set, dataset_name)
+        y_hat_list = model_predict(X, rule_set, dataset_name)
 
         # Compute loss
         batch_loss = mse(Y, y_hat_list)
@@ -197,34 +152,6 @@ def model_inference(rule_set, dataset_name, *att):
         
     return y_argmax(m)
 
-# def model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set):
-#     M = []
-#     for m,_,s in rule_set:
-#         if s(a,b,c,d,e,f,g,h,i): # Point coordinates (y is NOT label class here)
-#             M.append(m)
-
-#     m = weight_full_uncertainty_A1()
-#     for m_i in M:
-#         m = dempster_rule(m,m_i)
-        
-#     return y_argmax(m)
-
-
-# def inference(X, rule_set, dataset_name):
-#     if dataset_name == "A1_Dataset":
-#         y_hat_list = []
-#         for att in X:
-#             y_hat = model_inference(rule_set, dataset_name, *att)
-#             y_hat_list.append(y_hat)
-#         return y_hat_list
-#     elif dataset_name == "BC_Dataset":
-#         y_hat_list = []
-#         for a,b,c,d,e,f,g,h,i in X:
-#             y_hat = model_inference_bc(a,b,c,d,e,f,g,h,i, rule_set)
-#             y_hat_list.append(y_hat)
-#         return y_hat_list
-#     else:
-#         assert False
 
 def inference_test(X, rule_set, dataset_name):
     y_hat_list = []
