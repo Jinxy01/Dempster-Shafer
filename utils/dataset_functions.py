@@ -41,52 +41,50 @@ def generate_rules_dataset_A1(X_train):
     [x_mean, y_mean] = np.mean(X_train, axis=0) # mean along columns
     [x_std,  y_std]  = np.std(X_train, axis=0, dtype=np.float64) # std along columns
 
-    # s_list = [
-    #     lambda x,y: x <= x_mean-x_std, 
-    #     lambda x,y: x_mean-x_std < x and x <= x_mean,
-    #     lambda x,y: x_mean < x and x <= x_mean+x_std,
-    #     lambda x,y: x > x_mean+x_std, 
-    #     lambda x,y: y <= y_mean-y_std, 
-    #     lambda x,y: y_mean-y_std < y and y <= y_mean,
-    #     lambda x,y: y_mean < y and y <= y_mean+y_std,
-    #     lambda x,y: y > y_mean+y_std, 
-    # ]
-    # Author rules
     s_list = [
-        lambda x,y: x <= -0.32, 
-        lambda x,y: -0.32 < x and x <= 0.04,
-        lambda x,y: 0.04 < x and x <= 0.41,
-        lambda x,y: x > 0.41, 
-        lambda x,y: y <= -0.34, 
-        lambda x,y: -0.34 < y and y <= 0.04,
-        lambda x,y: 0.04 < y and y <= 0.42,
-        lambda x,y: y > 0.42, 
+        lambda x,y: x <= x_mean-x_std, 
+        lambda x,y: x_mean-x_std < x and x <= x_mean,
+        lambda x,y: x_mean < x and x <= x_mean+x_std,
+        lambda x,y: x > x_mean+x_std, 
+        lambda x,y: y <= y_mean-y_std, 
+        lambda x,y: y_mean-y_std < y and y <= y_mean,
+        lambda x,y: y_mean < y and y <= y_mean+y_std,
+        lambda x,y: y > y_mean+y_std, 
     ]
+
+    # s_list = []
+    # att_list = [(x, x_mean, x_std), (y, y_mean, y_std)]
+    # for e, mean, std in att_list:
+    #     print(e, mean, std)
+    #     rules = generate_rule_A1_helper(e, mean, std)
+    #     s_list.extend(rules)
+
+    # Author rules
+    # s_list = [
+    #     lambda x,y: x <= -0.32, 
+    #     lambda x,y: -0.32 < x and x <= 0.04,
+    #     lambda x,y: 0.04 < x and x <= 0.41,
+    #     lambda x,y: x > 0.41, 
+    #     lambda x,y: y <= -0.34, 
+    #     lambda x,y: -0.34 < y and y <= 0.04,
+    #     lambda x,y: 0.04 < y and y <= 0.42,
+    #     lambda x,y: y > 0.42, 
+    # ]
+
     rule_set = start_weights(s_list) 
 
-    
-    # Aid in result presentation
-    # rule_presentation = [
-    #     RULE_LTE.format("x", x_mean-x_std),
-    #     RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
-    #     RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
-    #     RULE_GT.format("x", x_mean+x_std),
-    #     RULE_LTE.format("y", x_mean-x_std),
-    #     RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
-    #     RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
-    #     RULE_GT.format("y", x_mean+x_std)
-    # ] 
     # Aid in result presentation
     rule_presentation = [
-        RULE_LTE.format("x", -0.32),
-        RULE_BETWEEN.format(-0.32, "x", 0.04),
-        RULE_BETWEEN.format(0.04, "x", 0.41),
-        RULE_GT.format("x", 0.41),
-        RULE_LTE.format("y", -0.34),
-        RULE_BETWEEN.format(-0.34, "y", 0.04),
-        RULE_BETWEEN.format(0.04, "y", 0.42),
-        RULE_GT.format("y", 0.42)
+        RULE_LTE.format("x", x_mean-x_std),
+        RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
+        RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
+        RULE_GT.format("x", x_mean+x_std),
+        RULE_LTE.format("y", x_mean-x_std),
+        RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
+        RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
+        RULE_GT.format("y", x_mean+x_std)
     ] 
+
     return rule_set, rule_presentation
 
 
@@ -148,6 +146,38 @@ def read_dataset_breast_cancer(dataset_filepath):
     Y = np.asarray(Y).astype(float)
     return X, Y
 
+def generate_rules_dataset_breast_cancer(X_train):
+
+    [_, ct, ucsize, ucshape, ma, secz, bn, bc, nn, m, y] = np.mean(X_train, axis=0) # mean along columns
+    [_, ct, ucsize, ucshape, ma, secz, bn, bc, nn, m, y] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    s_list = [
+        lambda x,y: x <= x_mean-x_std, 
+        lambda x,y: x_mean-x_std < x and x <= x_mean,
+        lambda x,y: x_mean < x and x <= x_mean+x_std,
+        lambda x,y: x > x_mean+x_std, 
+        lambda x,y: y <= y_mean-y_std, 
+        lambda x,y: y_mean-y_std < y and y <= y_mean,
+        lambda x,y: y_mean < y and y <= y_mean+y_std,
+        lambda x,y: y > y_mean+y_std, 
+    ]
+
+    rule_set = start_weights(s_list) 
+
+    # Aid in result presentation
+    rule_presentation = [
+        RULE_LTE.format("x", x_mean-x_std),
+        RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
+        RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
+        RULE_GT.format("x", x_mean+x_std),
+        RULE_LTE.format("y", x_mean-x_std),
+        RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
+        RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
+        RULE_GT.format("y", x_mean+x_std)
+    ] 
+
+    return rule_set, rule_presentation
+
 
 def dataset_breast_cancer():
     dataset_filepath           = os.path.join(DATASET_FOLDER, BC_DATASET_FILE)
@@ -164,9 +194,19 @@ def dataset_breast_cancer():
 
     return X_train, Y_train, X_test, Y_test
 
+
+
 # ------------ Common ------------------------
 
 def split_test_train(X,Y):
     # Split between train and test (70%/30%)
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=TEST_PERCENTAGE) 
     return X_train, Y_train, X_test, Y_test
+
+
+def generate_rule_A1_helper(element, x_mean, x_std):
+    r1 = lambda x,y: element <= x_mean-x_std
+    r2 = lambda x,y: x_mean-x_std < element and element <= x_mean
+    r3 = lambda x,y: x_mean < element and element <= x_mean+x_std
+    r4 = lambda x,y: element > x_mean+x_std
+    return [r1, r2, r3, r4]

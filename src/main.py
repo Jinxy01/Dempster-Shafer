@@ -63,10 +63,9 @@ def evaluate_breast_cancer_dataset():
     #table_filepath = os.path.join(IMAGE_FOLDER, A1_RULE_TABLE)
 
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
-    print(X_train[0])
-    #X_train, Y_train, X_test, Y_test = test_data()
 
-    # rule_set = generate_rules_dataset_A1()
+    rule_set = generate_rules_dataset_breast_cancer()
+    read_rules(rule_set)
     # loss = MSE()
 
     # # Training
