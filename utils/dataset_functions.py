@@ -32,12 +32,26 @@ def read_dataset_A1(dataset_filepath):
     Y = np.asarray(Y).astype(float)
     return X, Y
 
-def generate_rules_dataset_A1():
+def generate_rules_dataset_A1(X_train):
     # s_list = [
     #     lambda x,y: y > 0, 
     #     lambda x,y: y <= 0,
     #     lambda x,y: x != 0
     # ]
+    [x_mean, y_mean] = np.mean(X_train, axis=0) # mean along columns
+    [x_std,  y_std]  = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    # s_list = [
+    #     lambda x,y: x <= x_mean-x_std, 
+    #     lambda x,y: x_mean-x_std < x and x <= x_mean,
+    #     lambda x,y: x_mean < x and x <= x_mean+x_std,
+    #     lambda x,y: x > x_mean+x_std, 
+    #     lambda x,y: y <= y_mean-y_std, 
+    #     lambda x,y: y_mean-y_std < y and y <= y_mean,
+    #     lambda x,y: y_mean < y and y <= y_mean+y_std,
+    #     lambda x,y: y > y_mean+y_std, 
+    # ]
+    # Author rules
     s_list = [
         lambda x,y: x <= -0.32, 
         lambda x,y: -0.32 < x and x <= 0.04,
@@ -49,7 +63,31 @@ def generate_rules_dataset_A1():
         lambda x,y: y > 0.42, 
     ]
     rule_set = start_weights(s_list) 
-    return rule_set
+
+    
+    # Aid in result presentation
+    # rule_presentation = [
+    #     RULE_LTE.format("x", x_mean-x_std),
+    #     RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
+    #     RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
+    #     RULE_GT.format("x", x_mean+x_std),
+    #     RULE_LTE.format("y", x_mean-x_std),
+    #     RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
+    #     RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
+    #     RULE_GT.format("y", x_mean+x_std)
+    # ] 
+    # Aid in result presentation
+    rule_presentation = [
+        RULE_LTE.format("x", -0.32),
+        RULE_BETWEEN.format(-0.32, "x", 0.04),
+        RULE_BETWEEN.format(0.04, "x", 0.41),
+        RULE_GT.format("x", 0.41),
+        RULE_LTE.format("y", -0.34),
+        RULE_BETWEEN.format(-0.34, "y", 0.04),
+        RULE_BETWEEN.format(0.04, "y", 0.42),
+        RULE_GT.format("y", 0.42)
+    ] 
+    return rule_set, rule_presentation
 
 
 def dataset_A1():

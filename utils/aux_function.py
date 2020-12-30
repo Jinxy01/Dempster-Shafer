@@ -80,3 +80,4 @@ def read_rules(rule_set):
         r   = dict_m[frozenset({'R'})].item()
         r_b = dict_m[frozenset({'B', 'R'})].item()
         print(s.format(i+1,b,r,r_b))
+

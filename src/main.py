@@ -39,7 +39,7 @@ def evaluate_A1_dataset():
     X_train, Y_train, X_test, Y_test = dataset_A1()
     #X_train, Y_train, X_test, Y_test = test_data()
 
-    rule_set = generate_rules_dataset_A1()
+    rule_set, rule_presentation = generate_rules_dataset_A1(X_train)
     loss = MSE()
 
     # Training
@@ -47,10 +47,11 @@ def evaluate_A1_dataset():
 
     # Inference
     accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set)
+    read_rules(rule_set)
     
     # Rules Table Drawing
     read_rules(rule_set)
-    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts)
+    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -82,6 +83,6 @@ def evaluate_breast_cancer_dataset():
     # draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    #evaluate_A1_dataset()
-    evaluate_breast_cancer_dataset()
+    evaluate_A1_dataset()
+    #evaluate_breast_cancer_dataset()
     
