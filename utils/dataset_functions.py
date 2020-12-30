@@ -16,6 +16,8 @@ from utils.config import *
 from utils.aux_function import *
 from torch.nn.functional import one_hot
 
+import utils.a1_helper as a1
+
 # ------------- A1 Dataset ---------------------
 
 def read_dataset_A1(dataset_filepath):
@@ -52,11 +54,9 @@ def generate_rules_dataset_A1(X_train):
     #     lambda x,y: y > y_mean+y_std, 
     # ]
 
-    s_list = []
-    rules = generate_rule_A1_helper_x(x_mean, x_std)
-    s_list.extend(rules)
-    rules = generate_rule_A1_helper_y(y_mean, y_std)
-    s_list.extend(rules)
+    rules_x = a1.generate_rule_A1_helper_x(x_mean, x_std)
+    rules_y = a1.generate_rule_A1_helper_y(y_mean, y_std)
+    s_list = rules_x + rules_y
 
     # Author rules
     # s_list = [
@@ -73,16 +73,10 @@ def generate_rules_dataset_A1(X_train):
     rule_set = start_weights(s_list) 
 
     # Aid in result presentation
-    rule_presentation = [
-        RULE_LTE.format("x", x_mean-x_std),
-        RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
-        RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
-        RULE_GT.format("x", x_mean+x_std),
-        RULE_LTE.format("y", x_mean-x_std),
-        RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
-        RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
-        RULE_GT.format("y", x_mean+x_std)
-    ] 
+    x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
+    y_rules_presentation = presentation_rule_helper("y", y_mean, y_std)
+
+    rule_presentation = x_rules_presentation + y_rules_presentation
 
     return rule_set, rule_presentation
 
@@ -164,16 +158,10 @@ def generate_rules_dataset_breast_cancer(X_train):
     rule_set = start_weights(s_list) 
 
     # Aid in result presentation
-    rule_presentation = [
-        RULE_LTE.format("x", x_mean-x_std),
-        RULE_BETWEEN.format(x_mean-x_std, "x", x_mean),
-        RULE_BETWEEN.format(x_mean, "x", x_mean+x_std),
-        RULE_GT.format("x", x_mean+x_std),
-        RULE_LTE.format("y", x_mean-x_std),
-        RULE_BETWEEN.format(x_mean-x_std, "y", x_mean),
-        RULE_BETWEEN.format(x_mean, "y", x_mean+x_std),
-        RULE_GT.format("y", x_mean+x_std)
-    ] 
+    x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
+    y_rules_presentation = presentation_rule_helper("y", y_mean, y_std)
+
+    rule_presentation = x_rules_presentation + y_rules_presentation
 
     return rule_set, rule_presentation
 
@@ -203,16 +191,10 @@ def split_test_train(X,Y):
     return X_train, Y_train, X_test, Y_test
 
 
-def generate_rule_A1_helper_x(x_mean, x_std):
-    r1 = lambda x,y: x <= x_mean-x_std
-    r2 = lambda x,y: x_mean-x_std < x and x <= x_mean
-    r3 = lambda x,y: x_mean < x and x <= x_mean+x_std
-    r4 = lambda x,y: x > x_mean+x_std
-    return [r1, r2, r3, r4]
-
-def generate_rule_A1_helper_y(x_mean, x_std):
-    r1 = lambda x,y: y <= x_mean-x_std
-    r2 = lambda x,y: x_mean-x_std < y and y <= x_mean
-    r3 = lambda x,y: x_mean < y and y <= x_mean+x_std
-    r4 = lambda x,y: y > x_mean+x_std
-    return [r1, r2, r3, r4]
+def presentation_rule_helper(element, mean, std):
+    return [
+        RULE_LTE.format(element, mean-std),
+        RULE_BETWEEN.format(mean-std, element, mean),
+        RULE_BETWEEN.format(mean, element, mean+std),
+        RULE_GT.format(element, mean+std)
+    ]
