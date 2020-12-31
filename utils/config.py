@@ -25,7 +25,7 @@ NUM_EPOCHS      = 750
 
 CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()
 CLASS_1_ONE_HOT = one_hot(torch.tensor(1), num_classes=NUM_CLASSES).float()
-CLASS_2_ONE_HOT = one_hot(torch.tensor(2), num_classes=NUM_CLASSES).float()
+#CLASS_2_ONE_HOT = one_hot(torch.tensor(2), num_classes=NUM_CLASSES).float()
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
