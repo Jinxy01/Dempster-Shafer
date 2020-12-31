@@ -56,7 +56,8 @@ def dempster_rule(dict_m1, dict_m2, dataset_name):
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
 
-    q_a, q_b = commonality_2_classes(dict_m1, dict_m2, dataset_name)
+    q_a, q_b = commonality_2_classes(dict_m1, dict_m2, powerset)
+    tot = len(powerset)
 
     for s in powerset:
         dict_combined_m[s] = q_a[s]*q_b[s]
@@ -133,7 +134,7 @@ def plausibility(dict_m, dataset_name):
 
     tot = len(powerset)
     for i in range(tot-1):
-        dict_plausibility[powerset[i]] = dict_plausibility[powerset[i]] - dict_plausibility[powerset[tot-1]] 
+        dict_plausibility[powerset[i]] = dict_m[powerset[i]] + dict_m[powerset[tot-1]] 
 
     return dict_plausibility
 

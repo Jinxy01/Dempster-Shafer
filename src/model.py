@@ -72,7 +72,9 @@ def prediction(rule_set, dataset_name, *att):
     # Change order to match one hot encoding of classes
     # Blue (class 0) => [1 0]
     # Red  (class 1) => [0 1]
-    
+    if prob_class_0 > prob_class_1:
+        return prob_class_0 * one_hot(tensor(0), num_classes=NUM_CLASSES).float()
+    return prob_class_1 * one_hot(tensor(1), num_classes=NUM_CLASSES).float()
     y_hat = [prob_class_0, prob_class_1]
 
     return y_hat
