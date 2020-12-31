@@ -14,6 +14,10 @@ pip3 install -r requirements.txt
 ```bash
 bash test.sh
 ```
+Any errors with missing Python.h, when installing sklearn, run: 
+```bash
+sudo apt-get install build-essential python3-dev python3-pip
+```
 
 ## TODO:
 - [x] Implement Adam
