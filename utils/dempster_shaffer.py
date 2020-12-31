@@ -35,6 +35,31 @@ def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Need to normalize so that sum = 1
     return normalize_masses_combined(dict_combined_m)
 
+def dempster_rule_optim(dict_m1, dict_m2, dataset_name):
+    # Combine masses
+    dict_combined_m = {}
+    powerset = get_powerset_dataset(dataset_name)
+
+    q_a = {}
+    q_b = {}
+    tot = len(powerset)
+    for i in range(tot):
+        if i == tot-1:
+            q_a[powerset[i]] = dict_m1[powerset[i]]
+            q_b[powerset[i]] = dict_m2[powerset[i]]
+        else:
+            q_a[powerset[i]] = dict_m1[powerset[i]] + dict_m1[powerset[tot-1]]
+            q_b[powerset[i]] = dict_m2[powerset[i]] + dict_m2[powerset[tot-1]]
+
+    for s in powerset:
+        dict_combined_m[s] = q_a[s]*q_b[s]
+    
+    for i in range(tot-1):
+        dict_combined_m[powerset[i]] = dict_combined_m[powerset[i]] - dict_combined_m[powerset[tot-1]] 
+    
+    # We do not need to normalize now
+    return dict_combined_m
+
 # Their optimization...
 # def dempster_rule_v2(dict_m1, dict_m2):
 #     # Combine masses

@@ -89,7 +89,7 @@ def evaluate_breast_cancer_dataset(dataset_name):
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
-    draw_loss(it_loss, graph_filepath)
+    #draw_loss(it_loss, graph_filepath)
 
 
 if __name__ == "__main__":
