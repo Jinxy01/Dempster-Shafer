@@ -36,7 +36,7 @@ sudo apt-get install python3-tk
 - [ ] Add belief to inference
 - [x] Update frozenset_to_class to consider dataset_name
 - [ ] Check what rule of BC corresponds to
-- [ ] Iris dataset
+- [x] Iris dataset: use non optimzed stuff!
 
 ## Comments:
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
@@ -62,5 +62,6 @@ Em stats:
 * A1_ohe_inf_pl_ds_mse_optim = igual a anterior mas com one hot enconding de classes 0 e 1 em config.py
 
 * BC_full_optim = tem todas as otimizações
+
     
 

@@ -41,6 +41,9 @@ def get_class_plausibility(dict_m, dataset_name):
         class_0, class_1 = dict_m[frozenset({'B'})], dict_m[frozenset({'R'})]
     elif dataset_name == "BC_Dataset":
         class_0, class_1 = dict_m[frozenset({'B'})], dict_m[frozenset({'M'})]
+    elif dataset_name == "IRIS_Dataset":
+        class_0, class_1, class_2 = dict_m[frozenset({'S'})], dict_m[frozenset({'C'})], dict_m[frozenset({'V'})]
+        return class_0, class_1, class_2
     else:
         assert False
     return class_0, class_1 
@@ -64,6 +67,8 @@ def get_powerset_dataset(dataset_name):
         return A1_POWERSET
     elif dataset_name == "BC_Dataset":
         return BC_POWERSET
+    elif dataset_name == "IRIS_Dataset":
+        return IRIS_POWERSET
     else:
         assert False
 
@@ -72,6 +77,8 @@ def get_complete_set_dataset(dataset_name):
         return A1_COMPLETE_SET
     elif dataset_name == "BC_Dataset":
         return BC_COMPLETE_SET
+    elif dataset_name == "IRIS_Dataset":
+        return IRIS_POWERSET
     else:
         assert False
 
@@ -102,7 +109,7 @@ def start_weights(s_list, dataset_name):
             m[frozenset('C')] = tensor(0.03, device=DEVICE, dtype=DTYPE, requires_grad=True) # cersiColour
             m[frozenset('V')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True) # Virginica
             m[frozenset({'S','C','V'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-            optimizer = optim.Adam([m[frozenset('C')], m[frozenset('C')], m[frozenset('V')],
+            optimizer = optim.Adam([m[frozenset('S')], m[frozenset('C')], m[frozenset('V')],
                 m[frozenset({'S','C','V'})]])
             list_initial_weights.append([m, optimizer, s])
 

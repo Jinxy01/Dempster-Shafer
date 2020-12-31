@@ -19,7 +19,7 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def dempster_rule_working(dict_m1, dict_m2, dataset_name):
+def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
@@ -50,7 +50,7 @@ def commonality_2_classes(dict_m1, dict_m2, powerset):
     return q_a, q_b
 
 
-def dempster_rule(dict_m1, dict_m2, dataset_name):
+def dempster_rule_optim(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
@@ -66,20 +66,6 @@ def dempster_rule(dict_m1, dict_m2, dataset_name):
     
     # We do not need to normalize now
     return dict_combined_m
-
-# Their optimization...
-# def dempster_rule_v2(dict_m1, dict_m2):
-#     # Combine masses
-#     r1, b1, r_b1 = dict_m1[frozenset({'R'})], dict_m1[frozenset({'B'})], dict_m1[frozenset({'R', 'B'})]
-#     r2, b2, r_b2 = dict_m2[frozenset({'R'})], dict_m2[frozenset({'B'})], dict_m2[frozenset({'R', 'B'})] 
-#     dict_combined_m = {}
-
-#     dict_combined_m[frozenset({'R', 'B'})] = r_b1*r_b2
-#     dict_combined_m[frozenset({'R'})]      = r1*r2 - dict_combined_m[frozenset({'R', 'B'})]
-#     dict_combined_m[frozenset({'B'})]      = b1*b2 - dict_combined_m[frozenset({'R', 'B'})]
-    
-#     # Need to normalize so that sum = 1
-#     return normalize_masses_combined(dict_combined_m)
 
 
 
@@ -115,7 +101,7 @@ def plausibility_set(A, dict_m, dataset_name):
             sum_m += dict_m[s]
     return sum_m
 
-def plausibility_working(dict_m, dataset_name):
+def plausibility(dict_m, dataset_name):
     dict_plausibility = {}
     complete_set = get_complete_set_dataset(dataset_name)
 
@@ -127,7 +113,7 @@ def plausibility_working(dict_m, dataset_name):
     return dict_plausibility
 
 # optimized
-def plausibility(dict_m, dataset_name):
+def plausibility_optim(dict_m, dataset_name):
     dict_plausibility = {}
     powerset = get_powerset_dataset(dataset_name)
 
@@ -147,39 +133,10 @@ def project_masses(list_dict_m):
         for k, v in rule_mass[0].items():
             rule_mass[0][k] = v + (1-sum_m)/3
     
-
-# def project_masses_v2(list_tensor):
-#     sum_m = 0
-#     for e in list_tensor:
-#         sum_m += e.item()
-
-#     for i in range(len(list_tensor)):
-#         list_tensor[i] = list_tensor[i] + (1-sum_m)/3
-    
-#     return list_tensor
     
 def normalize_rule_set(rule_set):
     for i in range(len(rule_set)):
         dict_m = rule_set[i][0]
         rule_set[i][0] = normalize_masses_combined(dict_m)
 
-# Testing stuff
-# def find_normal_plane():
-#     # Q = np.array([,1,2])
-#     # R = np.array([-4,2,2])
-#     # S = np.array([-2,1,5])
-#     Q = np.array([1,0,0])
-#     R = np.array([0,1,0])
-#     S = np.array([0,0,1])
 
-#     p = np.array([0.3146406412124634, -0.3311198651790619, 0.33113864064216614])
-#     #print((R-Q))
-#     #print((S-Q))
-#     n = np.cross((R-Q) ,(S-Q))
-#     print(n)
-
-#     v = p
-#     dist = v[0]*n[0] + v[1]*n[1] + v[2]*n[2]
-#     p_ = p - dist*n
-#     print(p_)
-  

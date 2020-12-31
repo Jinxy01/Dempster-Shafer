@@ -110,7 +110,7 @@ def evaluate_iris_dataset(dataset_name):
     accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
     
     # Rules Table Drawing
-    read_rules_BC(rule_set)
+    read_rules_iris(rule_set)
 
     # Exhibit accuracy
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
@@ -122,5 +122,5 @@ def evaluate_iris_dataset(dataset_name):
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
-    #evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_iris_dataset("IRIS_Dataset")
