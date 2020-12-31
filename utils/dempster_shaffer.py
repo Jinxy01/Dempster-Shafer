@@ -40,13 +40,12 @@ def commonality_2_classes(dict_m1, dict_m2, powerset):
     q_a = {}
     q_b = {}
     tot = len(powerset)
-    for i in range(tot):
-        if i == tot-1:
-            q_a[powerset[i]] = dict_m1[powerset[i]]
-            q_b[powerset[i]] = dict_m2[powerset[i]]
-        else:
-            q_a[powerset[i]] = dict_m1[powerset[i]] + dict_m1[powerset[tot-1]]
-            q_b[powerset[i]] = dict_m2[powerset[i]] + dict_m2[powerset[tot-1]]
+    for i in range(tot-1): # Do not look at uncertainty
+        q_a[powerset[i]] = dict_m1[powerset[i]] + dict_m1[powerset[tot-1]]
+        q_b[powerset[i]] = dict_m2[powerset[i]] + dict_m2[powerset[tot-1]]
+
+    q_a[powerset[tot-1]] = dict_m1[powerset[tot-1]]
+    q_b[powerset[tot-1]] = dict_m2[powerset[tot-1]]
 
     return q_a, q_b
 
