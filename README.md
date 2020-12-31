@@ -35,6 +35,7 @@ sudo apt-get install python3-tk
 - [x] Generalize model for datasets
 - [ ] Add belief to inference
 - [x] Update frozenset_to_class to consider dataset_name
+- [ ] Check what rule of BC corresponds to
 
 ## Comments:
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
@@ -61,3 +62,4 @@ Em stats:
 
     * BC_full_optim = tem todas as otimizações
     
+
