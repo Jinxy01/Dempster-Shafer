@@ -28,13 +28,13 @@ sudo apt-get install python3-tk
 - [x] Implement Adam
 - [x] MAF in train
 - [x] Projected Gradient Descent (Adam)
-- [ ] Use Pytorch loss function
+- [x] Use Pytorch loss function
 - [x] Generate rules
 - [x] Generalize lambda functions of A1
 - [ ] Generalize lambda functions of BC
 - [x] Generalize model for datasets
 - [ ] Add belief to inference
-- [ ] Update frozenset_to_class to consider dataset_name
+- [x] Update frozenset_to_class to consider dataset_name
 
 ## Comments:
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)

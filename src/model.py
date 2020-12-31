@@ -144,17 +144,23 @@ def training(X, Y, rule_set, loss, dataset_name):
 
 # ---------------- Inference -------------------
 
-# TODO: ver dataset
-def frozenset_to_class(y_hat):
+def frozenset_to_class(y_hat, dataset_name):
     # For a1 and a2 dataset
     #if y_hat == frozenset({'R', 'B'}):
     #    assert False
-    if y_hat == frozenset({'R'}):
-        return 1 # Red is class 1
-    return 0
+    if dataset_name == "A1_Dataset":
+        if y_hat == frozenset({'R'}):
+            return 1 # Red is class 1
+        return 0
+    elif dataset_name == "BC_Dataset":
+        if y_hat == frozenset({'M'}):
+            return 1 # Malign is class 1
+        return 0
+    else:
+        assert False
 
-def y_argmax(dict_m):
-    return frozenset_to_class(max(dict_m, key=(lambda key: dict_m[key])))
+def y_argmax(dict_m, dataset_name):
+    return frozenset_to_class(max(dict_m, key=(lambda key: dict_m[key])), dataset_name)
 
 
 def model_inference(rule_set, dataset_name, *att):
@@ -171,7 +177,7 @@ def model_inference(rule_set, dataset_name, *att):
     for i in range(1,len(M)):
         m = dempster_rule(m,M[i], dataset_name)
         
-    return y_argmax(m)
+    return y_argmax(m, dataset_name)
 
 
 def inference_test(X, rule_set, dataset_name):
