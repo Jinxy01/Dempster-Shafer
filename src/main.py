@@ -59,7 +59,6 @@ def evaluate_A1_dataset(dataset_name):
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
 
-
 def evaluate_breast_cancer_dataset(dataset_name):
     # Variables
     graph_filepath = os.path.join(IMAGE_FOLDER, BC_LOSS_IMG)
