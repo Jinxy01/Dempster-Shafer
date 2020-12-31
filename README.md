@@ -36,6 +36,7 @@ sudo apt-get install python3-tk
 - [ ] Add belief to inference
 - [x] Update frozenset_to_class to consider dataset_name
 - [ ] Check what rule of BC corresponds to
+- [ ] Iris dataset
 
 ## Comments:
 Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
