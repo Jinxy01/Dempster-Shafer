@@ -57,4 +57,5 @@ Em stats:
     * A1_ds_mse_optim = dempster shaffer otimizado e mse de pytorch
     * A1_pl_ds_mse_optim = igual a anterior mas com plausability melhorado (sem usar plausibility_set)
     * A1_inf_pl_ds_mse_optim = igual a anterior mas com inferencia melhorada (sem usar weight_uncertainty)
+    * A1_ohe_inf_pl_ds_mse_optim = igual a anterior mas com one hot enconding de classes 0 e 1 em config.py
     

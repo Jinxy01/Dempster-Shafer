@@ -1,5 +1,6 @@
 import torch
 from itertools import chain, combinations
+from torch.nn.functional import one_hot
 
 def get_powerset(set_elements):
     # Powerset: set + empty set + subsets of given set
@@ -21,6 +22,9 @@ BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2 
 NUM_EPOCHS      = 750
+
+CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()
+CLASS_1_ONE_HOT = one_hot(torch.tensor(1), num_classes=NUM_CLASSES).float()
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500

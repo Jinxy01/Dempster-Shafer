@@ -14,7 +14,7 @@ from utils.dempster_shaffer import *
 from utils.a1_helper import *
 from utils.bc_helper import *
 
-from torch.nn.functional import one_hot
+
 
 # ---------------- Training -------------------
 
@@ -77,8 +77,8 @@ def prediction(rule_set, dataset_name, *att):
     # Blue (class 0) => [1 0]
     # Red  (class 1) => [0 1]
     if prob_class_0 > prob_class_1:
-        return prob_class_0 * one_hot(tensor(0), num_classes=NUM_CLASSES).float()
-    return prob_class_1 * one_hot(tensor(1), num_classes=NUM_CLASSES).float()
+        return prob_class_0 * CLASS_0_ONE_HOT
+    return prob_class_1 * CLASS_1_ONE_HOT
     # y_hat = [prob_class_0, prob_class_1]
 
     # return y_hat
