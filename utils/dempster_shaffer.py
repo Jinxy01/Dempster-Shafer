@@ -19,7 +19,7 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def dempster_rule(dict_m1, dict_m2, dataset_name):
+def dempster_rule_working(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
@@ -49,8 +49,8 @@ def commonality_2_classes(dict_m1, dict_m2, powerset):
 
     return q_a, q_b
 
-
-def dempster_rule_optim(dict_m1, dict_m2, dataset_name):
+# optimized
+def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
@@ -101,7 +101,7 @@ def plausibility_set(A, dict_m, dataset_name):
             sum_m += dict_m[s]
     return sum_m
 
-def plausibility(dict_m, dataset_name):
+def plausibility_working(dict_m, dataset_name):
     dict_plausibility = {}
     complete_set = get_complete_set_dataset(dataset_name)
 
@@ -113,7 +113,7 @@ def plausibility(dict_m, dataset_name):
     return dict_plausibility
 
 # optimized
-def plausibility_optim(dict_m, dataset_name):
+def plausibility(dict_m, dataset_name):
     dict_plausibility = {}
     powerset = get_powerset_dataset(dataset_name)
 
@@ -124,16 +124,6 @@ def plausibility_optim(dict_m, dataset_name):
     return dict_plausibility
 
 
-def project_masses(list_dict_m):
-    for rule_mass in list_dict_m:
-        sum_m = 0
-        for _, v in rule_mass[0].items():
-            sum_m += v
-  
-        for k, v in rule_mass[0].items():
-            rule_mass[0][k] = v + (1-sum_m)/3
-    
-    
 def normalize_rule_set(rule_set):
     for i in range(len(rule_set)):
         dict_m = rule_set[i][0]
