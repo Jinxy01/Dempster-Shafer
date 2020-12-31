@@ -19,7 +19,7 @@ Any errors with "missing Python.h", when installing sklearn, run:
 sudo apt-get install build-essential python3-dev python3-pip
 ```
 
-Any errors with "UserWarning: Matplotlib is currently using agg, which is a non-GUI backend", when installing sklearn, run: 
+Any errors with "UserWarning: Matplotlib is currently using agg, which is a non-GUI backend", when displaying graph, run: 
 ```bash
 sudo apt-get install python3-tk
 ```
