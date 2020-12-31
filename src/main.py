@@ -84,12 +84,13 @@ def evaluate_breast_cancer_dataset(dataset_name):
 
     # Order rules by malignacy
     dict_rule_malig_sorted = order_rules_by_malign(rule_set)
-    print(dict_rule_malig_sorted)
+    print("Rules ordered by malignacy\n",dict_rule_malig_sorted)
+    print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
-    #draw_loss(it_loss, graph_filepath)
+    draw_loss(it_loss, graph_filepath)
 
 
 if __name__ == "__main__":

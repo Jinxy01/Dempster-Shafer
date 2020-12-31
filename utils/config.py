@@ -19,7 +19,7 @@ X_              = "x"
 Y_              = "y"
 CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
-EPSILON         = 0.00005 # 0.0001
+EPSILON         = 0.0001
 NUM_CLASSES     = 2 
 NUM_EPOCHS      = 750
 
