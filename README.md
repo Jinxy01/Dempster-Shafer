@@ -49,3 +49,6 @@ Projected masses can be assessed but do not translate into better results (alter
 Using article generated rules gives good results for mass and uncertainty belief
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
+Optimizações:
+    * MSE (stack)
+    * Dempster Shaffer usando commody 
