@@ -19,7 +19,7 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def dempster_rule(dict_m1, dict_m2, dataset_name):
+def dempster_rule_working(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)
@@ -35,7 +35,7 @@ def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Need to normalize so that sum = 1
     return normalize_masses_combined(dict_combined_m)
 
-def dempster_rule_optim(dict_m1, dict_m2, dataset_name):
+def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Combine masses
     dict_combined_m = {}
     powerset = get_powerset_dataset(dataset_name)

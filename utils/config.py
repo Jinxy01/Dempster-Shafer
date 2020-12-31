@@ -20,7 +20,7 @@ CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2 
-NUM_EPOCHS      = 750
+NUM_EPOCHS      = 200
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500

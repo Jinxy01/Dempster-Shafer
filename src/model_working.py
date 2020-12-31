@@ -14,8 +14,6 @@ from utils.dempster_shaffer import *
 from utils.a1_helper import *
 from utils.bc_helper import *
 
-from torch.nn.functional import one_hot
-
 # ---------------- Training -------------------
 
 def is_converged(loss_current, loss_previous):
@@ -36,9 +34,6 @@ def mse(y, y_hat):
         sum_ += y0_loss + y1_loss
     
     return sum_/(NUM_CLASSES*tot)
-
-def mse_test(y, y_hat):
-    return torch.sum((y_hat - y) ** 2)
 
 def get_two_class_probabilities(dict_m, dataset_name):
     # r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
@@ -72,9 +67,6 @@ def prediction(rule_set, dataset_name, *att):
     # Change order to match one hot encoding of classes
     # Blue (class 0) => [1 0]
     # Red  (class 1) => [0 1]
-    if prob_class_0 > prob_class_1:
-        return prob_class_0 * one_hot(tensor(0), num_classes=NUM_CLASSES).float()
-    return prob_class_1 * one_hot(tensor(1), num_classes=NUM_CLASSES).float()
     y_hat = [prob_class_0, prob_class_1]
 
     return y_hat
@@ -98,12 +90,7 @@ def training(X, Y, rule_set, loss, dataset_name):
         y_hat_list = model_predict(X, rule_set, dataset_name)
 
         # Compute loss
-
-        # Previous
-        #batch_loss = mse(Y, y_hat_list)
- 
-        y_hat_list = torch.stack(y_hat_list)
-        batch_loss = loss(Y, y_hat_list)
+        batch_loss = mse(Y, y_hat_list)
         it_loss.append(batch_loss)
 
         if (is_converged(batch_loss, previous_loss)):
