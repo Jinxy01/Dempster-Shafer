@@ -67,6 +67,9 @@ def evaluate_breast_cancer_dataset(dataset_name):
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
 
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
+    # for i in range(len(rule_presentation)):
+    #     print("Rule {}: {}".format(i+1, rule_presentation[i]))
+    # exit(0)
 
     read_rules_BC(rule_set)
     loss = MSE()

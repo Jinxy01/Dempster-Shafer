@@ -249,11 +249,19 @@ def generate_rules_dataset_breast_cancer(X_train, dataset_name):
     rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
-    #x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
-    #y_rules_presentation = presentation_rule_helper("y", y_mean, y_std)
+    ct_rules_presentation = presentation_rule_helper("ct", ct_mean, ct_std)
+    ucsize_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean, ucsize_std)
+    ucshape_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean, ucshape_std)
+    ma_rules_presentation = presentation_rule_helper("ma", ma_mean, ma_std)
+    secz_rules_presentation = presentation_rule_helper("secz", secz_mean, secz_std)
+    bn_rules_presentation = presentation_rule_helper("bn", bn_mean, bn_std)
+    bc_rules_presentation = presentation_rule_helper("bc", bc_mean, bc_std)
+    nn_rules_presentation = presentation_rule_helper("nn", nn_mean, nn_std)
+    m_rules_presentation = presentation_rule_helper("m", m_mean, m_std)
 
-    #rule_presentation = x_rules_presentation + y_rules_presentation
-    rule_presentation = []
+    rule_presentation  = ct_rules_presentation + ucsize_rules_presentation + ucshape_rules_presentation
+    rule_presentation += ma_rules_presentation + secz_rules_presentation + bn_rules_presentation
+    rule_presentation += bc_rules_presentation + nn_rules_presentation + m_rules_presentation
 
     return rule_set, rule_presentation
 
