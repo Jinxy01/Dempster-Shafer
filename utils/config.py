@@ -65,6 +65,13 @@ _att_fronzenset = {
     "H" : "nn",
     "I" : "m"
 }
+#---------------------- -Iris Dataset ----------------------
+IRIS_NUM_CLASSES          = 3
+BC_DATASET_FILE           = "iris.csv" 
+BC_PROCESSED_DATASET_FILE = "iris_processed.csv" 
+BC_LOSS_IMG   = "IRIS_Loss"
+BC_RULE_TABLE = "IRIS_Rule_Table"
+
 #-----------------------------------------------------------
 
 # Image

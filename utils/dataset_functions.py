@@ -273,6 +273,87 @@ def dataset_breast_cancer():
 
     return X_train, Y_train, X_test, Y_test
 
+# ------------- Iris ---------------------
+
+def preprocess_dataset_iris(dataset_filepath, processed_dataset_filepath):
+    columns = ["sl", "sw", "pl", "pw", "y"]
+   
+    # Change classes to 0, 1 and 2
+    df.loc[df.y == 'Iris Setosa', 'y']      = 0
+    df.loc[df.y == 'Iris Versicolour', 'y'] = 1
+    df.loc[df.y == 'Iris Virginica', 'y']   = 2
+    df.to_csv(processed_dataset_filepath, index=False)
+
+
+def read_dataset_iris(dataset_filepath):
+
+    with open(dataset_filepath) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        X = []
+        Y = []
+
+        next(csv_reader) # to skip the header file
+
+        #     Attribute                     Domain
+        #     1. sepal length in cm
+        #     2. sepal width in cm
+        #     3. petal length in cm
+        #     4. petal width in cm
+        #     5. class: 
+        #         -- Iris Setosa
+        #         -- Iris Versicolour
+        #         -- Iris Virginica
+
+        for sl, sw, pl, pw, y in csv_reader:
+            X.append([float(sl), float(sw), float(pl), float(pw)])
+            Y.append(int(y))
+
+    X = np.asarray(X).astype(float)
+    Y = np.asarray(Y).astype(float)
+    return X, Y
+
+def generate_rules_dataset_iris(X_train, dataset_name):
+
+    [sl_mean, sw_mean, pl_mean, pw_mean] = np.mean(X_train, axis=0) # mean along columns
+    [sl_std,  sw_std,  pl_std,  pw_std]  = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    # Create rules
+    rules_sl = generate_rule(0, sl_mean, sl_std)
+    rules_sw = generate_rule(1, sw_mean, sw_std)
+    rules_pl = generate_rule(2, pl_mean, pl_std)
+    rules_pw = generate_rule(3, pw_mean, pw_std)
+
+    s_list = rules_sl + rules_sw + rules_pl + rules_pw
+
+    rule_set = start_weights(s_list, dataset_name)
+
+    # Aid in result presentation
+    #x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
+    #y_rules_presentation = presentation_rule_helper("y", y_mean, y_std)
+
+    rule_presentation = []
+
+    return rule_set, rule_presentation
+
+
+    return rule_set, rule_presentation
+
+
+def dataset_breast_cancer():
+    dataset_filepath           = os.path.join(DATASET_FOLDER, BC_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, BC_PROCESSED_DATASET_FILE)
+
+    preprocess_dataset_breast_cancer(dataset_filepath, processed_dataset_filepath)
+
+    X, Y = read_dataset_breast_cancer(processed_dataset_filepath)
+    X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+
+    # Pre process
+    Y_train = tensor(Y_train).to(torch.int64)
+    Y_train = one_hot(Y_train, num_classes=BC_NUM_CLASSES).float()
+
+    return X_train, Y_train, X_test, Y_test
+
 
 
 # ------------ Common ------------------------
