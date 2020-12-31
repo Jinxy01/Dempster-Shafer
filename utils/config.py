@@ -20,7 +20,7 @@ Y_              = "y"
 CLASS_          = "class"
 BREAK_IT        = "Breaking at {} iteration"
 EPSILON         = 0.0001
-NUM_CLASSES     = 3 
+NUM_CLASSES     = 3
 NUM_EPOCHS      = 750
 
 CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()

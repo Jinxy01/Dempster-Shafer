@@ -54,10 +54,10 @@ def evaluate_A1_dataset(dataset_name):
     read_rules_A1(rule_set)
     
     # Rules Table Drawing
-    #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
 
     # Loss drawing
-    #draw_loss(it_loss, graph_filepath)
+    draw_loss(it_loss, graph_filepath)
 
 
 def evaluate_breast_cancer_dataset(dataset_name):

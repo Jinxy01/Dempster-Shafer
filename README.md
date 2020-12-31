@@ -39,16 +39,12 @@ sudo apt-get install python3-tk
 - [x] Iris dataset: use non optimzed stuff!
 
 ## Comments:
-Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
-
-Returning mass (instead of prob) yields the best results so far. However, uncertainty is as high as the prob of predicted class... (falar de varias alternativas para calculo de probabilidade)
-
-Not considering uncertainty makes the loss go down faster, when using A1 dataset... (considerar uncertanty como class)
-Using dataset or two points has the same tendency
-
-Projected masses can be assessed but do not translate into better results (alterantivas para projecao de massas)
-
-Using article generated rules gives good results for mass and uncertainty belief
+* Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
+* Ways to return probabilities
+* Alterantivas para projecao de massas
+* Using article generated rules gives good results for mass and uncertainty belief
+* Diferentes modos para retornar prob de classes (prob para todas vs prob para a mais alta = dif no graph de loss)
+* Wrong (em stats e imgs) = quando a prob de classes era mal calculada (so devolvida prob da class mais provavel e nao de todas)
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:

@@ -81,22 +81,29 @@ def prediction(rule_set, dataset_name, *att):
 
     if  dataset_name == "IRIS_Dataset": # Has 3 classes
         prob_class_0, prob_class_1, prob_class_2 = get_three_class_probabilities(m, dataset_name)
-        if prob_class_0 > prob_class_1: # prob_0 > prob_1
-            if prob_class_0 > prob_class_2: # prob_0 > prob_1 e prob_2
-                return prob_class_0 * CLASS_0_ONE_HOT
-            # prob_2 > prob_0 > prob_1
-            return prob_class_2 * CLASS_2_ONE_HOT 
-        else: # prob_1 > prob_0
-            if prob_class_1 > prob_class_2: # prob_1 > prob_0 e prob_2
-                return prob_class_1 * CLASS_1_ONE_HOT
-             # prob_2 > prob_1 > prob_0
-            return prob_class_2 * CLASS_2_ONE_HOT
+        p_0 = prob_class_0 * CLASS_0_ONE_HOT
+        p_1 = prob_class_1 * CLASS_1_ONE_HOT
+        p_2 = prob_class_2 * CLASS_2_ONE_HOT
+        return torch.sum(torch.stack([p_0, p_1, p_2]), dim=0) # Probabilities for three classes
+        # if prob_class_0 > prob_class_1: # prob_0 > prob_1
+        #     if prob_class_0 > prob_class_2: # prob_0 > prob_1 e prob_2
+        #         return prob_class_0 * CLASS_0_ONE_HOT
+        #     # prob_2 > prob_0 > prob_1
+        #     return prob_class_2 * CLASS_2_ONE_HOT 
+        # else: # prob_1 > prob_0
+        #     if prob_class_1 > prob_class_2: # prob_1 > prob_0 e prob_2
+        #         return prob_class_1 * CLASS_1_ONE_HOT
+        #      # prob_2 > prob_1 > prob_0
+        #     return prob_class_2 * CLASS_2_ONE_HOT
     
     else:
         prob_class_0, prob_class_1 = get_two_class_probabilities(m, dataset_name)
-        if prob_class_0 > prob_class_1:
-            return prob_class_0 * CLASS_0_ONE_HOT
-        return prob_class_1 * CLASS_1_ONE_HOT
+        p_0 = prob_class_0 * CLASS_0_ONE_HOT
+        p_1 = prob_class_1 * CLASS_1_ONE_HOT
+        return torch.sum(torch.stack([p_0, p_1]), dim=0) # Probabilities for both classes
+        # if prob_class_0 > prob_class_1:
+        #     return prob_class_0 * CLASS_0_ONE_HOT
+        # return prob_class_1 * CLASS_1_ONE_HOT
     
 def model_predict(X, rule_set, dataset_name):
     y_hat_list = []
