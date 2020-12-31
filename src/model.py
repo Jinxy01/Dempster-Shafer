@@ -131,7 +131,7 @@ def training(X, Y, rule_set, loss, dataset_name):
             for p in optim.param_groups[0]['params']:
                 p.data.clamp_(min=0, max=1)
 
-        if i % 10 == 0:
+        if i % 50 == 0:
             print(i, batch_loss.item())
 
     normalize_rule_set(rule_set)
