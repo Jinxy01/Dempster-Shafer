@@ -52,15 +52,15 @@ Using article generated rules gives good results for mass and uncertainty belief
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:
-    * MSE (stack)
-    * Dempster Shaffer usando commody 
+* MSE (stack)
+* Dempster Shaffer usando commody 
 
 Em stats:
-    * A1_ds_mse_optim = dempster shaffer otimizado e mse de pytorch
-    * A1_pl_ds_mse_optim = igual a anterior mas com plausability melhorado (sem usar plausibility_set)
-    * A1_inf_pl_ds_mse_optim = igual a anterior mas com inferencia melhorada (sem usar weight_uncertainty)
-    * A1_ohe_inf_pl_ds_mse_optim = igual a anterior mas com one hot enconding de classes 0 e 1 em config.py
+* A1_ds_mse_optim = dempster shaffer otimizado e mse de pytorch
+* A1_pl_ds_mse_optim = igual a anterior mas com plausability melhorado (sem usar plausibility_set)
+* A1_inf_pl_ds_mse_optim = igual a anterior mas com inferencia melhorada (sem usar weight_uncertainty)
+* A1_ohe_inf_pl_ds_mse_optim = igual a anterior mas com one hot enconding de classes 0 e 1 em config.py
 
-    * BC_full_optim = tem todas as otimizações
+* BC_full_optim = tem todas as otimizações
     
 
