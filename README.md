@@ -52,3 +52,9 @@ Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:
     * MSE (stack)
     * Dempster Shaffer usando commody 
+
+Em stats:
+    * A1_ds_mse_optim = dempster shaffer otimizado e mse de pytorch
+    * A1_pl_ds_mse_optim = igual a anterior mas com plausability melhorado (sem usar plausibility_set)
+    * A1_inf_pl_ds_mse_optim = igual a anterior mas com inferencia melhorada (sem usar weight_uncertainty)
+    

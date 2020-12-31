@@ -64,10 +64,14 @@ def prediction(rule_set, dataset_name, *att):
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty(dataset_name)
-    for m_i in M:
-        m = dempster_rule(m,m_i, dataset_name)
-        
+    # m = weight_full_uncertainty(dataset_name)
+    # for m_i in M:
+    #     m = dempster_rule(m,m_i, dataset_name)
+
+    m = M[0]
+    for i in range(1,len(M)):
+        m = dempster_rule(m,M[i], dataset_name)
+         
     prob_class_0, prob_class_1 = get_two_class_probabilities(m, dataset_name)
     # Change order to match one hot encoding of classes
     # Blue (class 0) => [1 0]
@@ -75,9 +79,9 @@ def prediction(rule_set, dataset_name, *att):
     if prob_class_0 > prob_class_1:
         return prob_class_0 * one_hot(tensor(0), num_classes=NUM_CLASSES).float()
     return prob_class_1 * one_hot(tensor(1), num_classes=NUM_CLASSES).float()
-    y_hat = [prob_class_0, prob_class_1]
+    # y_hat = [prob_class_0, prob_class_1]
 
-    return y_hat
+    # return y_hat
 
     
 def model_predict(X, rule_set, dataset_name):
@@ -159,9 +163,13 @@ def model_inference(rule_set, dataset_name, *att):
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty(dataset_name)
-    for m_i in M:
-        m = dempster_rule(m,m_i, dataset_name)
+    # m = weight_full_uncertainty(dataset_name)
+    # for m_i in M:
+    #     m = dempster_rule(m,m_i, dataset_name)
+
+    m = M[0]
+    for i in range(1,len(M)):
+        m = dempster_rule(m,M[i], dataset_name)
         
     return y_argmax(m)
 
