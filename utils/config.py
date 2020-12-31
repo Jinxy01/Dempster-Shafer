@@ -67,10 +67,10 @@ _att_fronzenset = {
 }
 #---------------------- -Iris Dataset ----------------------
 IRIS_NUM_CLASSES          = 3
-BC_DATASET_FILE           = "iris.csv" 
-BC_PROCESSED_DATASET_FILE = "iris_processed.csv" 
-BC_LOSS_IMG   = "IRIS_Loss"
-BC_RULE_TABLE = "IRIS_Rule_Table"
+IRIS_DATASET_FILE           = "iris.csv" 
+IRIS_PROCESSED_DATASET_FILE = "iris_processed.csv" 
+IRIS_LOSS_IMG   = "IRIS_Loss"
+IRIS_RULE_TABLE = "IRIS_Rule_Table"
 
 #-----------------------------------------------------------
 

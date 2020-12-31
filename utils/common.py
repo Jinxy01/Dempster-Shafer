@@ -95,6 +95,17 @@ def start_weights(s_list, dataset_name):
             optimizer = optim.Adam([m[frozenset('B')], m[frozenset('M')], m[frozenset({'B','M'})]])
             list_initial_weights.append([m, optimizer, s])
 
+    elif dataset_name == "IRIS_Dataset":
+        for s in s_list:
+            m = {}
+            m[frozenset('S')] = tensor(0.03, device=DEVICE, dtype=DTYPE, requires_grad=True) # Setosa
+            m[frozenset('C')] = tensor(0.03, device=DEVICE, dtype=DTYPE, requires_grad=True) # cersiColour
+            m[frozenset('V')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True) # Virginica
+            m[frozenset({'S','C','V'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('C')], m[frozenset('C')], m[frozenset('V')],
+                m[frozenset({'S','C','V'})]])
+            list_initial_weights.append([m, optimizer, s])
+
     else:
         assert False
 

@@ -152,40 +152,40 @@ def generate_rules_dataset_breast_cancer(X_train, dataset_name):
 
     # Create rules
     rules_ct_1std      = bc.generate_rule_ct(ct_mean, ct_std)
-    rules_ct_2std      = bc.generate_rule_ct(ct_mean, 2*ct_std)
-    rules_ct_3std      = bc.generate_rule_ct(ct_mean, 3*ct_std)
+    rules_ct_2std      = bc.generate_rule_ct(ct_mean-1.5*ct_std, ct_std)
+    rules_ct_3std      = bc.generate_rule_ct(ct_mean+1.5*ct_std, ct_std)
 
     rules_ucsize_1std  = bc.generate_rule_ucsize(ucsize_mean, ucsize_std)
-    rules_ucsize_2std  = bc.generate_rule_ucsize(ucsize_mean, 2*ucsize_std)
-    rules_ucsize_3std  = bc.generate_rule_ucsize(ucsize_mean, 3*ucsize_std)
+    rules_ucsize_2std  = bc.generate_rule_ucsize(ucsize_mean-1.5*ucsize_std, ucsize_std)
+    rules_ucsize_3std  = bc.generate_rule_ucsize(ucsize_mean+1.5*ucsize_std, ucsize_std)
 
     rules_ucshape_1std = bc.generate_rule_ucshape(ucshape_mean, ucshape_std)
-    rules_ucshape_2std = bc.generate_rule_ucshape(ucshape_mean, 2*ucshape_std)
-    rules_ucshape_3std = bc.generate_rule_ucshape(ucshape_mean, 3*ucshape_std)
+    rules_ucshape_2std = bc.generate_rule_ucshape(ucshape_mean-1.5*ucshape_std, ucshape_std)
+    rules_ucshape_3std = bc.generate_rule_ucshape(ucshape_mean+1.5*ucshape_std, ucshape_std)
 
     rules_ma_1std      = bc.generate_rule_ma(ma_mean, ma_std)
-    rules_ma_2std      = bc.generate_rule_ma(ma_mean, 2*ma_std)
-    rules_ma_3std      = bc.generate_rule_ma(ma_mean, 3*ma_std)
+    rules_ma_2std      = bc.generate_rule_ma(ma_mean-1.5*ma_std, ma_std)
+    rules_ma_3std      = bc.generate_rule_ma(ma_mean+1.5*ma_std, ma_std)
 
     rules_secz_1std    = bc.generate_rule_secz(secz_mean, secz_std)
-    rules_secz_2std    = bc.generate_rule_secz(secz_mean, 2*secz_std)
-    rules_secz_3std    = bc.generate_rule_secz(secz_mean, 3*secz_std)
+    rules_secz_2std    = bc.generate_rule_secz(secz_mean-1.5*secz_std, secz_std)
+    rules_secz_3std    = bc.generate_rule_secz(secz_mean+1.5*secz_std, secz_std)
 
     rules_bn_1std      = bc.generate_rule_bn(bn_mean, bn_std)
-    rules_bn_2std      = bc.generate_rule_bn(bn_mean, 2*bn_std)
-    rules_bn_3std      = bc.generate_rule_bn(bn_mean, 3*bn_std)
+    rules_bn_2std      = bc.generate_rule_bn(bn_mean-1.5*bn_std, bn_std)
+    rules_bn_3std      = bc.generate_rule_bn(bn_mean+1.5*bn_std, bn_std)
 
     rules_bc_1std      = bc.generate_rule_bc(bc_mean, bc_std)
-    rules_bc_2std      = bc.generate_rule_bc(bc_mean, 2*bc_std)
-    rules_bc_3std      = bc.generate_rule_bc(bc_mean, 3*bc_std)
+    rules_bc_2std      = bc.generate_rule_bc(bc_mean-1.5*bc_std, bc_std)
+    rules_bc_3std      = bc.generate_rule_bc(bc_mean+1.5*bc_std, bc_std)
 
     rules_nn_1std      = bc.generate_rule_nn(nn_mean, nn_std)
-    rules_nn_2std      = bc.generate_rule_nn(nn_mean, 2*nn_std)
-    rules_nn_3std      = bc.generate_rule_nn(nn_mean, 3*nn_std)
+    rules_nn_2std      = bc.generate_rule_nn(nn_mean-1.5*nn_std, nn_std)
+    rules_nn_3std      = bc.generate_rule_nn(nn_mean+1.5*nn_std, nn_std)
 
     rules_m_1std       = bc.generate_rule_m(m_mean, m_std)
-    rules_m_2std       = bc.generate_rule_m(m_mean, 2*m_std)
-    rules_m_3std       = bc.generate_rule_m(m_mean, 3*m_std)
+    rules_m_2std       = bc.generate_rule_m(m_mean-1.5*m_std, m_std)
+    rules_m_3std       = bc.generate_rule_m(m_mean+1.5*m_std, m_std)
 
     s_list = []
     s_list += rules_ct_1std + rules_ct_2std + rules_ct_3std 
@@ -279,9 +279,10 @@ def preprocess_dataset_iris(dataset_filepath, processed_dataset_filepath):
     columns = ["sl", "sw", "pl", "pw", "y"]
    
     # Change classes to 0, 1 and 2
-    df.loc[df.y == 'Iris Setosa', 'y']      = 0
-    df.loc[df.y == 'Iris Versicolour', 'y'] = 1
-    df.loc[df.y == 'Iris Virginica', 'y']   = 2
+    df = pd.read_csv(dataset_filepath, usecols=columns)
+    df.loc[df.y == 'Iris-setosa', 'y']      = 0
+    df.loc[df.y == 'Iris-versicolor', 'y'] = 1
+    df.loc[df.y == 'Iris-virginica', 'y']   = 2
     df.to_csv(processed_dataset_filepath, index=False)
 
 
@@ -336,21 +337,18 @@ def generate_rules_dataset_iris(X_train, dataset_name):
     return rule_set, rule_presentation
 
 
-    return rule_set, rule_presentation
+def dataset_iris():
+    dataset_filepath           = os.path.join(DATASET_FOLDER, IRIS_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, IRIS_PROCESSED_DATASET_FILE)
 
+    preprocess_dataset_iris(dataset_filepath, processed_dataset_filepath)
 
-def dataset_breast_cancer():
-    dataset_filepath           = os.path.join(DATASET_FOLDER, BC_DATASET_FILE)
-    processed_dataset_filepath = os.path.join(DATASET_FOLDER, BC_PROCESSED_DATASET_FILE)
-
-    preprocess_dataset_breast_cancer(dataset_filepath, processed_dataset_filepath)
-
-    X, Y = read_dataset_breast_cancer(processed_dataset_filepath)
+    X, Y = read_dataset_iris(processed_dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
 
     # Pre process
     Y_train = tensor(Y_train).to(torch.int64)
-    Y_train = one_hot(Y_train, num_classes=BC_NUM_CLASSES).float()
+    Y_train = one_hot(Y_train, num_classes=IRIS_NUM_CLASSES).float()
 
     return X_train, Y_train, X_test, Y_test
 
