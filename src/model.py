@@ -79,7 +79,7 @@ def prediction(rule_set, dataset_name, *att):
     for i in range(1,len(M)):
         m = dempster_rule(m,M[i], dataset_name)
 
-    if  dataset_name == "IRIS_Dataset": # Has 3 classes
+    if  dataset_name == "IRIS_Dataset" or dataset_name == "WINE_Dataset": # Has 3 classes
         prob_class_0, prob_class_1, prob_class_2 = get_three_class_probabilities(m, dataset_name)
         p_0 = prob_class_0 * CLASS_0_ONE_HOT
         p_1 = prob_class_1 * CLASS_1_ONE_HOT
@@ -208,6 +208,12 @@ def frozenset_to_class(y_hat, dataset_name):
         if y_hat == frozenset({'A'}):
             return 0 
         return 1 # P
+    elif dataset_name == "WINE_Dataset":
+        if y_hat == frozenset({'A'}):
+            return 0 
+        if y_hat == frozenset({'B'}):
+            return 1 
+        return 2 # C
     else:
         assert False
 

@@ -90,10 +90,10 @@ WINE_DATASET_FILE           = "wine.csv"
 WINE_PROCESSED_DATASET_FILE = "wine_processed.csv" 
 WINE_LOSS_IMG               = "WINE_Loss"
 
-WINE_COMPLETE_SET = frozenset({'A','P'})
-WINE_POWERSET     = get_powerset({'A'}.union({'P'}))
+WINE_COMPLETE_SET = frozenset({'A','B', 'C'})
+WINE_POWERSET     = get_powerset(({'A'}.union({'B'})).union({'C'}))
 
-WINE_RULE_PRESENT = "Rule {}: A = {}, P = {}, Uncertainty = {}"
+WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
 
 #-----------------------------------------------------------
 

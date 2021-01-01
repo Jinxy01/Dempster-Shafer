@@ -657,11 +657,11 @@ def generate_rules_dataset_wine(X_train, dataset_name):
 
 def dataset_wine():
     dataset_filepath           = os.path.join(DATASET_FOLDER, WINE_DATASET_FILE)
-    processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
+    #processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
 
-    preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath)
+    #preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath)
 
-    X, Y = read_dataset_heart_disease(processed_dataset_filepath)
+    X, Y = read_dataset_heart_disease(dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
 
     # Pre process
@@ -670,6 +670,14 @@ def dataset_wine():
 
     return X_train, Y_train, X_test, Y_test
 
+def read_rules_wine(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        a     = dict_m[frozenset({'A'})].item()
+        b     = dict_m[frozenset({'B'})].item()
+        c     = dict_m[frozenset({'C'})].item()
+        a_b_c = dict_m[frozenset({'A', 'B', 'C'})].item()
+        print(WINE_RULE_PRESENT.format(i+1,a,b,c,a_b_c))
 
 # ------------ Common ------------------------
 

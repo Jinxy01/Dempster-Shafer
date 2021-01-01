@@ -49,6 +49,9 @@ def get_class_plausibility(dict_m, dataset_name):
         return class_0, class_1, class_2
     elif dataset_name == "HD_Dataset":
         class_0, class_1 = dict_m[frozenset({'A'})], dict_m[frozenset({'P'})]
+    elif dataset_name == "WINE_Dataset":
+        class_0, class_1, class_2 = dict_m[frozenset({'A'})], dict_m[frozenset({'B'})], dict_m[frozenset({'C'})]
+        return class_0, class_1, class_2
     else:
         assert False
     return class_0, class_1 
@@ -76,6 +79,8 @@ def get_powerset_dataset(dataset_name):
         return IRIS_POWERSET
     elif dataset_name == "HD_Dataset":
         return HD_POWERSET
+    elif dataset_name == "WINE_Dataset":
+        return WINE_POWERSET
     else:
         assert False
 
@@ -85,9 +90,11 @@ def get_complete_set_dataset(dataset_name):
     elif dataset_name == "BC_Dataset":
         return BC_COMPLETE_SET
     elif dataset_name == "IRIS_Dataset":
-        return IRIS_POWERSET
+        return IRIS_COMPLETE_SET
     elif dataset_name == "HD_Dataset":
-        return HD_POWERSET
+        return HD_COMPLETE_SET
+    elif dataset_name == "WINE_Dataset":
+        return WINE_COMPLETE_SET
     else:
         assert False
 
@@ -129,6 +136,17 @@ def start_weights(s_list, dataset_name):
             m[frozenset('P')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True) # Disease Present
             m[frozenset({'A','P'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
             optimizer = optim.Adam([m[frozenset('A')], m[frozenset('P')], m[frozenset({'A','P'})]])
+            list_initial_weights.append([m, optimizer, s])
+
+    elif dataset_name == "WINE_Dataset":
+        for s in s_list:
+            m = {}
+            m[frozenset('A')] = tensor(0.03, device=DEVICE, dtype=DTYPE, requires_grad=True) # Wine A
+            m[frozenset('B')] = tensor(0.03, device=DEVICE, dtype=DTYPE, requires_grad=True) # Wine B
+            m[frozenset('C')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True) # Wine C
+            m[frozenset({'A','B','C'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('A')], m[frozenset('B')], m[frozenset('C')],
+                m[frozenset({'A','B','C'})]])
             list_initial_weights.append([m, optimizer, s])
     else:
         assert False
