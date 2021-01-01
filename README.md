@@ -42,6 +42,7 @@ sudo apt-get install python3-tk
 - [x] Combine various Heart Diseases datasets = other 3 datasets have a lot of more missing data
 - [ ] Wine (3 classes)
 - [ ] Metrics for Breast Cancer Rules
+- [ ] Digit: combine train+test => 3823 + 1797 = 5620
 
 ## Comments:
 * Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
