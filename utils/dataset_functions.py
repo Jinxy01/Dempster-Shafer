@@ -563,10 +563,7 @@ def read_rules_heart_disease(rule_set):
 def preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath):
     columns = ["y","ma","ash","al","mg","ph","fl","nph","pr","cl","hue","od","prol"]
 
-    df = pd.read_csv(dataset_filepath, usecols=columns, na_values='?')
-    for column in columns:
-        df[column] = df[column].fillna(value=df[column].mean())
-
+    df = pd.read_csv(dataset_filepath, usecols=columns)
     # Change classes to 0,1,2 from 1,2,3
     df.loc[df.y == 1, 'y'] = 0
     df.loc[df.y == 2, 'y'] = 1
@@ -597,8 +594,8 @@ def read_dataset_wine(dataset_filepath):
         # 13)Proline (prol)           
 
         for y,ma,ash,al,mg,ph,fl,nph,pr,cl,hue,od,prol in csv_reader:
-            X.append([float(ma), float(ash), float(mg), float(ph), float(fl), float(nph),
-                float(pr), float(cl), float(hue), float(od), float(prol)])
+            X.append([float(ma), float(ash), float(al), float(mg), float(ph), float(fl), 
+                float(nph), float(pr), float(cl), float(hue), float(od), float(prol)])
             Y.append(int(y))
 
     X = np.asarray(X).astype(float)
@@ -657,11 +654,11 @@ def generate_rules_dataset_wine(X_train, dataset_name):
 
 def dataset_wine():
     dataset_filepath           = os.path.join(DATASET_FOLDER, WINE_DATASET_FILE)
-    #processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
 
-    #preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath)
+    preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath)
 
-    X, Y = read_dataset_heart_disease(dataset_filepath)
+    X, Y = read_dataset_wine(processed_dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
 
     # Pre process

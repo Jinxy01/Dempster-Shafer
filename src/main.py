@@ -161,9 +161,9 @@ def evaluate_wine_dataset(dataset_name):
     # Variables
     graph_filepath = os.path.join(IMAGE_FOLDER, WINE_LOSS_IMG)
 
-    X_train, Y_train, X_test, Y_test = dataset_heart_disease()
+    X_train, Y_train, X_test, Y_test = dataset_wine()
 
-    rule_set, rule_presentation = generate_rules_dataset_heart_disease(X_train, dataset_name)
+    rule_set, rule_presentation = generate_rules_dataset_wine(X_train, dataset_name)
 
     loss = MSE()
 
@@ -189,6 +189,6 @@ def evaluate_wine_dataset(dataset_name):
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
-    evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
-    #evaluate_wine_dataset("WINE_Dataset")
+    evaluate_wine_dataset("WINE_Dataset")
