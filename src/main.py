@@ -69,6 +69,10 @@ def evaluate_breast_cancer_dataset(dataset_name):
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
 
     read_rules_BC(rule_set)
+    for i in range(len(rule_presentation)):
+        print("Rule {}: {}".format(i+1, rule_presentation[i]))
+    exit(0)
+
     loss = MSE()
 
     # Training
@@ -86,8 +90,8 @@ def evaluate_breast_cancer_dataset(dataset_name):
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
-    # for i in range(len(rule_presentation)):
-    #     print("Rule {}: {}".format(i+1, rule_presentation[i]))
+    for i in range(len(rule_presentation)):
+        print("Rule {}: {}".format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
