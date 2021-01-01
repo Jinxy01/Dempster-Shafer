@@ -18,10 +18,8 @@ from utils.config import *
 from utils.dataset_functions import *
 from src.model import *
 from utils.graph import *
-from utils.a1_helper import *
 from utils.bc_helper import *
 from utils.common import *
-from utils.iris_helper import *
 
 
 def test_data():
@@ -84,13 +82,13 @@ def evaluate_breast_cancer_dataset(dataset_name):
     dict_rule_malig_sorted = order_rules_by_malign(rule_set)
     print(BC_RULE_PRESENTATION_TITLE)
     for k, v in dict_rule_malig_sorted.items():
-        print(BC_RULE_PRESENTATION_DISPLAY.format(k,v))
+        print(RULE_PRESENTATION_DISPLAY.format(k,v))
 
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
     for i in range(len(rule_presentation)):
-        print(BC_RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
+        print(RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -120,7 +118,36 @@ def evaluate_iris_dataset(dataset_name):
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
     for i in range(len(rule_presentation)):
-        print(BC_RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
+        print(RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
+
+    # Loss drawing
+    draw_loss(it_loss, graph_filepath)
+
+def evaluate_heart_disease_dataset(dataset_name):
+    # Variables
+    graph_filepath = os.path.join(IMAGE_FOLDER, HD_LOSS_IMG)
+
+    X_train, Y_train, X_test, Y_test = dataset_heart_disease()
+
+    rule_set, rule_presentation = generate_rules_dataset_heart_disease(X_train, dataset_name)
+
+    loss = MSE()
+
+    # Training
+    rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
+
+    # Inference
+    accuracy, tot_correct_predicts, tot_predicts = model_evaluation(X_test, Y_test, rule_set, dataset_name)
+    
+    # Rules Table Drawing
+    read_rules_heart_disease(rule_set)
+
+    # Exhibit accuracy
+    print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
+
+    #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    for i in range(len(rule_presentation)):
+        print(RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -128,4 +155,5 @@ def evaluate_iris_dataset(dataset_name):
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
-    evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_iris_dataset("IRIS_Dataset")
+    evaluate_heart_disease_dataset("HD_Dataset")

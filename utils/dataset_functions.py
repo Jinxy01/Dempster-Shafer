@@ -16,7 +16,6 @@ import pandas as pd
 from utils.common import *
 from torch.nn.functional import one_hot
 
-import utils.a1_helper as a1
 import utils.bc_helper as bc
 
 # ------------- A1 Dataset ---------------------
@@ -84,7 +83,6 @@ def generate_rules_dataset_A1(X_train, dataset_name):
 
     return rule_set, rule_presentation
 
-
 def dataset_A1():
     dataset_filepath = os.path.join(DATASET_FOLDER, A1_DATASET_FILE)
     X, Y = read_dataset_A1(dataset_filepath)
@@ -95,6 +93,14 @@ def dataset_A1():
     Y_train = one_hot(Y_train, num_classes=A1_NUM_CLASSES).float()
 
     return X_train, Y_train, X_test, Y_test
+
+def read_rules_A1(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        b   = dict_m[frozenset({'B'})].item()
+        r   = dict_m[frozenset({'R'})].item()
+        r_b = dict_m[frozenset({'B', 'R'})].item()
+        print(A1_RULE_PRESENT.format(i+1,b,r,r_b))
 
 # ------------- Breast Cancer ---------------------
 
@@ -327,6 +333,14 @@ def dataset_breast_cancer():
 
     return X_train, Y_train, X_test, Y_test
 
+def read_rules_BC(rule_set):
+    for i in range(len(rule_set)):
+        dict_m  = rule_set[i][0]
+        b   = dict_m[frozenset({'B'})].item()
+        m   = dict_m[frozenset({'M'})].item()
+        b_m = dict_m[frozenset({'B','M'})].item()
+
+        print(BC_RULE_PRESENT.format(i+1,b,m, b_m))
 # ------------- Iris ---------------------
 
 def preprocess_dataset_iris(dataset_filepath, processed_dataset_filepath):
@@ -338,7 +352,6 @@ def preprocess_dataset_iris(dataset_filepath, processed_dataset_filepath):
     df.loc[df.y == 'Iris-versicolor', 'y'] = 1
     df.loc[df.y == 'Iris-virginica', 'y']   = 2
     df.to_csv(processed_dataset_filepath, index=False)
-
 
 def read_dataset_iris(dataset_filepath):
 
@@ -393,7 +406,6 @@ def generate_rules_dataset_iris(X_train, dataset_name):
 
     return rule_set, rule_presentation
 
-
 def dataset_iris():
     dataset_filepath           = os.path.join(DATASET_FOLDER, IRIS_DATASET_FILE)
     processed_dataset_filepath = os.path.join(DATASET_FOLDER, IRIS_PROCESSED_DATASET_FILE)
@@ -409,6 +421,262 @@ def dataset_iris():
 
     return X_train, Y_train, X_test, Y_test
 
+def read_rules_iris(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        s     = dict_m[frozenset({'S'})].item()
+        c     = dict_m[frozenset({'C'})].item()
+        v     = dict_m[frozenset({'V'})].item()
+        s_c_v = dict_m[frozenset({'S', 'C', 'V'})].item()
+        print(IRIS_RULE_PRESENT.format(i+1,s,c,v,s_c_v))
+
+# ------------- Heart Disease ----------------
+
+def preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath):
+    columns = ["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", 
+        "oldpeak", "slope", "ca", "thal", "y"]
+
+    df = pd.read_csv(dataset_filepath, usecols=columns, na_values='?')
+    for column in columns:
+        df[column] = df[column].fillna(value=df[column].mean())
+
+    # Change classes to 0 (Absence) and 1 (Present)
+    # From heart-disease.names, of dataset:
+    # Experiments with the Cleveland database have concentrated on simply
+    #  attempting to distinguish presence (values 1,2,3,4) from absence (value
+    #  0). 
+    df.loc[df.y > 1, 'y'] = 1
+    df.to_csv(processed_dataset_filepath, index=False)
+
+def read_dataset_heart_disease(dataset_filepath):
+
+    with open(dataset_filepath) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        X = []
+        Y = []
+
+        next(csv_reader) # to skip the header file
+
+        # -- 1. #3  (age)       
+        # -- 2. #4  (sex)       
+        # -- 3. #9  (cp)        
+        # -- 4. #10 (trestbps)  
+        # -- 5. #12 (chol)      
+        # -- 6. #16 (fbs)       
+        # -- 7. #19 (restecg)   
+        # -- 8. #32 (thalach)   
+        # -- 9. #38 (exang)     
+        # -- 10. #40 (oldpeak)   
+        # -- 11. #41 (slope)     
+        # -- 12. #44 (ca)        
+        # -- 13. #51 (thal) 
+
+        for age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,y in csv_reader:
+            X.append([float(age), float(sex), float(cp), float(trestbps), float(chol),
+                float(fbs), float(restecg), float(thalach), float(exang), float(oldpeak),
+                float(slope), float(ca), float(thal)])
+            Y.append(int(y))
+
+    X = np.asarray(X).astype(float)
+    Y = np.asarray(Y).astype(float)
+    return X, Y
+
+def generate_rules_dataset_heart_disease(X_train, dataset_name):
+
+    [age_mean, sex_mean, cp_mean, trestbps_mean, chol_mean,
+    fbs_mean, restecg_mean, thalach_mean, exang_mean, oldpeak_mean,
+    slope_mean, ca_mean, thal_mean] = np.mean(X_train, axis=0) # mean along columns
+
+    [age_std, sex_std, cp_std, trestbps_std, chol_std,
+    fbs_std, restecg_std, thalach_std, exang_std, oldpeak_std,
+    slope_std, ca_std, thal_std] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    # Create rules
+    rules_age      = generate_rule(0, age_mean, age_std)
+    rules_sex      = generate_rule(1, sex_mean, sex_std)
+    rules_cp       = generate_rule(2, cp_mean, cp_std)
+    rules_trestbps = generate_rule(3, trestbps_mean, trestbps_std)
+    rules_chol     = generate_rule(4, chol_mean, chol_std)
+    rules_fbs      = generate_rule(5, fbs_mean, fbs_std)
+    rules_restecg  = generate_rule(6, restecg_mean, restecg_std)
+    rules_thalach  = generate_rule(7, thalach_mean, thalach_std)
+    rules_exang    = generate_rule(8, exang_mean, exang_std)
+    rules_oldpeak  = generate_rule(9, oldpeak_mean, oldpeak_std)
+    rules_slope    = generate_rule(10, slope_mean, slope_std)
+    rules_ca       = generate_rule(11, ca_mean, ca_std)
+    rules_thal     = generate_rule(12, thal_mean, thal_std)
+
+    s_list  = rules_age + rules_sex + rules_cp + rules_trestbps + rules_chol
+    s_list += rules_fbs + rules_restecg + rules_thalach + rules_exang
+    s_list += rules_oldpeak + rules_slope + rules_ca + rules_thal
+
+    rule_set = start_weights(s_list, dataset_name)
+
+    # Aid in result presentation
+    age_rules_presentation      = presentation_rule_helper("age", age_mean, age_std)
+    sex_rules_presentation      = presentation_rule_helper("sex", sex_mean, sex_std)
+    cp_rules_presentation       = presentation_rule_helper("cp", cp_mean, cp_std)
+    trestbps_rules_presentation = presentation_rule_helper("trestbps", trestbps_mean, trestbps_std)
+    chol_rules_presentation     = presentation_rule_helper("chol", chol_mean, chol_std)
+    fbs_rules_presentation      = presentation_rule_helper("fbs", fbs_mean, fbs_std)
+    restecg_rules_presentation  = presentation_rule_helper("restecg", restecg_mean, restecg_std)
+    thalach_rules_presentation  = presentation_rule_helper("thalach", thalach_mean, thalach_std)
+    exang_rules_presentation    = presentation_rule_helper("exang", exang_mean, exang_std)
+    oldpeak_rules_presentation  = presentation_rule_helper("oldpeak", oldpeak_mean, oldpeak_std)
+    slope_rules_presentation    = presentation_rule_helper("slope", slope_mean, slope_std)
+    ca_rules_presentation       = presentation_rule_helper("ca", ca_mean, ca_std)
+    thal_rules_presentation     = presentation_rule_helper("thal", thal_mean, thal_std)
+
+    rule_presentation  = age_rules_presentation + sex_rules_presentation + cp_rules_presentation
+    rule_presentation += trestbps_rules_presentation + chol_rules_presentation
+    rule_presentation += fbs_rules_presentation + restecg_rules_presentation + thalach_rules_presentation
+    rule_presentation += exang_rules_presentation + oldpeak_rules_presentation + slope_rules_presentation
+    rule_presentation += ca_rules_presentation + thal_rules_presentation
+
+    return rule_set, rule_presentation
+
+def dataset_heart_disease():
+    dataset_filepath           = os.path.join(DATASET_FOLDER, HD_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, HD_PROCESSED_DATASET_FILE)
+
+    preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath)
+
+    X, Y = read_dataset_heart_disease(processed_dataset_filepath)
+    X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+
+    # Pre process
+    Y_train = tensor(Y_train).to(torch.int64)
+    Y_train = one_hot(Y_train, num_classes=HD_NUM_CLASSES).float()
+
+    return X_train, Y_train, X_test, Y_test
+
+def read_rules_heart_disease(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        a   = dict_m[frozenset({'A'})].item()
+        p   = dict_m[frozenset({'P'})].item()
+        a_p = dict_m[frozenset({'A', 'P'})].item()
+        print(HD_RULE_PRESENT.format(i+1,a,p,a_p))
+
+# ------------- Wine ----------------
+
+def preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath):
+    columns = ["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", 
+        "oldpeak", "slope", "ca", "thal", "y"]
+
+    df = pd.read_csv(dataset_filepath, usecols=columns, na_values='?')
+    for column in columns:
+        df[column] = df[column].fillna(value=df[column].mean())
+
+    # Change classes to 0 (Absence) and 1 (Present)
+    # From heart-disease.names, of dataset:
+    # Experiments with the Cleveland database have concentrated on simply
+    #  attempting to distinguish presence (values 1,2,3,4) from absence (value
+    #  0). 
+    df.loc[df.y > 1, 'y'] = 1
+    df.to_csv(processed_dataset_filepath, index=False)
+
+def read_dataset_heart_wine(dataset_filepath):
+
+    with open(dataset_filepath) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        X = []
+        Y = []
+
+        next(csv_reader) # to skip the header file
+
+        # 1) Alcohol (y)
+        # 2) Malic acid (ma)
+        # 3) Ash (ash)
+        # 4) Alcalinity of ash (al) 
+        # 5) Magnesium (mg)
+        # 6) Total phenols (ph)
+        # 7) Flavanoids (fl)
+        # 8) Nonflavanoid phenols (nph)
+        # 9) Proanthocyanins (pr)
+        # 10)Color intensity (cl)
+        # 11)Hue (hue)
+        # 12)OD280/OD315 of diluted wines (od)
+        # 13)Proline (prol)           
+
+        for y,ma,ash,al,mg,ph,fl,nph,pr,cl,hue,od,prol in csv_reader:
+            X.append([float(ma), float(ash), float(cp), float(trestbps), float(chol),
+                float(fbs), float(restecg), float(thalach), float(exang), float(oldpeak),
+                float(slope), float(ca), float(thal)])
+            Y.append(int(y))
+
+    X = np.asarray(X).astype(float)
+    Y = np.asarray(Y).astype(float)
+    return X, Y
+
+def generate_rules_dataset_wine(X_train, dataset_name):
+
+    [age_mean, sex_mean, cp_mean, trestbps_mean, chol_mean,
+    fbs_mean, restecg_mean, thalach_mean, exang_mean, oldpeak_mean,
+    slope_mean, ca_mean, thal_mean] = np.mean(X_train, axis=0) # mean along columns
+
+    [age_std, sex_std, cp_std, trestbps_std, chol_std,
+    fbs_std, restecg_std, thalach_std, exang_std, oldpeak_std,
+    slope_std, ca_std, thal_std] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    # Create rules
+    rules_age      = generate_rule(0, age_mean, age_std)
+    rules_sex      = generate_rule(1, sex_mean, sex_std)
+    rules_cp       = generate_rule(2, cp_mean, cp_std)
+    rules_trestbps = generate_rule(3, trestbps_mean, trestbps_std)
+    rules_chol     = generate_rule(4, chol_mean, chol_std)
+    rules_fbs      = generate_rule(5, fbs_mean, fbs_std)
+    rules_restecg  = generate_rule(6, restecg_mean, restecg_std)
+    rules_thalach  = generate_rule(7, thalach_mean, thalach_std)
+    rules_exang    = generate_rule(8, exang_mean, exang_std)
+    rules_oldpeak  = generate_rule(9, oldpeak_mean, oldpeak_std)
+    rules_slope    = generate_rule(10, slope_mean, slope_std)
+    rules_ca       = generate_rule(11, ca_mean, ca_std)
+    rules_thal     = generate_rule(12, thal_mean, thal_std)
+
+    s_list  = rules_age + rules_sex + rules_cp + rules_trestbps + rules_chol
+    s_list += rules_fbs + rules_restecg + rules_thalach + rules_exang
+    s_list += rules_oldpeak + rules_slope + rules_ca + rules_thal
+
+    rule_set = start_weights(s_list, dataset_name)
+
+    # Aid in result presentation
+    age_rules_presentation      = presentation_rule_helper("age", age_mean, age_std)
+    sex_rules_presentation      = presentation_rule_helper("sex", sex_mean, sex_std)
+    cp_rules_presentation       = presentation_rule_helper("cp", cp_mean, cp_std)
+    trestbps_rules_presentation = presentation_rule_helper("trestbps", trestbps_mean, trestbps_std)
+    chol_rules_presentation     = presentation_rule_helper("chol", chol_mean, chol_std)
+    fbs_rules_presentation      = presentation_rule_helper("fbs", fbs_mean, fbs_std)
+    restecg_rules_presentation  = presentation_rule_helper("restecg", restecg_mean, restecg_std)
+    thalach_rules_presentation  = presentation_rule_helper("thalach", thalach_mean, thalach_std)
+    exang_rules_presentation    = presentation_rule_helper("exang", exang_mean, exang_std)
+    oldpeak_rules_presentation  = presentation_rule_helper("oldpeak", oldpeak_mean, oldpeak_std)
+    slope_rules_presentation    = presentation_rule_helper("slope", slope_mean, slope_std)
+    ca_rules_presentation       = presentation_rule_helper("ca", ca_mean, ca_std)
+    thal_rules_presentation     = presentation_rule_helper("thal", thal_mean, thal_std)
+
+    rule_presentation  = age_rules_presentation + sex_rules_presentation + cp_rules_presentation
+    rule_presentation += trestbps_rules_presentation + chol_rules_presentation
+    rule_presentation += fbs_rules_presentation + restecg_rules_presentation + thalach_rules_presentation
+    rule_presentation += exang_rules_presentation + oldpeak_rules_presentation + slope_rules_presentation
+    rule_presentation += ca_rules_presentation + thal_rules_presentation
+
+    return rule_set, rule_presentation
+
+def dataset_wine():
+    dataset_filepath           = os.path.join(DATASET_FOLDER, WINE_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
+
+    preprocess_dataset_heart_disease(dataset_filepath, processed_dataset_filepath)
+
+    X, Y = read_dataset_heart_disease(processed_dataset_filepath)
+    X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+
+    # Pre process
+    Y_train = tensor(Y_train).to(torch.int64)
+    Y_train = one_hot(Y_train, num_classes=WINE_NUM_CLASSES).float()
+
+    return X_train, Y_train, X_test, Y_test
 
 
 # ------------ Common ------------------------

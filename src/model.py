@@ -11,7 +11,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.config import *
 from utils.common import *
 from utils.dempster_shaffer import *
-from utils.a1_helper import *
 from utils.bc_helper import *
 
 #from torch.utils.data import DataLoader
@@ -27,19 +26,19 @@ def is_converged(loss_current, loss_previous):
     #return convergence.item()
     return convergence
 
-def mse(y, y_hat):
-    # Y_hat is the predicted one
-    sum_ = 0.
-    tot = len(y)
-    for i in range(tot):
-        print(y[i])
-        y0, y1 = y[i]
-        y_hat0, y_hat1 = y_hat[i]
-        y0_loss = (y0 - y_hat0).pow(2)
-        y1_loss = (y1 - y_hat1).pow(2)
-        sum_ += y0_loss + y1_loss
+# def mse(y, y_hat):
+#     # Y_hat is the predicted one
+#     sum_ = 0.
+#     tot = len(y)
+#     for i in range(tot):
+#         print(y[i])
+#         y0, y1 = y[i]
+#         y_hat0, y_hat1 = y_hat[i]
+#         y0_loss = (y0 - y_hat0).pow(2)
+#         y1_loss = (y1 - y_hat1).pow(2)
+#         sum_ += y0_loss + y1_loss
     
-    return sum_/(NUM_CLASSES*tot)
+#     return sum_/(NUM_CLASSES*tot)
 
 def get_two_class_probabilities(dict_m, dataset_name):
     # r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
@@ -138,9 +137,7 @@ def training(X, Y, rule_set, loss, dataset_name):
             X_batch = batch(X,i*batch_size,batch_size)
             Y_batch = batch(Y,i*batch_size,batch_size)
 
-            #print(X_batch, Y_batch)
             # Model predictions
-            #y_hat_list = model_predict(X, rule_set, dataset_name)
             y_hat_list = model_predict(X_batch, rule_set, dataset_name)
 
             # Compute loss
@@ -150,17 +147,8 @@ def training(X, Y, rule_set, loss, dataset_name):
 
             y_hat_list = torch.stack(y_hat_list)
             
-            #batch_loss = loss(Y, y_hat_list)
             batch_loss = loss(Y_batch, y_hat_list)
-            #it_loss.append(batch_loss)
             epoch_loss.append(batch_loss.item())
-
-            #if (is_converged(batch_loss, previous_loss)):
-            #    print(BREAK_IT.format(i))
-            #    break_cycle = True
-            #   break
-
-            #previous_loss = batch_loss
 
             # Before the backward pass, use the optimizer object to zero all of the
             # gradients for the variables it will update (which are the learnable
@@ -216,6 +204,10 @@ def frozenset_to_class(y_hat, dataset_name):
         if y_hat == frozenset({'C'}):
             return 1 
         return 2 # V
+    elif dataset_name == "HD_Dataset":
+        if y_hat == frozenset({'A'}):
+            return 0 
+        return 1 # P
     else:
         assert False
 

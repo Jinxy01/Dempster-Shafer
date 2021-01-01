@@ -44,6 +44,8 @@ def get_class_plausibility(dict_m, dataset_name):
     elif dataset_name == "IRIS_Dataset":
         class_0, class_1, class_2 = dict_m[frozenset({'S'})], dict_m[frozenset({'C'})], dict_m[frozenset({'V'})]
         return class_0, class_1, class_2
+    elif dataset_name == "HD_Dataset":
+        class_0, class_1 = dict_m[frozenset({'A'})], dict_m[frozenset({'P'})]
     else:
         assert False
     return class_0, class_1 
@@ -69,6 +71,8 @@ def get_powerset_dataset(dataset_name):
         return BC_POWERSET
     elif dataset_name == "IRIS_Dataset":
         return IRIS_POWERSET
+    elif dataset_name == "HD_Dataset":
+        return HD_POWERSET
     else:
         assert False
 
@@ -79,6 +83,8 @@ def get_complete_set_dataset(dataset_name):
         return BC_COMPLETE_SET
     elif dataset_name == "IRIS_Dataset":
         return IRIS_POWERSET
+    elif dataset_name == "HD_Dataset":
+        return HD_POWERSET
     else:
         assert False
 
@@ -113,6 +119,14 @@ def start_weights(s_list, dataset_name):
                 m[frozenset({'S','C','V'})]])
             list_initial_weights.append([m, optimizer, s])
 
+    elif dataset_name == "HD_Dataset":
+        for s in s_list:
+            m = {}
+            m[frozenset('A')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True) # Disease Absent
+            m[frozenset('P')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True) # Disease Present
+            m[frozenset({'A','P'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('A')], m[frozenset('P')], m[frozenset({'A','P'})]])
+            list_initial_weights.append([m, optimizer, s])
     else:
         assert False
 

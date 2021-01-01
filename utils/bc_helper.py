@@ -1,16 +1,6 @@
 
 from torch import tensor, optim
 
-def read_rules_BC(rule_set):
-    s = "Rule {}: B = {}, M = {}, Uncertainty = {}"
-    for i in range(len(rule_set)):
-        dict_m  = rule_set[i][0]
-        b   = dict_m[frozenset({'B'})].item()
-        m   = dict_m[frozenset({'M'})].item()
-        b_m = dict_m[frozenset({'B','M'})].item()
-
-        print(s.format(i+1,b,m, b_m))
-
 # --------- Rules ----------------
 
 def generate_rule_ct(mean, std):
