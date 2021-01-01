@@ -635,25 +635,23 @@ def generate_rules_dataset_wine(X_train, dataset_name):
     rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
-    age_rules_presentation      = presentation_rule_helper("age", age_mean, age_std)
-    sex_rules_presentation      = presentation_rule_helper("sex", sex_mean, sex_std)
-    cp_rules_presentation       = presentation_rule_helper("cp", cp_mean, cp_std)
-    trestbps_rules_presentation = presentation_rule_helper("trestbps", trestbps_mean, trestbps_std)
-    chol_rules_presentation     = presentation_rule_helper("chol", chol_mean, chol_std)
-    fbs_rules_presentation      = presentation_rule_helper("fbs", fbs_mean, fbs_std)
-    restecg_rules_presentation  = presentation_rule_helper("restecg", restecg_mean, restecg_std)
-    thalach_rules_presentation  = presentation_rule_helper("thalach", thalach_mean, thalach_std)
-    exang_rules_presentation    = presentation_rule_helper("exang", exang_mean, exang_std)
-    oldpeak_rules_presentation  = presentation_rule_helper("oldpeak", oldpeak_mean, oldpeak_std)
-    slope_rules_presentation    = presentation_rule_helper("slope", slope_mean, slope_std)
-    ca_rules_presentation       = presentation_rule_helper("ca", ca_mean, ca_std)
-    thal_rules_presentation     = presentation_rule_helper("thal", thal_mean, thal_std)
+    ma_rules_presentation   = presentation_rule_helper("ma", ma_mean, ma_std)
+    ash_rules_presentation  = presentation_rule_helper("ash", ash_mean, ash_std)
+    al_rules_presentation   = presentation_rule_helper("al", al_mean, al_std)
+    mg_rules_presentation   = presentation_rule_helper("mg", mg_mean, mg_std)
+    ph_rules_presentation   = presentation_rule_helper("ph", ph_mean, ph_std)
+    fl_rules_presentation   = presentation_rule_helper("fl", fl_mean, fl_std)
+    nph_rules_presentation  = presentation_rule_helper("nph", nph_mean, nph_std)
+    pr_rules_presentation   = presentation_rule_helper("pr", pr_mean, pr_std)
+    cl_rules_presentation   = presentation_rule_helper("cl", cl_mean, cl_std)
+    hue_rules_presentation  = presentation_rule_helper("hue", hue_mean, hue_std)
+    od_rules_presentation   = presentation_rule_helper("od", od_mean, od_std)
+    prol_rules_presentation = presentation_rule_helper("prol", prol_mean, prol_std)
 
-    rule_presentation  = age_rules_presentation + sex_rules_presentation + cp_rules_presentation
-    rule_presentation += trestbps_rules_presentation + chol_rules_presentation
-    rule_presentation += fbs_rules_presentation + restecg_rules_presentation + thalach_rules_presentation
-    rule_presentation += exang_rules_presentation + oldpeak_rules_presentation + slope_rules_presentation
-    rule_presentation += ca_rules_presentation + thal_rules_presentation
+    rule_presentation  = ma_rules_presentation + ash_rules_presentation + al_rules_presentation
+    rule_presentation += mg_rules_presentation + ph_rules_presentation + fl_rules_presentation
+    rule_presentation += nph_rules_presentation + pr_rules_presentation + cl_rules_presentation
+    rule_presentation += hue_rules_presentation + od_rules_presentation + prol_rules_presentation
 
     return rule_set, rule_presentation
 

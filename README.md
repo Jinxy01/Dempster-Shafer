@@ -40,6 +40,8 @@ sudo apt-get install python3-tk
 - [x] Add batching: it improved everything
 - [x] Heart Disease Dataset
 - [ ] Combine various Heart Diseases datasets
+- [ ] Wine (3 classes)
+- [ ] Metrics for Breast Cancer Rules
 
 ## Comments:
 * Pytorch implementation working withou projecting masses. When trying to project, we have a backward error and if we fix it, the masse values barely change over iterations (and take a lot longer to process)
