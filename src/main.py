@@ -190,6 +190,6 @@ def evaluate_wine_dataset(dataset_name):
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
-    #evaluate_iris_dataset("IRIS_Dataset")
-    evaluate_heart_disease_dataset("HD_Dataset")
+    evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
