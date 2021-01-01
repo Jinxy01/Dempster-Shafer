@@ -24,21 +24,18 @@ def is_converged(loss_current, loss_previous):
     # All rules have converged to minimal loss
     return convergence.item()
 
-def mse(y, y_hat):
-    # Y_hat is the predicted one
-    sum_ = 0.
-    tot = len(y)
-    for i in range(tot):
-        y0, y1 = y[i]
-        y_hat0, y_hat1 = y_hat[i]
-        y0_loss = (y0 - y_hat0).pow(2)
-        y1_loss = (y1 - y_hat1).pow(2)
-        sum_ += y0_loss + y1_loss
+# def mse(y, y_hat):
+#     # Y_hat is the predicted one
+#     sum_ = 0.
+#     tot = len(y)
+#     for i in range(tot):
+#         y0, y1 = y[i]
+#         y_hat0, y_hat1 = y_hat[i]
+#         y0_loss = (y0 - y_hat0).pow(2)
+#         y1_loss = (y1 - y_hat1).pow(2)
+#         sum_ += y0_loss + y1_loss
     
-    return sum_/(NUM_CLASSES*tot)
-
-def mse_test(y, y_hat):
-    return torch.sum((y_hat - y) ** 2)
+#     return sum_/(NUM_CLASSES*tot)
 
 def get_two_class_probabilities(dict_m, dataset_name):
     # r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
