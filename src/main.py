@@ -96,7 +96,6 @@ def evaluate_breast_cancer_dataset(dataset_name):
 def evaluate_iris_dataset(dataset_name):
     # Variables
     graph_filepath = os.path.join(IMAGE_FOLDER, IRIS_LOSS_IMG)
-    table_filepath = os.path.join(IMAGE_FOLDER, IRIS_RULE_TABLE)
 
     X_train, Y_train, X_test, Y_test = dataset_iris()
 
