@@ -104,7 +104,6 @@ def evaluate_iris_dataset(dataset_name):
 
     rule_set, rule_presentation = generate_rules_dataset_iris(X_train, dataset_name)
 
-    read_rules_iris(rule_set)
     loss = MSE()
 
     # Training
@@ -121,12 +120,12 @@ def evaluate_iris_dataset(dataset_name):
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
     for i in range(len(rule_presentation)):
-        print("Rule {}: {}".format(i+1, rule_presentation[i]))
+        print(BC_RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
-    #evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_iris_dataset("IRIS_Dataset")
