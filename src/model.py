@@ -14,7 +14,8 @@ from utils.dempster_shaffer import *
 from utils.a1_helper import *
 from utils.bc_helper import *
 
-from torch.utils.data import DataLoader
+#from torch.utils.data import DataLoader
+from statistics import mean
 
 
 # ---------------- Training -------------------
@@ -23,20 +24,22 @@ def is_converged(loss_current, loss_previous):
     convergence = abs(loss_current-loss_previous) <= EPSILON
     #print(np.size(convergence) - np.count_nonzero(convergence))
     # All rules have converged to minimal loss
-    return convergence.item()
+    #return convergence.item()
+    return convergence
 
-# def mse(y, y_hat):
-#     # Y_hat is the predicted one
-#     sum_ = 0.
-#     tot = len(y)
-#     for i in range(tot):
-#         y0, y1 = y[i]
-#         y_hat0, y_hat1 = y_hat[i]
-#         y0_loss = (y0 - y_hat0).pow(2)
-#         y1_loss = (y1 - y_hat1).pow(2)
-#         sum_ += y0_loss + y1_loss
+def mse(y, y_hat):
+    # Y_hat is the predicted one
+    sum_ = 0.
+    tot = len(y)
+    for i in range(tot):
+        print(y[i])
+        y0, y1 = y[i]
+        y_hat0, y_hat1 = y_hat[i]
+        y0_loss = (y0 - y_hat0).pow(2)
+        y1_loss = (y1 - y_hat1).pow(2)
+        sum_ += y0_loss + y1_loss
     
-#     return sum_/(NUM_CLASSES*tot)
+    return sum_/(NUM_CLASSES*tot)
 
 def get_two_class_probabilities(dict_m, dataset_name):
     # r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
@@ -110,55 +113,87 @@ def model_predict(X, rule_set, dataset_name):
         y_hat_list.append(y_hat)
     return y_hat_list
 
+# Batching
+def batch(lst, i, n):
+    for j in range(i, len(lst), n):
+        return lst[j:j + n]
 
 def training(X, Y, rule_set, loss, dataset_name):
 
-    it_loss = []
+    training_loss = []
     previous_loss = sys.maxsize
+    # Batch info
+    batch_size = BATCH_SIZE
+    print("Batch size =", batch_size)
+    tot = int(len(X)/batch_size)
 
-    for i in range(NUM_EPOCHS):
-        # Model predictions
-        y_hat_list = model_predict(X, rule_set, dataset_name)
+    # train_loader = DataLoader(dataset=X, batch_size=2, shuffle=True)
 
-        # Compute loss
+    for t in range(NUM_EPOCHS):
 
-        # Previous
-        #batch_loss = mse(Y, y_hat_list)
- 
-        y_hat_list = torch.stack(y_hat_list)
-        batch_loss = loss(Y, y_hat_list)
-        it_loss.append(batch_loss)
+        epoch_loss = []
+        
+        for i in range(tot):
 
-        if (is_converged(batch_loss, previous_loss)):
-            print(BREAK_IT.format(i))
-            break
+            X_batch = batch(X,i*batch_size,batch_size)
+            Y_batch = batch(Y,i*batch_size,batch_size)
 
-        previous_loss = batch_loss
+            #print(X_batch, Y_batch)
+            # Model predictions
+            #y_hat_list = model_predict(X, rule_set, dataset_name)
+            y_hat_list = model_predict(X_batch, rule_set, dataset_name)
 
-        # Before the backward pass, use the optimizer object to zero all of the
-        # gradients for the variables it will update (which are the learnable
-        # weights of the model).
-        for _, optim, _ in rule_set:
-            optim.zero_grad()
+            # Compute loss
 
-        # Backward pass: compute gradient of the loss with respect to model
-        # parameters
-        batch_loss.backward()
+            # Previous
+            #batch_loss = mse(Y, y_hat_list)
 
-        # Calling the step function on an Optimizer makes an update to its
-        # parameters
-        for _, optim, _ in rule_set:
-            optim.step()
+            y_hat_list = torch.stack(y_hat_list)
+            
+            #batch_loss = loss(Y, y_hat_list)
+            batch_loss = loss(Y_batch, y_hat_list)
+            #it_loss.append(batch_loss)
+            epoch_loss.append(batch_loss.item())
 
-            # Projection
-            for p in optim.param_groups[0]['params']:
-                p.data.clamp_(min=0, max=1)
+            #if (is_converged(batch_loss, previous_loss)):
+            #    print(BREAK_IT.format(i))
+            #    break_cycle = True
+            #   break
 
-        if i % 50 == 0:
-            print(i, batch_loss.item())
+            #previous_loss = batch_loss
+
+            # Before the backward pass, use the optimizer object to zero all of the
+            # gradients for the variables it will update (which are the learnable
+            # weights of the model).
+            for _, optim, _ in rule_set:
+                optim.zero_grad()
+
+            # Backward pass: compute gradient of the loss with respect to model
+            # parameters
+            batch_loss.backward()
+
+            # Calling the step function on an Optimizer makes an update to its
+            # parameters
+            for _, optim, _ in rule_set:
+                optim.step()
+
+                # Projection
+                for p in optim.param_groups[0]['params']:
+                    p.data.clamp_(min=0, max=1)
+
+        current_epoch_loss = mean(epoch_loss)
+        training_loss.append(current_epoch_loss)
+        if (is_converged(current_epoch_loss, previous_loss)):
+                print(BREAK_IT.format(t))
+                break
+
+        previous_loss = current_epoch_loss
+
+        if t % 10 == 0:
+            print(t,current_epoch_loss)
 
     normalize_rule_set(rule_set)
-    return rule_set, it_loss
+    return rule_set, training_loss
 
 
 # ---------------- Inference -------------------
@@ -212,7 +247,7 @@ def inference(X, rule_set, dataset_name):
         y_hat_list.append(y_hat)
     return y_hat_list
 
-def inference(X, Y, rule_set, dataset_name):
+def model_evaluation(X, Y, rule_set, dataset_name):
     y_hat_list = inference(X, rule_set, dataset_name)
     tot_correct_predicts = np.sum(np.array(Y) == np.array(y_hat_list))
     tot_predicts = len(Y)

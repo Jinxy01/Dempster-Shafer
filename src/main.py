@@ -26,6 +26,7 @@ from utils.iris_helper import *
 
 def test_data():
     Y_train = tensor([1,0,1,0])
+    #Y_train = [1,0,1,0]
     X_train = [[0.2, 0.8], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
 
     Y_train = one_hot(Y_train, num_classes=NUM_CLASSES).float()
@@ -50,7 +51,7 @@ def evaluate_A1_dataset(dataset_name):
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
 
     # Inference
-    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
+    accuracy, tot_correct_predicts, tot_predicts = model_evaluation(X_test, Y_test, rule_set, dataset_name)
     read_rules_A1(rule_set)
     
     # Rules Table Drawing
@@ -68,26 +69,28 @@ def evaluate_breast_cancer_dataset(dataset_name):
 
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
 
-    read_rules_BC(rule_set)
     loss = MSE()
 
     # Training
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
 
     # Inference
-    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
+    accuracy, tot_correct_predicts, tot_predicts = model_evaluation(X_test, Y_test, rule_set, dataset_name)
     
     # Rules Table Drawing
     read_rules_BC(rule_set)
 
     # Order rules by malignacy
     dict_rule_malig_sorted = order_rules_by_malign(rule_set)
-    print("Rules ordered by malignacy\n",dict_rule_malig_sorted)
+    print(BC_RULE_PRESENTATION_TITLE)
+    for k, v in dict_rule_malig_sorted.items():
+        print(BC_RULE_PRESENTATION_DISPLAY.format(k,v))
+
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
     for i in range(len(rule_presentation)):
-        print("Rule {}: {}".format(i+1, rule_presentation[i]))
+        print(BC_RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -108,7 +111,7 @@ def evaluate_iris_dataset(dataset_name):
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
 
     # Inference
-    accuracy, tot_correct_predicts, tot_predicts = inference(X_test, Y_test, rule_set, dataset_name)
+    accuracy, tot_correct_predicts, tot_predicts = model_evaluation(X_test, Y_test, rule_set, dataset_name)
     
     # Rules Table Drawing
     read_rules_iris(rule_set)
@@ -124,6 +127,6 @@ def evaluate_iris_dataset(dataset_name):
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    evaluate_A1_dataset("A1_Dataset")
-    #evaluate_breast_cancer_dataset("BC_Dataset")
+    #evaluate_A1_dataset("A1_Dataset")
+    evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")

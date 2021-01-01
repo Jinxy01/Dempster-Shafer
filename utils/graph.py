@@ -11,7 +11,8 @@ from utils.config import *
 def draw_loss(it_loss, filepath):
 
     for i in range(len(it_loss)):
-        plt.plot(i, it_loss[i].detach().numpy(), marker='o', color='red', linestyle='-', linewidth=2, markersize=1)     
+        #plt.plot(i, it_loss[i].detach().numpy(), marker='o', color='red', linestyle='-', linewidth=2, markersize=1)
+        plt.plot(i, it_loss[i], marker='o', color='red', linestyle='-', linewidth=2, markersize=1)     
 
     plt.grid(b=True) # Add grid
     plt.title(TITLE_LOSS)

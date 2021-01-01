@@ -18,10 +18,11 @@ DATASET_FOLDER  = "dataset"
 X_              = "x"
 Y_              = "y"
 CLASS_          = "class"
-BREAK_IT        = "Breaking at {} iteration"
+BREAK_IT        = "\nBreaking at {} iteration\n"
 EPSILON         = 0.0001
 NUM_CLASSES     = 2
 NUM_EPOCHS      = 750
+BATCH_SIZE      = 16
 
 CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()
 CLASS_1_ONE_HOT = one_hot(torch.tensor(1), num_classes=NUM_CLASSES).float()
@@ -35,7 +36,7 @@ TEST_PERCENTAGE   = 0.3
 A1_NUM_CLASSES    = 2
 A1_LOSS_IMG       = "A1_Loss"
 A1_RULE_TABLE     = "A1_Rule_Table"
-RULE_TABLE_TITLE  = "Accuracy = {:.2f}% ({}/{})"
+RULE_TABLE_TITLE  = "\nAccuracy = {:.2f}% ({}/{})\n"
 A1_TABLE_HEADER   = ["Rule", "Blue", "Red", "Uncertainty"]
 
 RULE_LTE     = "{} <= {:.3f}"
@@ -54,6 +55,9 @@ BC_RULE_TABLE = "BC_Rule_Table"
 
 BC_COMPLETE_SET = frozenset({'B','M'})
 BC_POWERSET     = get_powerset({'B'}.union({'M'}))
+
+BC_RULE_PRESENTATION_TITLE   = "\nRules ordered by malignacy:"
+BC_RULE_PRESENTATION_DISPLAY = "Rule {}: {}"
 
 _att_fronzenset = {
     "A" : "ct",
