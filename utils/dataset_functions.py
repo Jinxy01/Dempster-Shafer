@@ -337,10 +337,13 @@ def generate_rules_dataset_iris(X_train, dataset_name):
     rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
-    #x_rules_presentation = presentation_rule_helper("x", x_mean, x_std)
-    #y_rules_presentation = presentation_rule_helper("y", y_mean, y_std)
+    sl_rules_presentation = presentation_rule_helper("sl", sl_mean, sl_std)
+    sw_rules_presentation = presentation_rule_helper("sw", sw_mean, sw_std)
+    pl_rules_presentation = presentation_rule_helper("pl", pl_mean, pl_std)
+    pw_rules_presentation = presentation_rule_helper("pw", pw_mean, pw_std)
 
-    rule_presentation = []
+    rule_presentation  = sl_rules_presentation + sw_rules_presentation
+    rule_presentation += pl_rules_presentation + pw_rules_presentation
 
     return rule_set, rule_presentation
 

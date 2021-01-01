@@ -46,6 +46,23 @@ Rule 16: S = 0.0, C = 0.0, V = 0.9476038217544556, Uncertainty = 0.0523961372673
 Accuracy = 88.89% (40/45)
          48128295 function calls (48080972 primitive calls) in 345.286 seconds
 
+Rule 1: sl <= 5.036
+Rule 2: 5.036 < sl <= 5.859
+Rule 3: 5.859 < sl <= 6.682
+Rule 4: sl > 6.682
+Rule 5: sw <= 2.617
+Rule 6: 2.617 < sw <= 3.044
+Rule 7: 3.044 < sw <= 3.471
+Rule 8: sw > 3.471
+Rule 9: pl <= 2.011
+Rule 10: 2.011 < pl <= 3.784
+Rule 11: 3.784 < pl <= 5.557
+Rule 12: pl > 5.557
+Rule 13: pw <= 0.429
+Rule 14: 0.429 < pw <= 1.209
+Rule 15: 1.209 < pw <= 1.988
+Rule 16: pw > 1.988
+
    Ordered by: cumulative time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)

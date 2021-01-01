@@ -67,9 +67,6 @@ def evaluate_breast_cancer_dataset(dataset_name):
     X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
 
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
-    # for i in range(len(rule_presentation)):
-    #     print("Rule {}: {}".format(i+1, rule_presentation[i]))
-    # exit(0)
 
     read_rules_BC(rule_set)
     loss = MSE()
@@ -89,6 +86,8 @@ def evaluate_breast_cancer_dataset(dataset_name):
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    # for i in range(len(rule_presentation)):
+    #     print("Rule {}: {}".format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -118,11 +117,13 @@ def evaluate_iris_dataset(dataset_name):
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    for i in range(len(rule_presentation)):
+        print("Rule {}: {}".format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
-    #evaluate_iris_dataset("IRIS_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_iris_dataset("IRIS_Dataset")
