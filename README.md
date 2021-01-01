@@ -38,8 +38,8 @@ sudo apt-get install python3-tk
 - [x] Check what rule of BC corresponds to
 - [x] Iris dataset: use non optimzed stuff!
 - [x] Add batching: it improved everything
-- [x] Heart Disease Dataset
-- [ ] Combine various Heart Diseases datasets
+- [x] Heart Disease Dataset (cleveland)
+- [ ] Combine various Heart Diseases datasets = other 3 datasets have a lot of more missing data
 - [ ] Wine (3 classes)
 - [ ] Metrics for Breast Cancer Rules
 

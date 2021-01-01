@@ -75,7 +75,7 @@ IRIS_RULE_PRESENT = "Rule {}: S = {}, C = {}, V = {}, Uncertainty = {}"
 
 #---------------------- Heart Disease Dataset ----------------------
 HD_NUM_CLASSES            = 2
-HD_DATASET_FILE           = "heart_disease_cleveland.csv" 
+HD_DATASET_FILE           = "heart_disease.csv" 
 HD_PROCESSED_DATASET_FILE = "heart_disease_processed.csv" 
 HD_LOSS_IMG               = "HD_Loss"
 
