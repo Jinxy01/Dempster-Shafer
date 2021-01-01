@@ -151,40 +151,40 @@ def generate_rules_dataset_breast_cancer(X_train, dataset_name):
 
     # Create rules
     rules_ct_1std      = bc.generate_rule_ct(ct_mean, ct_std)
-    rules_ct_2std      = bc.generate_rule_ct(ct_mean-1.5*ct_std, ct_std)
-    rules_ct_3std      = bc.generate_rule_ct(ct_mean+1.5*ct_std, ct_std)
+    rules_ct_2std      = bc.generate_rule_ct(ct_mean-2*ct_std, ct_std)
+    rules_ct_3std      = bc.generate_rule_ct(ct_mean+2*ct_std, ct_std)
 
     rules_ucsize_1std  = bc.generate_rule_ucsize(ucsize_mean, ucsize_std)
-    rules_ucsize_2std  = bc.generate_rule_ucsize(ucsize_mean-1.5*ucsize_std, ucsize_std)
-    rules_ucsize_3std  = bc.generate_rule_ucsize(ucsize_mean+1.5*ucsize_std, ucsize_std)
+    rules_ucsize_2std  = bc.generate_rule_ucsize(ucsize_mean-2*ucsize_std, ucsize_std)
+    rules_ucsize_3std  = bc.generate_rule_ucsize(ucsize_mean+2*ucsize_std, ucsize_std)
 
     rules_ucshape_1std = bc.generate_rule_ucshape(ucshape_mean, ucshape_std)
-    rules_ucshape_2std = bc.generate_rule_ucshape(ucshape_mean-1.5*ucshape_std, ucshape_std)
-    rules_ucshape_3std = bc.generate_rule_ucshape(ucshape_mean+1.5*ucshape_std, ucshape_std)
+    rules_ucshape_2std = bc.generate_rule_ucshape(ucshape_mean-2*ucshape_std, ucshape_std)
+    rules_ucshape_3std = bc.generate_rule_ucshape(ucshape_mean+2*ucshape_std, ucshape_std)
 
     rules_ma_1std      = bc.generate_rule_ma(ma_mean, ma_std)
-    rules_ma_2std      = bc.generate_rule_ma(ma_mean-1.5*ma_std, ma_std)
-    rules_ma_3std      = bc.generate_rule_ma(ma_mean+1.5*ma_std, ma_std)
+    rules_ma_2std      = bc.generate_rule_ma(ma_mean-2*ma_std, ma_std)
+    rules_ma_3std      = bc.generate_rule_ma(ma_mean+2*ma_std, ma_std)
 
     rules_secz_1std    = bc.generate_rule_secz(secz_mean, secz_std)
-    rules_secz_2std    = bc.generate_rule_secz(secz_mean-1.5*secz_std, secz_std)
-    rules_secz_3std    = bc.generate_rule_secz(secz_mean+1.5*secz_std, secz_std)
+    rules_secz_2std    = bc.generate_rule_secz(secz_mean-2*secz_std, secz_std)
+    rules_secz_3std    = bc.generate_rule_secz(secz_mean+2*secz_std, secz_std)
 
     rules_bn_1std      = bc.generate_rule_bn(bn_mean, bn_std)
-    rules_bn_2std      = bc.generate_rule_bn(bn_mean-1.5*bn_std, bn_std)
-    rules_bn_3std      = bc.generate_rule_bn(bn_mean+1.5*bn_std, bn_std)
+    rules_bn_2std      = bc.generate_rule_bn(bn_mean-2*bn_std, bn_std)
+    rules_bn_3std      = bc.generate_rule_bn(bn_mean+2*bn_std, bn_std)
 
     rules_bc_1std      = bc.generate_rule_bc(bc_mean, bc_std)
-    rules_bc_2std      = bc.generate_rule_bc(bc_mean-1.5*bc_std, bc_std)
-    rules_bc_3std      = bc.generate_rule_bc(bc_mean+1.5*bc_std, bc_std)
+    rules_bc_2std      = bc.generate_rule_bc(bc_mean-2*bc_std, bc_std)
+    rules_bc_3std      = bc.generate_rule_bc(bc_mean+2*bc_std, bc_std)
 
     rules_nn_1std      = bc.generate_rule_nn(nn_mean, nn_std)
-    rules_nn_2std      = bc.generate_rule_nn(nn_mean-1.5*nn_std, nn_std)
-    rules_nn_3std      = bc.generate_rule_nn(nn_mean+1.5*nn_std, nn_std)
+    rules_nn_2std      = bc.generate_rule_nn(nn_mean-2*nn_std, nn_std)
+    rules_nn_3std      = bc.generate_rule_nn(nn_mean+2*nn_std, nn_std)
 
     rules_m_1std       = bc.generate_rule_m(m_mean, m_std)
-    rules_m_2std       = bc.generate_rule_m(m_mean-1.5*m_std, m_std)
-    rules_m_3std       = bc.generate_rule_m(m_mean+1.5*m_std, m_std)
+    rules_m_2std       = bc.generate_rule_m(m_mean-2*m_std, m_std)
+    rules_m_3std       = bc.generate_rule_m(m_mean+2*m_std, m_std)
 
     s_list = []
     s_list += rules_ct_1std + rules_ct_2std + rules_ct_3std 
@@ -264,40 +264,40 @@ def generate_rules_dataset_breast_cancer(X_train, dataset_name):
 
     # Aid in result presentation
     ct_1_rules_presentation = presentation_rule_helper("ct", ct_mean, ct_std)
-    ct_2_rules_presentation = presentation_rule_helper("ct", ct_mean-1.5*ct_std, ct_std)
-    ct_3_rules_presentation = presentation_rule_helper("ct", ct_mean+1.5*ct_std, ct_std)
+    ct_2_rules_presentation = presentation_rule_helper("ct", ct_mean-2*ct_std, ct_std)
+    ct_3_rules_presentation = presentation_rule_helper("ct", ct_mean+2*ct_std, ct_std)
 
     ucsize_1_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean, ucsize_std)
-    ucsize_2_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean-1.5*ucsize_std, ucsize_std)
-    ucsize_3_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean+1.5*ucsize_std, ucsize_std)
+    ucsize_2_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean-2*ucsize_std, ucsize_std)
+    ucsize_3_rules_presentation = presentation_rule_helper("ucsize", ucsize_mean+2*ucsize_std, ucsize_std)
 
     ucshape_1_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean, ucshape_std)
-    ucshape_2_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean-1.5*ucshape_std, ucshape_std)
-    ucshape_3_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean+1.5*ucshape_std, ucshape_std)
+    ucshape_2_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean-2*ucshape_std, ucshape_std)
+    ucshape_3_rules_presentation = presentation_rule_helper("ucshape", ucshape_mean+2*ucshape_std, ucshape_std)
 
     ma_rules_1_presentation = presentation_rule_helper("ma", ma_mean, ma_std)
-    ma_rules_2_presentation = presentation_rule_helper("ma", ma_mean-1.5*ma_std, ma_std)
-    ma_rules_3_presentation = presentation_rule_helper("ma", ma_mean+1.5*ma_std, ma_std)
+    ma_rules_2_presentation = presentation_rule_helper("ma", ma_mean-2*ma_std, ma_std)
+    ma_rules_3_presentation = presentation_rule_helper("ma", ma_mean+2*ma_std, ma_std)
 
     secz_rules_1_presentation = presentation_rule_helper("secz", secz_mean, secz_std)
-    secz_rules_2_presentation = presentation_rule_helper("secz", secz_mean-1.5*secz_std, secz_std)
-    secz_rules_3_presentation = presentation_rule_helper("secz", secz_mean+1.5*secz_std, secz_std)
+    secz_rules_2_presentation = presentation_rule_helper("secz", secz_mean-2*secz_std, secz_std)
+    secz_rules_3_presentation = presentation_rule_helper("secz", secz_mean+2*secz_std, secz_std)
 
     bn_rules_1_presentation = presentation_rule_helper("bn", bn_mean, bn_std)
-    bn_rules_2_presentation = presentation_rule_helper("bn", bn_mean-1.5*bn_std, bn_std)
-    bn_rules_3_presentation = presentation_rule_helper("bn", bn_mean+1.5*bn_std, bn_std)
+    bn_rules_2_presentation = presentation_rule_helper("bn", bn_mean-2*bn_std, bn_std)
+    bn_rules_3_presentation = presentation_rule_helper("bn", bn_mean+2*bn_std, bn_std)
 
     bc_rules_1_presentation = presentation_rule_helper("bc", bc_mean, bc_std)
-    bc_rules_2_presentation = presentation_rule_helper("bc", bc_mean-1.5*bc_std, bc_std)
-    bc_rules_3_presentation = presentation_rule_helper("bc", bc_mean+1.5*bc_std, bc_std)
+    bc_rules_2_presentation = presentation_rule_helper("bc", bc_mean-2*bc_std, bc_std)
+    bc_rules_3_presentation = presentation_rule_helper("bc", bc_mean+2*bc_std, bc_std)
 
     nn_rules_1_presentation = presentation_rule_helper("nn", nn_mean, nn_std)
-    nn_rules_2_presentation = presentation_rule_helper("nn", nn_mean-1.5*nn_std, nn_std)
-    nn_rules_3_presentation = presentation_rule_helper("nn", nn_mean+1.5*nn_std, nn_std)
+    nn_rules_2_presentation = presentation_rule_helper("nn", nn_mean-2*nn_std, nn_std)
+    nn_rules_3_presentation = presentation_rule_helper("nn", nn_mean+2*nn_std, nn_std)
 
     m_rules_1_presentation = presentation_rule_helper("m", m_mean, m_std)
-    m_rules_2_presentation = presentation_rule_helper("m", m_mean-1.5*m_std, m_std)
-    m_rules_3_presentation = presentation_rule_helper("m", m_mean+1.5*m_std, m_std)
+    m_rules_2_presentation = presentation_rule_helper("m", m_mean-2*m_std, m_std)
+    m_rules_3_presentation = presentation_rule_helper("m", m_mean+2*m_std, m_std)
 
 
     rule_presentation  = ct_1_rules_presentation + ct_2_rules_presentation + ct_3_rules_presentation
