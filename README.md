@@ -39,7 +39,7 @@ sudo apt-get install python3-tk
 - [x] Iris dataset: use non optimzed stuff!
 - [x] Add batching: it improved everything
 - [x] Heart Disease Dataset (cleveland)
-- [ ] Combine various Heart Diseases datasets = other 3 datasets have a lot of more missing data
+- [x] Combine various Heart Diseases datasets = other 3 datasets have a lot of more missing data
 - [ ] Wine (3 classes)
 - [ ] Metrics for Breast Cancer Rules
 
@@ -53,6 +53,7 @@ sudo apt-get install python3-tk
 * Quando correr IRIS, retirar otimizacoes, em dempster_shaffer.py (para poder ser capaz de lidar com varias classes), mudar NUM_CLASSES em config.py e descomentar CLASS_2_ONE_HOT
 * Heart disease com menos size que o real e com menos att que os reais
 * Size de Wine tb consideravelmente menor
+* How to deal with absent data? Pandas: mean of column
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:
