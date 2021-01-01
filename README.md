@@ -49,6 +49,8 @@ sudo apt-get install python3-tk
 * Diferentes modos para retornar prob de classes (prob para todas vs prob para a mais alta = dif no graph de loss)
 * Wrong (em stats e imgs) = quando a prob de classes era mal calculada (so devolvida prob da class mais provavel e nao de todas)
 * Quando correr IRIS, retirar otimizacoes, em dempster_shaffer.py (para poder ser capaz de lidar com varias classes), mudar NUM_CLASSES em config.py e descomentar CLASS_2_ONE_HOT
+* Heart disease com menos size que o real e com menos att que os reais
+* Size de Wine tb consideravelmente menor
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:

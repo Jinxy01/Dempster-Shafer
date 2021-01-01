@@ -24,17 +24,20 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
+def order_rules_by_malign(rule_set, dataset_name):
+    if dataset_name == "BC_Dataset":
+        factor = frozenset({'M'})
+    elif dataset_name == "HD_Dataset":
+        factor = frozenset({'P'})
+    else:
+        assert False
 
-def order_rules_by_malign(rule_set):
     dict_rule_malig = {}
     for i in range(len(rule_set)):
         dict_rules = rule_set[i][0]
-        dict_rule_malig[i+1] = dict_rules[frozenset({'M'})].item()
+        dict_rule_malig[i+1] = dict_rules[factor].item()
     dict_rule_malig_sorted = dict(sorted(dict_rule_malig.items(), key=lambda item: item[1], reverse=True))
     return dict_rule_malig_sorted
-
-
-# ------------ Common -------------------
 
 def get_class_plausibility(dict_m, dataset_name):
     if dataset_name == "A1_Dataset":
@@ -50,19 +53,19 @@ def get_class_plausibility(dict_m, dataset_name):
         assert False
     return class_0, class_1 
 
-def weight_full_uncertainty(dataset_name):
-    m = {}
-    if dataset_name == "A1_Dataset":
-        m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
-        m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
-        m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-    elif dataset_name == "BC_Dataset": 
-        m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-        m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-    else:
-        assert False
-    return m
+# def weight_full_uncertainty(dataset_name):
+#     m = {}
+#     if dataset_name == "A1_Dataset":
+#         m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
+#         m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
+#         m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
+#     elif dataset_name == "BC_Dataset": 
+#         m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+#         m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+#         m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+#     else:
+#         assert False
+#     return m
 
 def get_powerset_dataset(dataset_name):
     if dataset_name == "A1_Dataset":

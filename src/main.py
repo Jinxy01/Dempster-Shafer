@@ -79,7 +79,7 @@ def evaluate_breast_cancer_dataset(dataset_name):
     read_rules_BC(rule_set)
 
     # Order rules by malignacy
-    dict_rule_malig_sorted = order_rules_by_malign(rule_set)
+    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name)
     print(BC_RULE_PRESENTATION_TITLE)
     for k, v in dict_rule_malig_sorted.items():
         print(RULE_PRESENTATION_DISPLAY.format(k,v))
@@ -141,6 +141,12 @@ def evaluate_heart_disease_dataset(dataset_name):
     
     # Rules Table Drawing
     read_rules_heart_disease(rule_set)
+
+    # Order by malignacy
+    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name)
+    print(BC_RULE_PRESENTATION_TITLE)
+    for k, v in dict_rule_malig_sorted.items():
+        print(RULE_PRESENTATION_DISPLAY.format(k,v))
 
     # Exhibit accuracy
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))

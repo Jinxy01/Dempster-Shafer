@@ -561,22 +561,19 @@ def read_rules_heart_disease(rule_set):
 # ------------- Wine ----------------
 
 def preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath):
-    columns = ["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", 
-        "oldpeak", "slope", "ca", "thal", "y"]
+    columns = ["y","ma","ash","al","mg","ph","fl","nph","pr","cl","hue","od","prol"]
 
     df = pd.read_csv(dataset_filepath, usecols=columns, na_values='?')
     for column in columns:
         df[column] = df[column].fillna(value=df[column].mean())
 
-    # Change classes to 0 (Absence) and 1 (Present)
-    # From heart-disease.names, of dataset:
-    # Experiments with the Cleveland database have concentrated on simply
-    #  attempting to distinguish presence (values 1,2,3,4) from absence (value
-    #  0). 
-    df.loc[df.y > 1, 'y'] = 1
+    # Change classes to 0,1,2 from 1,2,3
+    df.loc[df.y == 1, 'y'] = 0
+    df.loc[df.y == 2, 'y'] = 1
+    df.loc[df.y == 3, 'y'] = 2
     df.to_csv(processed_dataset_filepath, index=False)
 
-def read_dataset_heart_wine(dataset_filepath):
+def read_dataset_wine(dataset_filepath):
 
     with open(dataset_filepath) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -600,9 +597,8 @@ def read_dataset_heart_wine(dataset_filepath):
         # 13)Proline (prol)           
 
         for y,ma,ash,al,mg,ph,fl,nph,pr,cl,hue,od,prol in csv_reader:
-            X.append([float(ma), float(ash), float(cp), float(trestbps), float(chol),
-                float(fbs), float(restecg), float(thalach), float(exang), float(oldpeak),
-                float(slope), float(ca), float(thal)])
+            X.append([float(ma), float(ash), float(mg), float(ph), float(fl), float(nph),
+                float(pr), float(cl), float(hue), float(od), float(prol)])
             Y.append(int(y))
 
     X = np.asarray(X).astype(float)
@@ -611,32 +607,30 @@ def read_dataset_heart_wine(dataset_filepath):
 
 def generate_rules_dataset_wine(X_train, dataset_name):
 
-    [age_mean, sex_mean, cp_mean, trestbps_mean, chol_mean,
-    fbs_mean, restecg_mean, thalach_mean, exang_mean, oldpeak_mean,
-    slope_mean, ca_mean, thal_mean] = np.mean(X_train, axis=0) # mean along columns
+    [ma_mean, ash_mean, al_mean, mg_mean, ph_mean, fl_mean, nph_mean,
+    pr_mean, cl_mean, hue_mean, od_mean, prol_mean] = np.mean(X_train, axis=0) # mean along columns
 
-    [age_std, sex_std, cp_std, trestbps_std, chol_std,
-    fbs_std, restecg_std, thalach_std, exang_std, oldpeak_std,
-    slope_std, ca_std, thal_std] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+    [ma_std, ash_std, al_std, mg_std, ph_std, fl_std, nph_std,
+    pr_std, cl_std, hue_std, od_std, prol_std] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
 
     # Create rules
-    rules_age      = generate_rule(0, age_mean, age_std)
-    rules_sex      = generate_rule(1, sex_mean, sex_std)
-    rules_cp       = generate_rule(2, cp_mean, cp_std)
-    rules_trestbps = generate_rule(3, trestbps_mean, trestbps_std)
-    rules_chol     = generate_rule(4, chol_mean, chol_std)
-    rules_fbs      = generate_rule(5, fbs_mean, fbs_std)
-    rules_restecg  = generate_rule(6, restecg_mean, restecg_std)
-    rules_thalach  = generate_rule(7, thalach_mean, thalach_std)
-    rules_exang    = generate_rule(8, exang_mean, exang_std)
-    rules_oldpeak  = generate_rule(9, oldpeak_mean, oldpeak_std)
-    rules_slope    = generate_rule(10, slope_mean, slope_std)
-    rules_ca       = generate_rule(11, ca_mean, ca_std)
-    rules_thal     = generate_rule(12, thal_mean, thal_std)
+    rules_ma   = generate_rule(0, ma_mean, ma_std)
+    rules_ash  = generate_rule(1, ash_mean, ash_std)
+    rules_al   = generate_rule(2, al_mean, al_std)
+    rules_mg   = generate_rule(3, mg_mean, mg_std)
+    rules_ph   = generate_rule(4, ph_mean, ph_std)
+    rules_fl   = generate_rule(5, fl_mean, fl_std)
+    rules_nph  = generate_rule(6, nph_mean, nph_std)
+    rules_pr   = generate_rule(7, pr_mean, pr_std)
+    rules_cl   = generate_rule(8, cl_mean, cl_std)
+    rules_hue  = generate_rule(9, hue_mean, hue_std)
+    rules_od   = generate_rule(10, od_mean, od_std)
+    rules_prol = generate_rule(11, prol_mean, prol_std)
 
-    s_list  = rules_age + rules_sex + rules_cp + rules_trestbps + rules_chol
-    s_list += rules_fbs + rules_restecg + rules_thalach + rules_exang
-    s_list += rules_oldpeak + rules_slope + rules_ca + rules_thal
+
+    s_list  = rules_ma + rules_ash + rules_al + rules_mg + rules_ph
+    s_list += rules_fl + rules_nph + rules_pr + rules_cl
+    s_list += rules_hue + rules_od + rules_prol
 
     rule_set = start_weights(s_list, dataset_name)
 
