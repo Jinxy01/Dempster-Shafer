@@ -14,6 +14,7 @@ from utils.dempster_shaffer import *
 from utils.a1_helper import *
 from utils.bc_helper import *
 
+from torch.utils.data import DataLoader
 
 
 # ---------------- Training -------------------
@@ -204,7 +205,7 @@ def model_inference(rule_set, dataset_name, *att):
     return y_argmax(m, dataset_name)
 
 
-def inference_test(X, rule_set, dataset_name):
+def inference(X, rule_set, dataset_name):
     y_hat_list = []
     for att in X:
         y_hat = model_inference(rule_set, dataset_name, *att)
@@ -212,7 +213,7 @@ def inference_test(X, rule_set, dataset_name):
     return y_hat_list
 
 def inference(X, Y, rule_set, dataset_name):
-    y_hat_list = inference_test(X, rule_set, dataset_name)
+    y_hat_list = inference(X, rule_set, dataset_name)
     tot_correct_predicts = np.sum(np.array(Y) == np.array(y_hat_list))
     tot_predicts = len(Y)
     return tot_correct_predicts/tot_predicts*100, tot_correct_predicts, tot_predicts
