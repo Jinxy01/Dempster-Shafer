@@ -56,6 +56,7 @@ sudo apt-get install python3-tk
 * Heart disease com menos size que o real e com menos att que os reais
 * Size de Wine tb consideravelmente menor
 * How to deal with absent data? Pandas: mean of column
+* How did we create extra rules (case of 108R for Breast Cancer)?
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:
