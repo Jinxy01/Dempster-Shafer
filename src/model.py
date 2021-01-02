@@ -194,6 +194,7 @@ def training(X, Y, rule_set, loss, dataset_name):
                 # Projection
                 for p in optim.param_groups[0]['params']:
                     p.data.clamp_(min=0, max=1)
+            break
 
         current_epoch_loss = mean(epoch_loss)
         training_loss.append(current_epoch_loss)
@@ -206,6 +207,7 @@ def training(X, Y, rule_set, loss, dataset_name):
         if t % 10 == 0:
             print(t,current_epoch_loss)
 
+        break
     normalize_rule_set(rule_set)
     return rule_set, training_loss
 
@@ -240,6 +242,26 @@ def frozenset_to_class(y_hat, dataset_name):
         if y_hat == frozenset({'B'}):
             return 1 
         return 2 # C
+    elif dataset_name == "DIG_Dataset":
+        if y_hat == frozenset({'0'}):
+            return 0 
+        if y_hat == frozenset({'1'}):
+            return 1 
+        if y_hat == frozenset({'2'}):
+            return 2 
+        if y_hat == frozenset({'3'}):
+            return 3 
+        if y_hat == frozenset({'4'}):
+            return 4
+        if y_hat == frozenset({'5'}):
+            return 5
+        if y_hat == frozenset({'6'}):
+            return 6 
+        if y_hat == frozenset({'7'}):
+            return 7 
+        if y_hat == frozenset({'8'}):
+            return 8 
+        return 9 # 9
     else:
         assert False
 

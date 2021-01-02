@@ -57,6 +57,7 @@ sudo apt-get install python3-tk
 * Size de Wine tb consideravelmente menor
 * How to deal with absent data? Pandas: mean of column
 * How did we create extra rules (case of 108R for Breast Cancer)?
+* Differente rules for Digits!!
 
 Uso de profiler para ajudar a perceber limitacoes de implementacao
 Optimizações:

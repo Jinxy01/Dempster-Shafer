@@ -707,14 +707,14 @@ def generate_rules_dataset_digits(X_train, dataset_name):
     s_list = []
     # Create rules
     for i in range(len(att_mean)):
-        s_list += generate_rule(i, att_mean[i], att_std[i])
+        s_list += generate_rule_digits(i, att_mean[i], att_std[i])
 
     rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
     rule_presentation = []
     for i in range(len(att_mean)):
-        rule_presentation += presentation_rule_helper(str(i), att_mean[i], att_std[i])
+        rule_presentation += presentation_rule_helper_digits(str(i), att_mean[i], att_std[i])
 
     return rule_set, rule_presentation
 
@@ -733,11 +733,18 @@ def dataset_digits():
 def read_rules_digits(rule_set):
     for i in range(len(rule_set)):
         dict_m = rule_set[i][0]
-        a     = dict_m[frozenset({'A'})].item()
-        b     = dict_m[frozenset({'B'})].item()
-        c     = dict_m[frozenset({'C'})].item()
-        a_b_c = dict_m[frozenset({'A', 'B', 'C'})].item()
-        print(WINE_RULE_PRESENT.format(i+1,a,b,c,a_b_c))
+        _0     = dict_m[frozenset({'0'})].item()
+        _1     = dict_m[frozenset({'1'})].item()
+        _2     = dict_m[frozenset({'2'})].item()
+        _3     = dict_m[frozenset({'3'})].item()
+        _4     = dict_m[frozenset({'4'})].item()
+        _5     = dict_m[frozenset({'5'})].item()
+        _6     = dict_m[frozenset({'6'})].item()
+        _7     = dict_m[frozenset({'7'})].item()
+        _8     = dict_m[frozenset({'8'})].item()
+        _9     = dict_m[frozenset({'9'})].item()
+        unc    = dict_m[frozenset({'0','1','2','3','4','5','6','7','8','9'})].item()
+        print(DIG_RULE_PRESENT.format(i+1,_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,unc))
 
 # ------------ Common ------------------------
 
@@ -745,12 +752,3 @@ def split_test_train(X,Y):
     # Split between train and test (70%/30%)
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=TEST_PERCENTAGE) 
     return X_train, Y_train, X_test, Y_test
-
-
-def presentation_rule_helper(element, mean, std):
-    return [
-        RULE_LTE.format(element, mean-std),
-        RULE_BETWEEN.format(mean-std, element, mean),
-        RULE_BETWEEN.format(mean, element, mean+std),
-        RULE_GT.format(element, mean+std)
-    ]

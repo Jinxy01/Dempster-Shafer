@@ -27,6 +27,10 @@ RULE_LTE     = "{} <= {:.3f}"
 RULE_BETWEEN = "{:.3f} < {} <= {:.3f}"
 RULE_GT      = "{} > {:.3f}"
 
+# Digits
+RULE_OUTER      = "{} < {:.3f} or {:.3f} < {}"
+RULE_INNER      = "{:.3f} <= {} <= {:.3f}"
+
 RULE_PRESENTATION_DISPLAY = "Rule {}: {}"
 
 CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()

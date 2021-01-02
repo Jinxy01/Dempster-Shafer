@@ -187,3 +187,22 @@ def generate_rule(index, mean, std, *att):
     r3 = lambda *att: mean < att[index] and att[index] <= mean+std
     r4 = lambda *att: att[index] > mean+std
     return [r1, r2, r3, r4]
+
+def generate_rule_digits(index, mean, std, *att):
+    r1 = lambda *att: att[index] < mean-std or mean+std < att[index] 
+    r2 = lambda *att:  mean-std <= att[index] and att[index] <= mean+std
+    return [r1, r2]
+
+def presentation_rule_helper(element, mean, std):
+    return [
+        RULE_LTE.format(element, mean-std),
+        RULE_BETWEEN.format(mean-std, element, mean),
+        RULE_BETWEEN.format(mean, element, mean+std),
+        RULE_GT.format(element, mean+std)
+    ]
+
+def presentation_rule_helper_digits(element, mean, std):
+    return [
+        RULE_INNER.format(mean-std, element, mean+std),
+        RULE_OUTER.format(element, mean-std, mean+std, element)
+    ]
