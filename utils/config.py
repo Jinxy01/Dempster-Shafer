@@ -114,6 +114,7 @@ WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
 #---------------------- Digit Dataset ----------------------
 DIG_NUM_CLASSES            = 2 # 10
 DIG_DATASET_FILE           = "digits.csv" 
+DIG_PROCESSED_DATASET_FILE = "digits_processed.csv" 
 DIG_LOSS_IMG               = "DIG_Loss"
 
 # DIG_COMPLETE_SET = frozenset({'0','1','2','3','4','5','6','7','8','9'})

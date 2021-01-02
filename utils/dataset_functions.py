@@ -678,6 +678,20 @@ def read_rules_wine(rule_set):
 
 # ------------- Digits ----------------
 
+def preprocess_dataset_digits(dataset_filepath, processed_dataset_filepath):
+
+    # Write csv with only class 0 and 1
+    df = pd.read_csv(dataset_filepath)
+
+    # Consider class 0 and 1 only
+    list_0_1 = []
+    for line in df.to_numpy():
+        if line[64] < 2: # Class
+            list_0_1.append(line)
+
+    df_0_1 = pd.DataFrame(list_0_1)
+    df_0_1.to_csv(processed_dataset_filepath, index=False)
+
 def read_dataset_digits(dataset_filepath):
 
     with open(dataset_filepath) as csv_file:
@@ -719,9 +733,12 @@ def generate_rules_dataset_digits(X_train, dataset_name):
     return rule_set, rule_presentation
 
 def dataset_digits():
-    dataset_filepath = os.path.join(DATASET_FOLDER, DIG_DATASET_FILE)
+    dataset_filepath           = os.path.join(DATASET_FOLDER, DIG_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, DIG_PROCESSED_DATASET_FILE)
 
-    X, Y = read_dataset_digits(dataset_filepath)
+    preprocess_dataset_digits(dataset_filepath, processed_dataset_filepath)
+
+    X, Y = read_dataset_digits(processed_dataset_filepath)
     X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
 
     # Pre process
