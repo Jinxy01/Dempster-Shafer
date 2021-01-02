@@ -103,15 +103,14 @@ WINE_POWERSET     = get_powerset(({'A'}.union({'B'})).union({'C'}))
 WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
 
 #---------------------- Digit Dataset ----------------------
-WINE_NUM_CLASSES            = 10
-WINE_DATASET_FILE           = "digits.csv" 
-WINE_PROCESSED_DATASET_FILE = "wine_processed.csv" 
-WINE_LOSS_IMG               = "WINE_Loss"
+DIG_NUM_CLASSES            = 10
+DIG_DATASET_FILE           = "digits.csv" 
+DIG_LOSS_IMG               = "DIG_Loss"
 
-WINE_COMPLETE_SET = frozenset({'A','B','C'})
-WINE_POWERSET     = get_powerset(({'A'}.union({'B'})).union({'C'}))
+DIG_COMPLETE_SET = frozenset({'0','1','2','3','4','5','6','7','8','9'})
+DIG_POWERSET     = get_powerset({'0','1','2','3','4','5','6','7','8','9'})
 
-WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
+DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, 2 = {}, 3 = {}, 4 = {}, 5 = {}, 6 = {}, 7 = {}, 8 = {}, 9 = {}, Uncertainty = {}"
 
 #-----------------------------------------------------------
 

@@ -9,10 +9,10 @@ def normalize_masses_combined(dict_combined_m):
     for _, m in dict_combined_m.items():
         sum_m += m
     
-    # It is already normalized
-    if sum_m == 1.0:
+    # It is already normalized or to avoid zero division
+    if sum_m == 1.0 or sum_m == 0.0:
         return dict_combined_m
-
+        
     dict_combined_m_norm = {}
     for s in dict_combined_m:
         dict_combined_m_norm[s] = dict_combined_m[s]/sum_m
