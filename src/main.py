@@ -50,10 +50,14 @@ def evaluate_A1_dataset(dataset_name):
 
     # Inference
     accuracy, tot_correct_predicts, tot_predicts = model_evaluation(X_test, Y_test, rule_set, dataset_name)
-    read_rules_A1(rule_set)
     
     # Rules Table Drawing
-    draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    read_rules_A1(rule_set)
+    print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
+
+    #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
+    for i in range(len(rule_presentation)):
+        print(RULE_PRESENTATION_DISPLAY.format(i+1, rule_presentation[i]))
 
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
@@ -216,9 +220,9 @@ def evaluate_digits_dataset(dataset_name):
     draw_loss(it_loss, graph_filepath)
 
 if __name__ == "__main__":
-    #evaluate_A1_dataset("A1_Dataset")
+    evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
-    evaluate_wine_dataset("WINE_Dataset")
+    #evaluate_wine_dataset("WINE_Dataset")
     #evaluate_digits_dataset("DIG_Dataset")

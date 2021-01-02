@@ -25,6 +25,7 @@ sudo apt-get install python3-tk
 ```
 
 ## TODO:
+- [ ] A2 dataset
 - [x] Implement Adam
 - [x] MAF in train
 - [x] Projected Gradient Descent (Adam)
