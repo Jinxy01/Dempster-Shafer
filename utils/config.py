@@ -80,7 +80,9 @@ BC_RULE_PRESENTATION_TITLE_MALIG = "\nRules ordered by malignacy:"
 BC_RULE_PRESENTATION_TITLE_BENIN = "\nRules ordered by benignacy:"
 RULE_TABLE_COMPLEXITY            = "N. Rules = {}, Q_CPLX = {:.4f} Error = {:.4f}\n"
 
-ALLOWED_RULES = [1]
+#ALLOWED_RULES = [4, 28, 24, 25, 1, 22]
+#ALLOWED_RULES = [4, 28, 22, 25]
+ALLOWED_RULES = [i for i in range(1,37)]
 
 #---------------------- -Iris Dataset ----------------------
 IRIS_NUM_CLASSES            = 3

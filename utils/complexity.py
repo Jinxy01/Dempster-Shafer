@@ -1,4 +1,10 @@
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from utils.config import *
+
 def ant_i(rule_id):
     # Based on defined rules
     condition_rule_1 = lambda x : ((x-1)/4).is_integer()
@@ -8,13 +14,17 @@ def ant_i(rule_id):
 def ant(rule_set):
     sum_ = 0
     for i in range(len(rule_set)):
+        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+            continue
         sum_ += ant_i(i+1)
-    return sum_/(len(rule_set))
+    return sum_/(len(ALLOWED_RULES))
 
 def q_ratr(rule_set, m):
-    r = len(rule_set)
+    r = len(ALLOWED_RULES)
     sum_ = 0
-    for i in range(r):
+    for i in range(len(rule_set)):
+        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+            continue
         sum_ += (ant_i(i+1)-1)/(m-1)
     return sum_/r
 
@@ -35,6 +45,8 @@ def associate_rule_to_attribute(dict_rules_att, num_att):
 
 def get_num_rules_used(rule_set, dict_rules_att, *att):
     for i,(m,_,s) in enumerate(rule_set):
+        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+            continue
         if s(*att):
             dict_rules_att[i+1] += 1
 
@@ -54,8 +66,8 @@ def q_fs(rule_set, X_train, X_test, m):
     n_fs = sum(dict_att.values())/(len(X_train)+len(X_test))
     sum_ = 0
     for i in range(m):
-        sum_ = dict_att[i]
-    
+        sum_ += dict_att[i]
+
     return (n_fs-1)/(sum_-1)
 
 # ------------------------------
@@ -64,5 +76,6 @@ def q_cplx(rule_set, X_train, X_test, m):
     q_ratr_ = q_ratr(rule_set, m)
     q_atr_  = q_atr(rule_set, m)
     q_fs_   = q_fs(rule_set, X_train, X_test, m)
+    print(q_ratr_,q_atr_,q_fs_)
 
     return (q_ratr_ + q_atr_ + q_fs_)/3

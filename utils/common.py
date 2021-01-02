@@ -67,19 +67,19 @@ def get_class_plausibility(dict_m, dataset_name):
         assert False
     return class_0, class_1 
 
-# def weight_full_uncertainty(dataset_name):
-#     m = {}
-#     if dataset_name == "A1_Dataset":
-#         m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
-#         m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
-#         m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
-#     elif dataset_name == "BC_Dataset": 
-#         m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
-#         m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-#     else:
-#         assert False
-#     return m
+def weight_full_uncertainty(dataset_name):
+    m = {}
+    if dataset_name == "A1_Dataset":
+        m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE)
+        m[frozenset('R')] = tensor(0., device=DEVICE, dtype=DTYPE)
+        m[frozenset({'B','R'})] = tensor(1., device=DEVICE, dtype=DTYPE) # Uncertainty
+    elif dataset_name == "BC_Dataset": 
+        m[frozenset('B')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+        m[frozenset('M')] = tensor(0., device=DEVICE, dtype=DTYPE, requires_grad=True)
+        m[frozenset({'B','M'})] = tensor(1.0, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+    else:
+        assert False
+    return m
 
 def get_powerset_dataset(dataset_name):
     if dataset_name == "A1_Dataset":

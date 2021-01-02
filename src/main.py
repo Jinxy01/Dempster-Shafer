@@ -75,9 +75,7 @@ def evaluate_breast_cancer_dataset(dataset_name):
     # Variables
     loss = MSE()
     num_att = 9
-    num_rules = 36
-    q = q_cplx(rule_set, X_train, X_test, num_att)
-    exit(0)
+    num_rules = len(ALLOWED_RULES)
 
     # Training
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
