@@ -20,6 +20,7 @@ from src.model import *
 from utils.graph import *
 from utils.bc_helper import *
 from utils.common import *
+from utils.complexity import*
 
 
 # def test_data():
@@ -219,10 +220,22 @@ def evaluate_digits_dataset(dataset_name):
     # Loss drawing
     draw_loss(it_loss, graph_filepath)
 
+
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
     #evaluate_digits_dataset("DIG_Dataset")
+
+    graph_filepath = os.path.join(IMAGE_FOLDER, BC_LOSS_IMG)
+    table_filepath = os.path.join(IMAGE_FOLDER, BC_RULE_TABLE)
+
+    X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
+
+    rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, "BC_Dataset")
+    
+    
+    num_att = 9
+    print(q_cplx(rule_set, 9))
