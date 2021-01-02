@@ -23,6 +23,28 @@ def draw_loss(it_loss, filepath):
     plt.show()
 
 
+def draw_digits(matrix):
+    # Make a 8x8 grid
+    nrows, ncols = 8,8
+    image = np.zeros(nrows*ncols)
+
+    # Set every other cell to a random number (this would be your data)
+    image[::2] = np.random.random(nrows*ncols //2)
+
+    # Reshape things into a 9x9 grid.
+    image = image.reshape((nrows, ncols))
+    image = matrix
+
+    row_labels = range(nrows)
+    col_labels = range(ncols)
+    plt.matshow(image)
+    plt.xticks(range(ncols), col_labels)
+    plt.colorbar()
+    plt.yticks(range(nrows), row_labels)
+
+    plt.savefig("digit")
+    plt.show()
+
 def draw_rule_table(rule_set, filepath, accuracy, tot_correct_predicts, tot_predict, rule_presentation):
 
     table_data=[A1_TABLE_HEADER]
