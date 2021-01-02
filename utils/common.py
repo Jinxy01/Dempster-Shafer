@@ -24,11 +24,17 @@ def normalize_masses_combined(dict_combined_m):
     
     return dict_combined_m_norm
 
-def order_rules_by_malign(rule_set, dataset_name):
+def order_rules_by_malign(rule_set, dataset_name, malign):
     if dataset_name == "BC_Dataset":
-        factor = frozenset({'M'})
+        if malign:
+            factor = frozenset({'M'})
+        else:
+            factor = frozenset({'B'})
     elif dataset_name == "HD_Dataset":
-        factor = frozenset({'P'})
+        if malign:
+            factor = frozenset({'P'})
+        else:
+            factor = frozenset({'A'})
     else:
         assert False
 
@@ -36,6 +42,7 @@ def order_rules_by_malign(rule_set, dataset_name):
     for i in range(len(rule_set)):
         dict_rules = rule_set[i][0]
         dict_rule_malig[i+1] = dict_rules[factor].item()
+
     dict_rule_malig_sorted = dict(sorted(dict_rule_malig.items(), key=lambda item: item[1], reverse=True))
     return dict_rule_malig_sorted
 

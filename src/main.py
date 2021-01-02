@@ -72,7 +72,10 @@ def evaluate_breast_cancer_dataset(dataset_name):
 
     rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, dataset_name)
 
+    # Variables
     loss = MSE()
+    num_att = 9
+    num_rules = 36
 
     # Training
     rule_set, it_loss = training(X_train, Y_train, rule_set, loss, dataset_name)
@@ -84,12 +87,19 @@ def evaluate_breast_cancer_dataset(dataset_name):
     read_rules_BC(rule_set)
 
     # Order rules by malignacy
-    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name)
-    print(BC_RULE_PRESENTATION_TITLE)
+    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name, malign=True)
+    print(BC_RULE_PRESENTATION_TITLE_MALIG)
     for k, v in dict_rule_malig_sorted.items():
         print(RULE_PRESENTATION_DISPLAY.format(k,v))
 
+    # Order rules by benignancy
+    dict_rule_benin_sorted = order_rules_by_malign(rule_set, dataset_name, malign=False)
+    print(BC_RULE_PRESENTATION_TITLE_BENIN)
+    for k, v in dict_rule_benin_sorted.items():
+        print(RULE_PRESENTATION_DISPLAY.format(k,v))
+
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
+    print(RULE_TABLE_COMPLEXITY.format(num_rules, q_cplx(rule_set, X_train, X_test, num_att), (1-accuracy/100)))
 
     #draw_rule_table(rule_set, table_filepath, accuracy, tot_correct_predicts, tot_predicts, rule_presentation)
     for i in range(len(rule_presentation)):
@@ -223,19 +233,8 @@ def evaluate_digits_dataset(dataset_name):
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    #evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
     #evaluate_digits_dataset("DIG_Dataset")
-
-    graph_filepath = os.path.join(IMAGE_FOLDER, BC_LOSS_IMG)
-    table_filepath = os.path.join(IMAGE_FOLDER, BC_RULE_TABLE)
-
-    X_train, Y_train, X_test, Y_test = dataset_breast_cancer()
-
-    rule_set, rule_presentation = generate_rules_dataset_breast_cancer(X_train, "BC_Dataset")
-    
-    
-    num_att = 9
-    print(q_cplx(rule_set, 9))

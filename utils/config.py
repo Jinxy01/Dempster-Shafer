@@ -75,8 +75,10 @@ BC_RULE_TABLE = "BC_Rule_Table"
 BC_COMPLETE_SET = frozenset({'B','M'})
 BC_POWERSET     = get_powerset({'B'}.union({'M'}))
 
-BC_RULE_PRESENT              = "Rule {}: B = {}, M = {}, Uncertainty = {}"
-BC_RULE_PRESENTATION_TITLE   = "\nRules ordered by malignacy:"
+BC_RULE_PRESENT                  = "Rule {}: B = {}, M = {}, Uncertainty = {}"
+BC_RULE_PRESENTATION_TITLE_MALIG = "\nRules ordered by malignacy:"
+BC_RULE_PRESENTATION_TITLE_BENIN = "\nRules ordered by benignacy:"
+RULE_TABLE_COMPLEXITY            = "N. Rules = {}, Q_CPLX = {:.4f} Error = {:.4f}\n"
 
 #---------------------- -Iris Dataset ----------------------
 IRIS_NUM_CLASSES            = 3
