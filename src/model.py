@@ -115,6 +115,14 @@ def prediction(rule_set, dataset_name, *att):
         p_0 = prob_class_0 * CLASS_0_ONE_HOT
         p_1 = prob_class_1 * CLASS_1_ONE_HOT
         p_2 = prob_class_2 * CLASS_2_ONE_HOT
+        p_3 = prob_class_3 * CLASS_0_ONE_HOT
+        p_4 = prob_class_4 * CLASS_1_ONE_HOT
+        p_5 = prob_class_5 * CLASS_2_ONE_HOT
+        p_6 = prob_class_6 * CLASS_0_ONE_HOT
+        p_7 = prob_class_7 * CLASS_1_ONE_HOT
+        p_8 = prob_class_8 * CLASS_2_ONE_HOT
+        p_9 = prob_class_9 * CLASS_2_ONE_HOT
+        return torch.sum(torch.stack([p_0, p_1, p_2, p_3, p_4, p_5,p_6, p_7, p_8,p_9]), dim=0) # Probabilities for both classes
 
     else:
         prob_class_0, prob_class_1 = get_two_class_probabilities(m, dataset_name)
@@ -149,11 +157,9 @@ def training(X, Y, rule_set, loss, dataset_name):
     # train_loader = DataLoader(dataset=X, batch_size=2, shuffle=True)
 
     for t in range(NUM_EPOCHS):
-
         epoch_loss = []
         
         for i in range(tot):
-
             X_batch = batch(X,i*batch_size,batch_size)
             Y_batch = batch(Y,i*batch_size,batch_size)
 
