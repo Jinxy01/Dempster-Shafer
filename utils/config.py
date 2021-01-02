@@ -20,7 +20,7 @@ BREAK_IT        = "\nBreaking at {} iteration\n"
 TEST_PERCENTAGE   = 0.3
 EPSILON         = 0.0001
 NUM_CLASSES     = 3
-NUM_EPOCHS      = 100
+NUM_EPOCHS      = 200
 BATCH_SIZE      = 16
 
 RULE_LTE     = "{} <= {:.3f}"
@@ -32,6 +32,13 @@ RULE_PRESENTATION_DISPLAY = "Rule {}: {}"
 CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()
 CLASS_1_ONE_HOT = one_hot(torch.tensor(1), num_classes=NUM_CLASSES).float()
 CLASS_2_ONE_HOT = one_hot(torch.tensor(2), num_classes=NUM_CLASSES).float()
+# CLASS_3_ONE_HOT = one_hot(torch.tensor(3), num_classes=NUM_CLASSES).float()
+# CLASS_4_ONE_HOT = one_hot(torch.tensor(4), num_classes=NUM_CLASSES).float()
+# CLASS_5_ONE_HOT = one_hot(torch.tensor(5), num_classes=NUM_CLASSES).float()
+# CLASS_6_ONE_HOT = one_hot(torch.tensor(6), num_classes=NUM_CLASSES).float()
+# CLASS_7_ONE_HOT = one_hot(torch.tensor(7), num_classes=NUM_CLASSES).float()
+# CLASS_8_ONE_HOT = one_hot(torch.tensor(8), num_classes=NUM_CLASSES).float()
+# CLASS_9_ONE_HOT = one_hot(torch.tensor(9), num_classes=NUM_CLASSES).float()
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
@@ -87,6 +94,17 @@ HD_RULE_PRESENT = "Rule {}: A = {}, P = {}, Uncertainty = {}"
 #---------------------- Wine Dataset ----------------------
 WINE_NUM_CLASSES            = 3
 WINE_DATASET_FILE           = "wine.csv" 
+WINE_PROCESSED_DATASET_FILE = "wine_processed.csv" 
+WINE_LOSS_IMG               = "WINE_Loss"
+
+WINE_COMPLETE_SET = frozenset({'A','B','C'})
+WINE_POWERSET     = get_powerset(({'A'}.union({'B'})).union({'C'}))
+
+WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
+
+#---------------------- Digit Dataset ----------------------
+WINE_NUM_CLASSES            = 10
+WINE_DATASET_FILE           = "digits.csv" 
 WINE_PROCESSED_DATASET_FILE = "wine_processed.csv" 
 WINE_LOSS_IMG               = "WINE_Loss"
 

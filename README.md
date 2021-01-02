@@ -40,7 +40,7 @@ sudo apt-get install python3-tk
 - [x] Add batching: it improved everything
 - [x] Heart Disease Dataset (cleveland)
 - [x] Combine various Heart Diseases datasets = other 3 datasets have a lot of more missing data
-- [ ] Wine (3 classes)
+- [x] Wine (3 classes)
 - [ ] Metrics for Breast Cancer Rules
 - [ ] Digit: combine train+test => 3823 + 1797 = 5620
 

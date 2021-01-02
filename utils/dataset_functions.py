@@ -676,6 +676,126 @@ def read_rules_wine(rule_set):
         a_b_c = dict_m[frozenset({'A', 'B', 'C'})].item()
         print(WINE_RULE_PRESENT.format(i+1,a,b,c,a_b_c))
 
+# ------------- Digits ----------------
+
+def preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath):
+    columns = ["y","ma","ash","al","mg","ph","fl","nph","pr","cl","hue","od","prol"]
+
+    df = pd.read_csv(dataset_filepath, usecols=columns)
+    # Change classes to 0,1,2 from 1,2,3
+    df.loc[df.y == 1, 'y'] = 0
+    df.loc[df.y == 2, 'y'] = 1
+    df.loc[df.y == 3, 'y'] = 2
+    df.to_csv(processed_dataset_filepath, index=False)
+
+def read_dataset_wine(dataset_filepath):
+
+    with open(dataset_filepath) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        X = []
+        Y = []
+
+        next(csv_reader) # to skip the header file
+
+        # 1) Alcohol (y)
+        # 2) Malic acid (ma)
+        # 3) Ash (ash)
+        # 4) Alcalinity of ash (al) 
+        # 5) Magnesium (mg)
+        # 6) Total phenols (ph)
+        # 7) Flavanoids (fl)
+        # 8) Nonflavanoid phenols (nph)
+        # 9) Proanthocyanins (pr)
+        # 10)Color intensity (cl)
+        # 11)Hue (hue)
+        # 12)OD280/OD315 of diluted wines (od)
+        # 13)Proline (prol)           
+
+        for x in csv_reader:
+            print(len(x))
+            exit(0)
+            X.append([float(ma), float(ash), float(al), float(mg), float(ph), float(fl), 
+                float(nph), float(pr), float(cl), float(hue), float(od), float(prol)])
+            Y.append(int(y))
+
+    X = np.asarray(X).astype(float)
+    Y = np.asarray(Y).astype(float)
+    return X, Y
+
+def generate_rules_dataset_wine(X_train, dataset_name):
+
+    [ma_mean, ash_mean, al_mean, mg_mean, ph_mean, fl_mean, nph_mean,
+    pr_mean, cl_mean, hue_mean, od_mean, prol_mean] = np.mean(X_train, axis=0) # mean along columns
+
+    [ma_std, ash_std, al_std, mg_std, ph_std, fl_std, nph_std,
+    pr_std, cl_std, hue_std, od_std, prol_std] = np.std(X_train, axis=0, dtype=np.float64) # std along columns
+
+    # Create rules
+    rules_ma   = generate_rule(0, ma_mean, ma_std)
+    rules_ash  = generate_rule(1, ash_mean, ash_std)
+    rules_al   = generate_rule(2, al_mean, al_std)
+    rules_mg   = generate_rule(3, mg_mean, mg_std)
+    rules_ph   = generate_rule(4, ph_mean, ph_std)
+    rules_fl   = generate_rule(5, fl_mean, fl_std)
+    rules_nph  = generate_rule(6, nph_mean, nph_std)
+    rules_pr   = generate_rule(7, pr_mean, pr_std)
+    rules_cl   = generate_rule(8, cl_mean, cl_std)
+    rules_hue  = generate_rule(9, hue_mean, hue_std)
+    rules_od   = generate_rule(10, od_mean, od_std)
+    rules_prol = generate_rule(11, prol_mean, prol_std)
+
+
+    s_list  = rules_ma + rules_ash + rules_al + rules_mg + rules_ph
+    s_list += rules_fl + rules_nph + rules_pr + rules_cl
+    s_list += rules_hue + rules_od + rules_prol
+
+    rule_set = start_weights(s_list, dataset_name)
+
+    # Aid in result presentation
+    ma_rules_presentation   = presentation_rule_helper("ma", ma_mean, ma_std)
+    ash_rules_presentation  = presentation_rule_helper("ash", ash_mean, ash_std)
+    al_rules_presentation   = presentation_rule_helper("al", al_mean, al_std)
+    mg_rules_presentation   = presentation_rule_helper("mg", mg_mean, mg_std)
+    ph_rules_presentation   = presentation_rule_helper("ph", ph_mean, ph_std)
+    fl_rules_presentation   = presentation_rule_helper("fl", fl_mean, fl_std)
+    nph_rules_presentation  = presentation_rule_helper("nph", nph_mean, nph_std)
+    pr_rules_presentation   = presentation_rule_helper("pr", pr_mean, pr_std)
+    cl_rules_presentation   = presentation_rule_helper("cl", cl_mean, cl_std)
+    hue_rules_presentation  = presentation_rule_helper("hue", hue_mean, hue_std)
+    od_rules_presentation   = presentation_rule_helper("od", od_mean, od_std)
+    prol_rules_presentation = presentation_rule_helper("prol", prol_mean, prol_std)
+
+    rule_presentation  = ma_rules_presentation + ash_rules_presentation + al_rules_presentation
+    rule_presentation += mg_rules_presentation + ph_rules_presentation + fl_rules_presentation
+    rule_presentation += nph_rules_presentation + pr_rules_presentation + cl_rules_presentation
+    rule_presentation += hue_rules_presentation + od_rules_presentation + prol_rules_presentation
+
+    return rule_set, rule_presentation
+
+def dataset_wine():
+    dataset_filepath           = os.path.join(DATASET_FOLDER, WINE_DATASET_FILE)
+    processed_dataset_filepath = os.path.join(DATASET_FOLDER, WINE_PROCESSED_DATASET_FILE)
+
+    preprocess_dataset_wine(dataset_filepath, processed_dataset_filepath)
+
+    X, Y = read_dataset_wine(processed_dataset_filepath)
+    X_train, Y_train, X_test, Y_test = split_test_train(X,Y)
+
+    # Pre process
+    Y_train = tensor(Y_train).to(torch.int64)
+    Y_train = one_hot(Y_train, num_classes=WINE_NUM_CLASSES).float()
+
+    return X_train, Y_train, X_test, Y_test
+
+def read_rules_wine(rule_set):
+    for i in range(len(rule_set)):
+        dict_m = rule_set[i][0]
+        a     = dict_m[frozenset({'A'})].item()
+        b     = dict_m[frozenset({'B'})].item()
+        c     = dict_m[frozenset({'C'})].item()
+        a_b_c = dict_m[frozenset({'A', 'B', 'C'})].item()
+        print(WINE_RULE_PRESENT.format(i+1,a,b,c,a_b_c))
+
 # ------------ Common ------------------------
 
 def split_test_train(X,Y):

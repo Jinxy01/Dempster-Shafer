@@ -192,3 +192,4 @@ if __name__ == "__main__":
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     evaluate_wine_dataset("WINE_Dataset")
+    #evaluate_wine_dataset("DIG_Dataset")
