@@ -81,7 +81,9 @@ def get_three_class_probabilities(dict_m, dataset_name):
 def prediction(rule_set, dataset_name, *att):
     # Args is x,y in A1 and 9 attributes in Breast Cancer
     M = []
-    for m,_,s in rule_set:
+    for i,(m,_,s) in enumerate(rule_set):
+        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+            continue
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
@@ -270,7 +272,9 @@ def y_argmax(dict_m, dataset_name):
 
 def model_inference(rule_set, dataset_name, *att):
     M = []
-    for m,_,s in rule_set:
+    for i,(m,_,s) in enumerate(rule_set):
+        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+            continue
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
