@@ -721,14 +721,14 @@ def generate_rules_dataset_digits(X_train, dataset_name):
     s_list = []
     # Create rules
     for i in range(len(att_mean)):
-        s_list += generate_rule_digits(i, att_mean[i], att_std[i])
+        s_list += generate_rule(i, att_mean[i], att_std[i])
 
     rule_set = start_weights(s_list, dataset_name)
 
     # Aid in result presentation
     rule_presentation = []
     for i in range(len(att_mean)):
-        rule_presentation += presentation_rule_helper_digits(str(i), att_mean[i], att_std[i])
+        rule_presentation += presentation_rule_helper(str(i), att_mean[i], att_std[i])
 
     return rule_set, rule_presentation
 
