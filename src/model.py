@@ -194,7 +194,6 @@ def training(X, Y, rule_set, loss, dataset_name):
                 # Projection
                 for p in optim.param_groups[0]['params']:
                     p.data.clamp_(min=0, max=1)
-            break
 
         current_epoch_loss = mean(epoch_loss)
         training_loss.append(current_epoch_loss)
@@ -207,7 +206,6 @@ def training(X, Y, rule_set, loss, dataset_name):
         if t % 10 == 0:
             print(t,current_epoch_loss)
 
-        break
     normalize_rule_set(rule_set)
     return rule_set, training_loss
 
