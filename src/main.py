@@ -22,17 +22,17 @@ from utils.bc_helper import *
 from utils.common import *
 
 
-def test_data():
-    Y_train = tensor([1,0,1,0])
-    #Y_train = [1,0,1,0]
-    X_train = [[0.2, 0.8], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
+# def test_data():
+#     Y_train = tensor([1,0,1,0])
+#     #Y_train = [1,0,1,0]
+#     X_train = [[0.2, 0.8], [0.3, -0.4], [0.3, 0.5], [-0.2, -0.9]]
 
-    Y_train = one_hot(Y_train, num_classes=NUM_CLASSES).float()
+#     Y_train = one_hot(Y_train, num_classes=NUM_CLASSES).float()
 
-    Y_test = [1,0,0]
-    X_test = [[0.56, 0.1], [-0.3, -0.7], [0.4, -0.6]]
+#     Y_test = [1,0,0]
+#     X_test = [[0.56, 0.1], [-0.3, -0.7], [0.4, -0.6]]
 
-    return X_train, Y_train, X_test, Y_test
+#     return X_train, Y_train, X_test, Y_test
 
 def evaluate_A1_dataset(dataset_name):
     # Variables
@@ -221,8 +221,8 @@ def evaluate_digits_dataset(dataset_name):
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    #evaluate_breast_cancer_dataset("BC_Dataset")
+    evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
-    evaluate_digits_dataset("DIG_Dataset")
+    #evaluate_digits_dataset("DIG_Dataset")

@@ -63,19 +63,19 @@ def get_three_class_probabilities(dict_m, dataset_name):
     prob_class_2 = class_2/(class_0+class_1+class_2)
     return prob_class_0, prob_class_1, prob_class_2
 
-def get_ten_class_probabilities(dict_m, dataset_name):
-    class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
-    prob_class_0 = class_0/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_1 = class_1/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_2 = class_2/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_3 = class_3/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_4 = class_4/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_5 = class_5/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_6 = class_6/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_7 = class_7/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_8 = class_8/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    prob_class_9 = class_9/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
-    return prob_class_0, prob_class_1, prob_class_2, prob_class_3, prob_class_4, prob_class_5, prob_class_6, prob_class_7, prob_class_8, prob_class_9
+# def get_ten_class_probabilities(dict_m, dataset_name):
+#     class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
+#     prob_class_0 = class_0/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_1 = class_1/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_2 = class_2/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_3 = class_3/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_4 = class_4/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_5 = class_5/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_6 = class_6/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_7 = class_7/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_8 = class_8/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     prob_class_9 = class_9/(class_0+class_1+class_2+class_3+class_4+class_5+class_6+class_7+class_8+class_9)
+#     return prob_class_0, prob_class_1, prob_class_2, prob_class_3, prob_class_4, prob_class_5, prob_class_6, prob_class_7, prob_class_8, prob_class_9
 
 
 def prediction(rule_set, dataset_name, *att):
