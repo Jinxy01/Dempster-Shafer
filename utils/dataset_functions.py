@@ -735,16 +735,18 @@ def read_rules_digits(rule_set):
         dict_m = rule_set[i][0]
         _0     = dict_m[frozenset({'0'})].item()
         _1     = dict_m[frozenset({'1'})].item()
-        _2     = dict_m[frozenset({'2'})].item()
-        _3     = dict_m[frozenset({'3'})].item()
-        _4     = dict_m[frozenset({'4'})].item()
-        _5     = dict_m[frozenset({'5'})].item()
-        _6     = dict_m[frozenset({'6'})].item()
-        _7     = dict_m[frozenset({'7'})].item()
-        _8     = dict_m[frozenset({'8'})].item()
-        _9     = dict_m[frozenset({'9'})].item()
-        unc    = dict_m[frozenset({'0','1','2','3','4','5','6','7','8','9'})].item()
-        print(DIG_RULE_PRESENT.format(i+1,_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,unc))
+        # _2     = dict_m[frozenset({'2'})].item()
+        # _3     = dict_m[frozenset({'3'})].item()
+        # _4     = dict_m[frozenset({'4'})].item()
+        # _5     = dict_m[frozenset({'5'})].item()
+        # _6     = dict_m[frozenset({'6'})].item()
+        # _7     = dict_m[frozenset({'7'})].item()
+        # _8     = dict_m[frozenset({'8'})].item()
+        # _9     = dict_m[frozenset({'9'})].item()
+        # unc    = dict_m[frozenset({'0','1','2','3','4','5','6','7','8','9'})].item()
+        # print(DIG_RULE_PRESENT.format(i+1,_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,unc))
+        _0_1    = dict_m[frozenset({'0','1'})].item()
+        print(DIG_RULE_PRESENT.format(i+1,_0,_1,_0_1))
 
 # ------------ Common ------------------------
 

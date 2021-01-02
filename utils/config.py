@@ -13,13 +13,18 @@ def get_powerset(set_elements):
     list_sets_powerset = [frozenset(e) for e in list_powerset] # allow to be added to dictionary
     return list_sets_powerset
 
+# Pytorch variables
+DTYPE = torch.float
+#DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
+
 #------------------ Dataset Generic -----------------
 DATASET_FOLDER  = "dataset"
 BREAK_IT        = "\nBreaking at {} iteration\n"
 # TRAIN_PERCENTAGE = 0.7
 TEST_PERCENTAGE   = 0.3
 EPSILON         = 0.0001
-NUM_CLASSES     = 10
+NUM_CLASSES     = 2
 NUM_EPOCHS      = 200
 BATCH_SIZE      = 16
 
@@ -33,16 +38,16 @@ RULE_INNER      = "{:.3f} <= {} <= {:.3f}"
 
 RULE_PRESENTATION_DISPLAY = "Rule {}: {}"
 
-CLASS_0_ONE_HOT = one_hot(torch.tensor(0), num_classes=NUM_CLASSES).float()
-CLASS_1_ONE_HOT = one_hot(torch.tensor(1), num_classes=NUM_CLASSES).float()
-CLASS_2_ONE_HOT = one_hot(torch.tensor(2), num_classes=NUM_CLASSES).float()
-CLASS_3_ONE_HOT = one_hot(torch.tensor(3), num_classes=NUM_CLASSES).float()
-CLASS_4_ONE_HOT = one_hot(torch.tensor(4), num_classes=NUM_CLASSES).float()
-CLASS_5_ONE_HOT = one_hot(torch.tensor(5), num_classes=NUM_CLASSES).float()
-CLASS_6_ONE_HOT = one_hot(torch.tensor(6), num_classes=NUM_CLASSES).float()
-CLASS_7_ONE_HOT = one_hot(torch.tensor(7), num_classes=NUM_CLASSES).float()
-CLASS_8_ONE_HOT = one_hot(torch.tensor(8), num_classes=NUM_CLASSES).float()
-CLASS_9_ONE_HOT = one_hot(torch.tensor(9), num_classes=NUM_CLASSES).float()
+CLASS_0_ONE_HOT = one_hot(torch.tensor(0, device=DEVICE), num_classes=NUM_CLASSES).float()
+CLASS_1_ONE_HOT = one_hot(torch.tensor(1, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_2_ONE_HOT = one_hot(torch.tensor(2, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_3_ONE_HOT = one_hot(torch.tensor(3, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_4_ONE_HOT = one_hot(torch.tensor(4, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_5_ONE_HOT = one_hot(torch.tensor(5, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_6_ONE_HOT = one_hot(torch.tensor(6, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_7_ONE_HOT = one_hot(torch.tensor(7, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_8_ONE_HOT = one_hot(torch.tensor(8, device=DEVICE), num_classes=NUM_CLASSES).float()
+# CLASS_9_ONE_HOT = one_hot(torch.tensor(9, device=DEVICE), num_classes=NUM_CLASSES).float()
 
 #------------------ A1 Dataset ----------------- 
 NUM_ELEMENTS      = 500
@@ -107,19 +112,21 @@ WINE_POWERSET     = get_powerset(({'A'}.union({'B'})).union({'C'}))
 WINE_RULE_PRESENT = "Rule {}: A = {}, B = {}, C = {}, Uncertainty = {}"
 
 #---------------------- Digit Dataset ----------------------
-DIG_NUM_CLASSES            = 10
+DIG_NUM_CLASSES            = 2 # 10
 DIG_DATASET_FILE           = "digits.csv" 
 DIG_LOSS_IMG               = "DIG_Loss"
 
-DIG_COMPLETE_SET = frozenset({'0','1','2','3','4','5','6','7','8','9'})
-DIG_POWERSET     = [
-    frozenset({'0'}), frozenset({'1'}), frozenset({'2'}), frozenset({'3'}), frozenset({'4'}),
-    frozenset({'5'}), frozenset({'6'}), frozenset({'7'}), frozenset({'8'}), frozenset({'9'}),
-    frozenset({'0','1','2','3','4','5','6','7','8','9'})
-]#get_powerset({'0','1','2','3','4','5','6','7','8','9'})
+# DIG_COMPLETE_SET = frozenset({'0','1','2','3','4','5','6','7','8','9'})
+# DIG_POWERSET     = [
+#     frozenset({'0'}), frozenset({'1'}), frozenset({'2'}), frozenset({'3'}), frozenset({'4'}),
+#     frozenset({'5'}), frozenset({'6'}), frozenset({'7'}), frozenset({'8'}), frozenset({'9'}),
+#     frozenset({'0','1','2','3','4','5','6','7','8','9'})
+# ]#get_powerset({'0','1','2','3','4','5','6','7','8','9'})
+DIG_COMPLETE_SET = frozenset({'0','1'})
+DIG_POWERSET = get_powerset({'0','1'})
 
-DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, 2 = {}, 3 = {}, 4 = {}, 5 = {}, 6 = {}, 7 = {}, 8 = {}, 9 = {}, Uncertainty = {}"
-
+# DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, 2 = {}, 3 = {}, 4 = {}, 5 = {}, 6 = {}, 7 = {}, 8 = {}, 9 = {}, Uncertainty = {}"
+DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, Uncertainty = {}"
 #-----------------------------------------------------------
 
 # Image
@@ -129,9 +136,6 @@ Y_AXIS       = "Mean Square Error (MSE)"
 X_AXIS       = "Epochs"
 
 # Variables
-DTYPE = torch.float
-#DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DEVICE = torch.device("cpu")
 EMPTY_SET    = set()
 
 # Table

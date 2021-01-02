@@ -53,8 +53,9 @@ def get_class_plausibility(dict_m, dataset_name):
         class_0, class_1, class_2 = dict_m[frozenset({'A'})], dict_m[frozenset({'B'})], dict_m[frozenset({'C'})]
         return class_0, class_1, class_2
     elif dataset_name == "DIG_Dataset":
-        class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9 = dict_m[frozenset({'0'})], dict_m[frozenset({'1'})], dict_m[frozenset({'2'})], dict_m[frozenset({'3'})], dict_m[frozenset({'4'})], dict_m[frozenset({'5'})], dict_m[frozenset({'6'})], dict_m[frozenset({'7'})], dict_m[frozenset({'8'})], dict_m[frozenset({'9'})]
-        return class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9
+    #   class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9 = dict_m[frozenset({'0'})], dict_m[frozenset({'1'})], dict_m[frozenset({'2'})], dict_m[frozenset({'3'})], dict_m[frozenset({'4'})], dict_m[frozenset({'5'})], dict_m[frozenset({'6'})], dict_m[frozenset({'7'})], dict_m[frozenset({'8'})], dict_m[frozenset({'9'})]
+    #   return class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9
+        class_0, class_1 = dict_m[frozenset({'0'})], dict_m[frozenset({'1'})]
     else:
         assert False
     return class_0, class_1 
@@ -158,21 +159,19 @@ def start_weights(s_list, dataset_name):
     elif dataset_name == "DIG_Dataset":
         for s in s_list:
             m = {}
-            m[frozenset('0')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-            m[frozenset('1')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-            m[frozenset('2')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset('3')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset('4')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-            m[frozenset('5')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset('6')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset('7')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
-            m[frozenset('8')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset('9')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
-            m[frozenset({'0','1','2','3','4','5','6','7','8','9'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
-            optimizer = optim.Adam([m[frozenset('0')], m[frozenset('1')], m[frozenset('2')],
-                m[frozenset('3')], m[frozenset('4')], m[frozenset('5')],
-                m[frozenset('6')], m[frozenset('7')], m[frozenset('8')], m[frozenset('9')],
-                m[frozenset({'0','1','2','3','4','5','6','7','8','9'})]])
+            m[frozenset('0')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset('1')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            # m[frozenset('2')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset('3')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset('4')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            # m[frozenset('5')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset('6')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset('7')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            # m[frozenset('8')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset('9')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
+            # m[frozenset({'0','1','2','3','4','5','6','7','8','9'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            m[frozenset({'0','1'})] = tensor(0.9, device=DEVICE, dtype=DTYPE, requires_grad=True) # Uncertainty
+            optimizer = optim.Adam([m[frozenset('0')], m[frozenset('1')], m[frozenset({'0','1'})]])
             list_initial_weights.append([m, optimizer, s])
     else:
         assert False
