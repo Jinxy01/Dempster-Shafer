@@ -82,18 +82,18 @@ def prediction(rule_set, dataset_name, *att):
     # Args is x,y in A1 and 9 attributes in Breast Cancer
     M = []
     for i,(m,_,s) in enumerate(rule_set):
-        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
-            continue
+        # if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+        #     continue
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty(dataset_name)
-    for m_i in M:
-        m = dempster_rule(m,m_i, dataset_name)
+    # m = weight_full_uncertainty(dataset_name)
+    # for m_i in M:
+    #     m = dempster_rule(m,m_i, dataset_name)
 
-    # m = M[0]
-    # for i in range(1,len(M)):
-    #     m = dempster_rule(m,M[i], dataset_name)
+    m = M[0]
+    for i in range(1,len(M)):
+        m = dempster_rule(m,M[i], dataset_name)
 
     if dataset_name == "IRIS_Dataset" or dataset_name == "WINE_Dataset": # Has 3 classes
         prob_class_0, prob_class_1, prob_class_2 = get_three_class_probabilities(m, dataset_name)
@@ -273,18 +273,18 @@ def y_argmax(dict_m, dataset_name):
 def model_inference(rule_set, dataset_name, *att):
     M = []
     for i,(m,_,s) in enumerate(rule_set):
-        if i+1 not in ALLOWED_RULES: # Only look at allowed rules
-            continue
+        # if i+1 not in ALLOWED_RULES: # Only look at allowed rules
+        #     continue
         if s(*att): # Point coordinates (y is NOT label class here)
             M.append(m)
 
-    m = weight_full_uncertainty(dataset_name)
-    for m_i in M:
-        m = dempster_rule(m,m_i, dataset_name)
+    # m = weight_full_uncertainty(dataset_name)
+    # for m_i in M:
+    #     m = dempster_rule(m,m_i, dataset_name)
 
-    # m = M[0]
-    # for i in range(1,len(M)):
-    #     m = dempster_rule(m,M[i], dataset_name)
+    m = M[0]
+    for i in range(1,len(M)):
+        m = dempster_rule(m,M[i], dataset_name)
         
     return y_argmax(m, dataset_name)
 

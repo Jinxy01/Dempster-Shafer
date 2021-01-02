@@ -222,13 +222,13 @@ def evaluate_digits_dataset(dataset_name):
 
     # Order rules by class 0
     dict_rule_0_sorted = order_rules_by_malign(rule_set, dataset_name, malign=True)
-    print(BC_RULE_PRESENTATION_TITLE_MALIG)
+    print(DIG_RULE_PRESENTATION_TITLE_0)
     for k, v in dict_rule_0_sorted.items():
         print(RULE_PRESENTATION_DISPLAY.format(k,v))
 
     # Order rules by class 1
     dict_rule_1_sorted = order_rules_by_malign(rule_set, dataset_name, malign=False)
-    print(BC_RULE_PRESENTATION_TITLE_BENIN)
+    print(DIG_RULE_PRESENTATION_TITLE_1)
     for k, v in dict_rule_1_sorted.items():
         print(RULE_PRESENTATION_DISPLAY.format(k,v))
 

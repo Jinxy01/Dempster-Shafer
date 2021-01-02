@@ -129,6 +129,9 @@ DIG_LOSS_IMG               = "DIG_Loss"
 #     frozenset({'5'}), frozenset({'6'}), frozenset({'7'}), frozenset({'8'}), frozenset({'9'}),
 #     frozenset({'0','1','2','3','4','5','6','7','8','9'})
 # ]#get_powerset({'0','1','2','3','4','5','6','7','8','9'})
+DIG_RULE_PRESENTATION_TITLE_0 = "\nRules ordered by class 0:"
+DIG_RULE_PRESENTATION_TITLE_1 = "\nRules ordered by class 1:"
+
 DIG_COMPLETE_SET = frozenset({'0','1'})
 DIG_POWERSET = get_powerset({'0','1'})
 
