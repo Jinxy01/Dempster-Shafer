@@ -35,6 +35,11 @@ def order_rules_by_malign(rule_set, dataset_name, malign):
             factor = frozenset({'P'})
         else:
             factor = frozenset({'A'})
+    elif dataset_name == "DIG_Dataset":
+        if malign:
+            factor = frozenset({'0'})
+        else:
+            factor = frozenset({'1'})
     else:
         assert False
 

@@ -220,6 +220,18 @@ def evaluate_digits_dataset(dataset_name):
     # Rules Table Drawing
     read_rules_digits(rule_set)
 
+    # Order rules by class 0
+    dict_rule_0_sorted = order_rules_by_malign(rule_set, dataset_name, malign=True)
+    print(BC_RULE_PRESENTATION_TITLE_MALIG)
+    for k, v in dict_rule_0_sorted.items():
+        print(RULE_PRESENTATION_DISPLAY.format(k,v))
+
+    # Order rules by class 1
+    dict_rule_1_sorted = order_rules_by_malign(rule_set, dataset_name, malign=False)
+    print(BC_RULE_PRESENTATION_TITLE_BENIN)
+    for k, v in dict_rule_1_sorted.items():
+        print(RULE_PRESENTATION_DISPLAY.format(k,v))
+
     # Exhibit accuracy
     print(RULE_TABLE_TITLE.format(accuracy, tot_correct_predicts, tot_predicts))
 
@@ -233,8 +245,8 @@ def evaluate_digits_dataset(dataset_name):
 
 if __name__ == "__main__":
     #evaluate_A1_dataset("A1_Dataset")
-    evaluate_breast_cancer_dataset("BC_Dataset")
+    #evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
-    #evaluate_digits_dataset("DIG_Dataset")
+    evaluate_digits_dataset("DIG_Dataset")
