@@ -259,10 +259,11 @@ def test(filepath):
 
     dict_px = {x : 0 for x in range(1,num_pix+1)}
     for i in range(num_pix):
+        max_ = -1
         for j in range(1,factor+1):
-            print(i*factor+j, dict_rule[i*factor+j] )
-            dict_px[i+1] += dict_rule[i*factor+j] 
-        dict_px[i+1] /= factor # mean
+            max_ = max(max_, dict_rule[i*factor+j] )
+            #dict_px[i+1] += dict_rule[i*factor+j] 
+        dict_px[i+1] = max_ # mean
 
     # Group into matrix 8x8
     matrix = []
@@ -284,4 +285,5 @@ if __name__ == "__main__":
     #evaluate_digits_dataset("DIG_Dataset")
     filepath = "info.txt"
     matrix = test(filepath)
+    print(matrix)
     draw_digits(matrix)
