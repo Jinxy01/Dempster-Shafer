@@ -12,7 +12,7 @@ from utils.config import *
 def digits(fileprefix):
     dict_rule = {i : 0 for i in range(1,257)}
     file_format = "{}_{}.txt"
-    num_files = 3
+    num_files = 1
 
     # 3 files. Get the mean of rules
     for i in range(num_files):
@@ -55,6 +55,7 @@ def digits(fileprefix):
 
 def process_digits():
     list_files = ["class0", "class1"]
+    #list_files = ["class0_300", "class1_300"]
     for fileprefix in list_files:
         matrix = digits(fileprefix)
         print(matrix)
@@ -124,7 +125,7 @@ def process_breast_cancer():
 # ------------------------
 
 if __name__ == "__main__":
-    #process_digits()
+    process_digits()
     #process_heart_disease()
-    process_breast_cancer()
+    #process_breast_cancer()
     
