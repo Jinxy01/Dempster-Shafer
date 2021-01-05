@@ -25,7 +25,7 @@ BREAK_IT        = "\nBreaking at {} iteration\n"
 TEST_PERCENTAGE   = 0.3
 EPSILON         = 0.0001
 NUM_CLASSES     = 2
-NUM_EPOCHS      = 750
+NUM_EPOCHS      = 300
 BATCH_SIZE      = 16
 
 RULE_LTE     = "{} <= {:.3f}"
@@ -82,7 +82,7 @@ RULE_TABLE_COMPLEXITY            = "N. Rules = {}, Q_CPLX = {:.4f} Error = {:.4f
 
 #ALLOWED_RULES = [4, 28, 24, 25, 1, 22]
 #ALLOWED_RULES = [4, 28, 22, 25]
-ALLOWED_RULES = [4, 24, 1, 25]
+ALLOWED_RULES = [i for i in range(1,37)]
 
 #---------------------- -Iris Dataset ----------------------
 IRIS_NUM_CLASSES            = 3
