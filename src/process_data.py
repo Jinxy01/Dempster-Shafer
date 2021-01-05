@@ -93,7 +93,7 @@ def breast_cancer(fileprefix):
     dict_rule = {i : 0 for i in range(1,53)}
     file_format = "{}_{}.txt"
     num_files = 3
-    top_n = 6
+    top_n = 18 
 
     # 3 files. Get the mean of rules
     for i in range(num_files):
