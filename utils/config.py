@@ -82,7 +82,7 @@ RULE_TABLE_COMPLEXITY            = "N. Rules = {}, Q_CPLX = {:.4f} Error = {:.4f
 
 #ALLOWED_RULES = [4, 28, 24, 25, 1, 22]
 #ALLOWED_RULES = [4, 28, 22, 25]
-ALLOWED_RULES = [i for i in range(1,37)]
+ALLOWED_RULES = [4, 24, 1, 25]
 
 #---------------------- -Iris Dataset ----------------------
 IRIS_NUM_CLASSES            = 3
