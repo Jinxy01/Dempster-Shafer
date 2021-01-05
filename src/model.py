@@ -161,45 +161,45 @@ def training(X, Y, rule_set, loss, dataset_name):
     for t in range(NUM_EPOCHS):
         epoch_loss = []
         
-        #for i in range(tot):
-        #X_batch = batch(X,i*batch_size,batch_size)
-        #Y_batch = batch(Y,i*batch_size,batch_size)
-        X_batch = X
-        Y_batch = Y
+        for i in range(tot):
+            X_batch = batch(X,i*batch_size,batch_size)
+            Y_batch = batch(Y,i*batch_size,batch_size)
+            #X_batch = X
+            #Y_batch = Y
 
-        # For cuda purposes
-        Y_batch = Y_batch.to(device=DEVICE)
-        # Model predictions
-        y_hat_list = model_predict(X_batch, rule_set, dataset_name)
+            # For cuda purposes
+            Y_batch = Y_batch.to(device=DEVICE)
+            # Model predictions
+            y_hat_list = model_predict(X_batch, rule_set, dataset_name)
 
-        # Compute loss
+            # Compute loss
 
-        # Previous
-        #batch_loss = mse(Y, y_hat_list)
+            # Previous
+            #batch_loss = mse(Y, y_hat_list)
 
-        y_hat_list = torch.stack(y_hat_list)
-        
-        batch_loss = loss(Y_batch, y_hat_list)
-        epoch_loss.append(batch_loss.item())
+            y_hat_list = torch.stack(y_hat_list)
+            
+            batch_loss = loss(Y_batch, y_hat_list)
+            epoch_loss.append(batch_loss.item())
 
-        # Before the backward pass, use the optimizer object to zero all of the
-        # gradients for the variables it will update (which are the learnable
-        # weights of the model).
-        for _, optim, _ in rule_set:
-            optim.zero_grad()
+            # Before the backward pass, use the optimizer object to zero all of the
+            # gradients for the variables it will update (which are the learnable
+            # weights of the model).
+            for _, optim, _ in rule_set:
+                optim.zero_grad()
 
-        # Backward pass: compute gradient of the loss with respect to model
-        # parameters
-        batch_loss.backward()
+            # Backward pass: compute gradient of the loss with respect to model
+            # parameters
+            batch_loss.backward()
 
-        # Calling the step function on an Optimizer makes an update to its
-        # parameters
-        for _, optim, _ in rule_set:
-            optim.step()
+            # Calling the step function on an Optimizer makes an update to its
+            # parameters
+            for _, optim, _ in rule_set:
+                optim.step()
 
-            # Projection
-            # for p in optim.param_groups[0]['params']:
-            #     p.data.clamp_(min=0, max=1)
+                # Projection
+                for p in optim.param_groups[0]['params']:
+                    p.data.clamp_(min=0, max=1)
 
         current_epoch_loss = mean(epoch_loss)
         training_loss.append(current_epoch_loss)

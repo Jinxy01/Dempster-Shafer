@@ -104,6 +104,7 @@ HD_LOSS_IMG               = "HD_Loss"
 HD_COMPLETE_SET = frozenset({'A','P'})
 HD_POWERSET     = get_powerset({'A'}.union({'P'}))
 
+HD_RULE_PRESENTATION_TITLE_MALIG = "\nRules ordered by malignacy:"
 HD_RULE_PRESENT = "Rule {}: A = {}, P = {}, Uncertainty = {}"
 
 #---------------------- Wine Dataset ----------------------

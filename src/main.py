@@ -158,8 +158,8 @@ def evaluate_heart_disease_dataset(dataset_name):
     read_rules_heart_disease(rule_set)
 
     # Order by malignacy
-    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name)
-    print(BC_RULE_PRESENTATION_TITLE)
+    dict_rule_malig_sorted = order_rules_by_malign(rule_set, dataset_name, malign=True)
+    print(HD_RULE_PRESENTATION_TITLE_MALIG)
     for k, v in dict_rule_malig_sorted.items():
         print(RULE_PRESENTATION_DISPLAY.format(k,v))
 
@@ -246,9 +246,9 @@ def evaluate_digits_dataset(dataset_name):
 
 
 if __name__ == "__main__":
-    evaluate_A1_dataset("A1_Dataset")
+    #evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
-    #evaluate_heart_disease_dataset("HD_Dataset")
+    evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
     #evaluate_digits_dataset("DIG_Dataset")
