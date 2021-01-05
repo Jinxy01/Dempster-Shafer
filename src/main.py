@@ -244,46 +244,11 @@ def evaluate_digits_dataset(dataset_name):
     draw_loss(it_loss, graph_filepath)
 
 
-def test(filepath):
-    f = open(filepath, "r")
-    dict_rule = {}
-    for line in f:
-        rule = re.search('Rule (.+?):', line).group(1)
-        value = re.findall(r'\d+\.\d+', line)[0]
-        dict_rule[int(rule)] = float(value)
-    
-    dict_rule = dict(sorted(dict_rule.items()))
-    factor      = 4 # 4 rules per pixel
-    num_pix     = 64
-    matrix_side = 8
-
-    dict_px = {x : 0 for x in range(1,num_pix+1)}
-    for i in range(num_pix):
-        max_ = -1
-        for j in range(1,factor+1):
-            max_ = max(max_, dict_rule[i*factor+j] )
-            #dict_px[i+1] += dict_rule[i*factor+j] 
-        dict_px[i+1] = max_ # mean
-
-    # Group into matrix 8x8
-    matrix = []
-    for i in range(matrix_side):
-        line = []
-        for j in range(1,matrix_side+1):
-            line.append(dict_px[i*matrix_side+j])
-        matrix.append(line)
-
-    return matrix
-
 
 if __name__ == "__main__":
-    #evaluate_A1_dataset("A1_Dataset")
+    evaluate_A1_dataset("A1_Dataset")
     #evaluate_breast_cancer_dataset("BC_Dataset")
     #evaluate_iris_dataset("IRIS_Dataset")
     #evaluate_heart_disease_dataset("HD_Dataset")
     #evaluate_wine_dataset("WINE_Dataset")
     #evaluate_digits_dataset("DIG_Dataset")
-    filepath = "info.txt"
-    matrix = test(filepath)
-    print(matrix)
-    draw_digits(matrix)

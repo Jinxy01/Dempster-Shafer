@@ -25,7 +25,7 @@ BREAK_IT        = "\nBreaking at {} iteration\n"
 TEST_PERCENTAGE   = 0.3
 EPSILON         = 0.0001
 NUM_CLASSES     = 2
-NUM_EPOCHS      = 200
+NUM_EPOCHS      = 750
 BATCH_SIZE      = 16
 
 RULE_LTE     = "{} <= {:.3f}"
@@ -138,6 +138,8 @@ DIG_POWERSET = get_powerset({'0','1'})
 # DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, 2 = {}, 3 = {}, 4 = {}, 5 = {}, 6 = {}, 7 = {}, 8 = {}, 9 = {}, Uncertainty = {}"
 DIG_RULE_PRESENT = "Rule {}: 0 = {}, 1 = {}, Uncertainty = {}"
 #-----------------------------------------------------------
+
+DATA_FOLDER = "data"
 
 # Image
 IMAGE_FOLDER = "imgs"
