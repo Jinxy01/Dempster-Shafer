@@ -54,8 +54,11 @@ def digits(fileprefix):
     return matrix
 
 def process_digits():
-    list_files = ["class0", "class1"]
+    #list_files = ["class0", "class1"]
     #list_files = ["class0_300", "class1_300"]
+    #list_files = ["class0_20", "class1_20"]
+    #list_files = ["class0_100", "class1_100"]
+    list_files = ["class0_50", "class1_50"]
     for fileprefix in list_files:
         matrix = digits(fileprefix)
         print(matrix)
