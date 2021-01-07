@@ -21,40 +21,13 @@ from statistics import mean
 
 def is_converged(loss_current, loss_previous):
     convergence = abs(loss_current-loss_previous) <= EPSILON
-    #print(np.size(convergence) - np.count_nonzero(convergence))
-    # All rules have converged to minimal loss
-    #return convergence.item()
     return convergence
 
-# def mse(y, y_hat):
-#     # Y_hat is the predicted one
-#     sum_ = 0.
-#     tot = len(y)
-#     for i in range(tot):
-#         print(y[i])
-#         y0, y1 = y[i]
-#         y_hat0, y_hat1 = y_hat[i]
-#         y0_loss = (y0 - y_hat0).pow(2)
-#         y1_loss = (y1 - y_hat1).pow(2)
-#         sum_ += y0_loss + y1_loss
-    
-#     return sum_/(NUM_CLASSES*tot)
-
 def get_two_class_probabilities(dict_m, dataset_name):
-    #r, b, r_b = dict_m[frozenset({'R'})], dict_m[frozenset({'B'})], dict_m[frozenset({'R', 'B'})]
-    # #max_m = max(r, b)
-    # p_a = r + r_b
-    # p_b = b + r_b
-    # p_tot = p_a + p_b
-    # return p_a/p_tot, p_b/p_tot # It works with projection working!
     class_0, class_1 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
     prob_class_0 = class_0/(class_0+class_1)
     prob_class_1 = class_1/(class_0+class_1)
     return prob_class_0, prob_class_1
-    #return b, r
-    #return b/(r+r_b), r/(r+r_b)
-    #return r/(r+b+r_b), b/(r+b+r_b), r_b 
-    #return (r+p_a)/2, (b+p_b)/2, r_b # Uncertainty 1.0 with useless rule
 
 def get_three_class_probabilities(dict_m, dataset_name):
     class_0, class_1, class_2 = get_class_plausibility(plausibility(dict_m, dataset_name), dataset_name)
@@ -101,17 +74,7 @@ def prediction(rule_set, dataset_name, *att):
         p_1 = prob_class_1 * CLASS_1_ONE_HOT
         p_2 = prob_class_2 * CLASS_2_ONE_HOT
         return torch.sum(torch.stack([p_0, p_1, p_2]), dim=0) # Probabilities for three classes
-        # if prob_class_0 > prob_class_1: # prob_0 > prob_1
-        #     if prob_class_0 > prob_class_2: # prob_0 > prob_1 e prob_2
-        #         return prob_class_0 * CLASS_0_ONE_HOT
-        #     # prob_2 > prob_0 > prob_1
-        #     return prob_class_2 * CLASS_2_ONE_HOT 
-        # else: # prob_1 > prob_0
-        #     if prob_class_1 > prob_class_2: # prob_1 > prob_0 e prob_2
-        #         return prob_class_1 * CLASS_1_ONE_HOT
-        #      # prob_2 > prob_1 > prob_0
-        #     return prob_class_2 * CLASS_2_ONE_HOT
-    
+
     # elif dataset_name == "DIG_Dataset":
     #     prob_class_0, prob_class_1, prob_class_2, prob_class_3, prob_class_4, prob_class_5, prob_class_6, prob_class_7, prob_class_8, prob_class_9 = get_ten_class_probabilities(m, dataset_name)
     #     p_0 = prob_class_0 * CLASS_0_ONE_HOT
@@ -131,9 +94,6 @@ def prediction(rule_set, dataset_name, *att):
         p_0 = prob_class_0 * CLASS_0_ONE_HOT
         p_1 = prob_class_1 * CLASS_1_ONE_HOT
         return torch.sum(torch.stack([p_0, p_1]), dim=0) # Probabilities for both classes
-        # if prob_class_0 > prob_class_1:
-        #     return prob_class_0 * CLASS_0_ONE_HOT
-        # return prob_class_1 * CLASS_1_ONE_HOT
     
 def model_predict(X, rule_set, dataset_name):
     y_hat_list = []
@@ -156,8 +116,6 @@ def training(X, Y, rule_set, loss, dataset_name):
     print("Batch size =", batch_size)
     tot = int(len(X)/batch_size)
 
-    # train_loader = DataLoader(dataset=X, batch_size=2, shuffle=True)
-
     for t in range(NUM_EPOCHS):
         epoch_loss = []
         
@@ -173,10 +131,6 @@ def training(X, Y, rule_set, loss, dataset_name):
             y_hat_list = model_predict(X_batch, rule_set, dataset_name)
 
             # Compute loss
-
-            # Previous
-            #batch_loss = mse(Y, y_hat_list)
-
             y_hat_list = torch.stack(y_hat_list)
             
             batch_loss = loss(Y_batch, y_hat_list)
@@ -203,9 +157,9 @@ def training(X, Y, rule_set, loss, dataset_name):
 
         current_epoch_loss = mean(epoch_loss)
         training_loss.append(current_epoch_loss)
-        # if (is_converged(current_epoch_loss, previous_loss)):
-        #     print(BREAK_IT.format(t))
-        #     break
+        if (is_converged(current_epoch_loss, previous_loss)):
+            print(BREAK_IT.format(t))
+            break
 
         previous_loss = current_epoch_loss
 

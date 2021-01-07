@@ -171,8 +171,8 @@ def start_weights(s_list, dataset_name):
     elif dataset_name == "DIG_Dataset":
         for s in s_list:
             m = {}
-            m[frozenset('0')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
-            m[frozenset('1')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset('0')] = tensor(0.06, device=DEVICE, dtype=DTYPE, requires_grad=True)
+            m[frozenset('1')] = tensor(0.04, device=DEVICE, dtype=DTYPE, requires_grad=True)
             # m[frozenset('2')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
             # m[frozenset('3')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True) 
             # m[frozenset('4')] = tensor(0.01, device=DEVICE, dtype=DTYPE, requires_grad=True)

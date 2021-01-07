@@ -35,39 +35,6 @@ def dempster_rule(dict_m1, dict_m2, dataset_name):
     # Need to normalize so that sum = 1
     return normalize_masses_combined(dict_combined_m)
 
-# def commonality_2_classes(dict_m1, dict_m2, powerset):
-
-#     q_a = {}
-#     q_b = {}
-#     tot = len(powerset)
-#     for i in range(tot-1): # Do not look at uncertainty
-#         q_a[powerset[i]] = dict_m1[powerset[i]] + dict_m1[powerset[tot-1]]
-#         q_b[powerset[i]] = dict_m2[powerset[i]] + dict_m2[powerset[tot-1]]
-
-#     q_a[powerset[tot-1]] = dict_m1[powerset[tot-1]]
-#     q_b[powerset[tot-1]] = dict_m2[powerset[tot-1]]
-
-#     return q_a, q_b
-
-# # optimized
-# def dempster_rule_optim(dict_m1, dict_m2, dataset_name):
-#     # Combine masses
-#     dict_combined_m = {}
-#     powerset = get_powerset_dataset(dataset_name)
-
-#     q_a, q_b = commonality_2_classes(dict_m1, dict_m2, powerset)
-#     tot = len(powerset)
-
-#     for s in powerset:
-#         dict_combined_m[s] = q_a[s]*q_b[s]
-    
-#     for i in range(tot-1):
-#         dict_combined_m[powerset[i]] = dict_combined_m[powerset[i]] - dict_combined_m[powerset[tot-1]] 
-    
-#     # We do not need to normalize now
-#     return dict_combined_m
-
-
 
 def belief_set(A, dict_m, dataset_name):
     sum_m = 0
@@ -111,17 +78,6 @@ def plausibility(dict_m, dataset_name):
         dict_plausibility[s] = plausibility_set(s, dict_m, dataset_name)
     
     return dict_plausibility
-
-# optimized
-# def plausibility_optim(dict_m, dataset_name):
-#     dict_plausibility = {}
-#     powerset = get_powerset_dataset(dataset_name)
-
-#     tot = len(powerset)
-#     for i in range(tot-1):
-#         dict_plausibility[powerset[i]] = dict_m[powerset[i]] + dict_m[powerset[tot-1]] 
-
-#     return dict_plausibility
 
 
 def normalize_rule_set(rule_set):

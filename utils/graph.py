@@ -37,9 +37,12 @@ def draw_digits(matrix):
 
     row_labels = range(nrows)
     col_labels = range(ncols)
-    plt.matshow(image)
+    plt.matshow(image, cmap='viridis_r')
+    plt.tick_params('x', bottom=True, top=False, labelbottom=True, labeltop=False)
     plt.xticks(range(ncols), col_labels)
     plt.colorbar()
+    #plt.clim(-0.2, 0.2)
+    plt.title("Pixel contribution for class X")
     plt.yticks(range(nrows), row_labels)
 
     plt.savefig("digit")

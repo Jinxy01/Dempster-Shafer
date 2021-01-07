@@ -25,7 +25,7 @@ BREAK_IT        = "\nBreaking at {} iteration\n"
 TEST_PERCENTAGE   = 0.3
 EPSILON         = 0.0001
 NUM_CLASSES     = 2
-NUM_EPOCHS      = 50
+NUM_EPOCHS      = 2
 BATCH_SIZE      = 16
 
 RULE_LTE     = "{} <= {:.3f}"
