@@ -10,9 +10,9 @@ source venv/bin/activate
 ```bash
 pip3 install -r requirements.txt
 ```
-3. Run bash script `test.sh`:
+3. Run bash script `profile.sh`:
 ```bash
-bash test.sh
+bash profile.sh
 ```
 Any errors with "missing Python.h", when installing sklearn, run: 
 ```bash
